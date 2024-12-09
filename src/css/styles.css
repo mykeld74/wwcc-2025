@@ -1,0 +1,20 @@
+:root {
+	--secondaryColor: #dedede;
+	--backgroundColor: #121212;
+	--textColor: #efefef;
+	--cardBackground: #dedede;
+	--cardTextColor: #121212;
+	--cardTitleStroke: none;
+}
+.light {
+	--backgroundColor: #efefef;
+	--textColor: #121212;
+	--cardBackground: #444;
+	--cardTextColor: #fff;
+	--cardTitleStroke: 2px var(--cardBackground);
+}
+body {
+	font-family: 'Open Sans', sans-serif;
+	background: var(--backgroundColor);
+	color: var(--textColor);
+}
