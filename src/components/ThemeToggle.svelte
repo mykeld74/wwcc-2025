@@ -35,6 +35,7 @@
 		--width: 40px;
 		--height: calc(var(--width) / 2);
 		--radius: calc(var(--height) / 2);
+		grid-area: right;
 		display: flex;
 		position: relative;
 		width: var(--width);
@@ -53,13 +54,13 @@
 			width: calc(var(--height) + 4px);
 			height: calc(var(--height) + 4px);
 			border-radius: 50%;
-			background-color: #dedede;
+			background-color: #333;
 			box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 			transition: all 0.3s ease-in-out;
 		}
 		&.dark::after {
 			transform: translate3d(80%, 0, 0);
-			background-color: #333;
+			background-color: #cbcbcb;
 		}
 	}
 </style>

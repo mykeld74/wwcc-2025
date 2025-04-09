@@ -1,20 +1,278 @@
 :root {
+	interpolate-size: allow-keywords;
+	--accentColor: #ed1f25;
+	--titleColor: #ff8000;
 	--secondaryColor: #dedede;
 	--backgroundColor: #121212;
 	--textColor: #efefef;
-	--cardBackground: #dedede;
+	--cardBackground: rgba(255, 255, 255, 0.6);
 	--cardTextColor: #121212;
 	--cardTitleStroke: none;
+	--cardBorder: #dedede;
+	--pageCardBorder: #333;
+	--cardTitleShadow: 3px 3px 2px oklch(0 0 0 / 0.7);
+	--overlayColor: oklch(0 0 0 / 0.5);
+	--textShadow: 2px 2px 4px oklch(0 0 0 / 0.8);
+	--cardImageShadow: 3px 3px 8px oklch(1 0 0 / 0.4);
+	--mockButtonWidth: 150px;
+	--mockButtonFontSize: 3rem;
+	--mockButtonBorderRadius: 1rem;
+	--footerBg: #121212;
+	--footerBorder: #efefef;
+	--clipPath: polygon(
+		0% 0%,
+		100% 0%,
+		100% 96%,
+		95% 97%,
+		90% 96%,
+		85% 97%,
+		80% 96%,
+		75% 98%,
+		70% 96%,
+		65% 97%,
+		60% 96%,
+		55% 98%,
+		50% 96%,
+		45% 97%,
+		40% 96%,
+		35% 98%,
+		30% 96%,
+		25% 97%,
+		20% 96%,
+		15% 98%,
+		10% 96%,
+		5% 97%,
+		0% 96%
+	);
 }
 .light {
 	--backgroundColor: #efefef;
+	--footerBg: #ffffff;
+	--footerBorder: #000;
+	--pageCardBorder: #cdcdcd;
 	--textColor: #121212;
 	--cardBackground: #444;
 	--cardTextColor: #fff;
 	--cardTitleStroke: 2px var(--cardBackground);
+	--overlayColor: oklch(1 0 0 / 0.2);
+	--textShadow: 2px 2px 4px oklch(1 0 0 / 0.8);
+	--cardBorder: #333;
+	--cardImageShadow: 3px 3px 8px oklch(0 0 0 / 0.7);
+	--hdr-gradient: radial-gradient(
+		farthest-corner circle at var(--backgroundCenterX) var(--backgroundCenterY) in oklab,
+		oklch(1 0 0) 0% 30%,
+		oklch(0.9 0 0) 100%
+	);
+}
+
+@property --backgroundCenterX {
+	syntax: '<percentage>';
+	inherits: false;
+	initial-value: 0%;
+}
+@property --backgroundCenterY {
+	syntax: '<percentage>';
+	inherits: false;
+	initial-value: 0%;
+}
+@keyframes background-gradient {
+	0% {
+		--backgroundCenterX: 0%;
+		--backgroundCenterY: 0%;
+	}
+	10% {
+		--backgroundCenterX: 45%;
+		--backgroundCenterY: 15%;
+	}
+	20% {
+		--backgroundCenterX: 85%;
+		--backgroundCenterY: 65%;
+	}
+	30% {
+		--backgroundCenterX: 15%;
+		--backgroundCenterY: 90%;
+	}
+	40% {
+		--backgroundCenterX: 95%;
+		--backgroundCenterY: 35%;
+	}
+	50% {
+		--backgroundCenterX: 30%;
+		--backgroundCenterY: 75%;
+	}
+	60% {
+		--backgroundCenterX: 70%;
+		--backgroundCenterY: 25%;
+	}
+	70% {
+		--backgroundCenterX: 20%;
+		--backgroundCenterY: 85%;
+	}
+	80% {
+		--backgroundCenterX: 90%;
+		--backgroundCenterY: 45%;
+	}
+	90% {
+		--backgroundCenterX: 55%;
+		--backgroundCenterY: 95%;
+	}
+	100% {
+		--backgroundCenterX: 0%;
+		--backgroundCenterY: 0%;
+	}
+}
+@keyframes cardsIn {
+	100% {
+		opacity: 1;
+		scale: 1;
+		translate: 0 0;
+	}
 }
 body {
+	--hdr-gradient: radial-gradient(
+		farthest-corner circle at var(--backgroundCenterX) var(--backgroundCenterY) in oklab,
+		oklch(0 0 0) 0% 0%,
+		oklch(0.3 0 0) 90%
+	);
 	font-family: 'Open Sans', sans-serif;
-	background: var(--backgroundColor);
+	font-size: 18px;
+	background: var(--hdr-gradient);
+	min-height: 100vh;
 	color: var(--textColor);
+	transition:
+		background-image 0.5s ease-in-out,
+		color 0.5s ease-in-out;
+	animation: background-gradient 45s ease-in-out infinite;
+}
+p,
+li {
+	font-size: 1.5rem;
+}
+li {
+	line-height: 1.5;
+}
+.hero {
+	grid-area: hero / full;
+	display: grid;
+	place-content: center;
+	min-height: 10vh;
+	text-align: center;
+}
+.contentWrapper {
+	grid-area: content;
+}
+
+.center {
+	text-align: center;
+}
+a {
+	color: var(--accentColor);
+}
+.pageTitle {
+	font-size: clamp(2rem, 5vw, 4rem);
+	margin: 2rem 0 0;
+	text-align: center;
+	text-wrap: balance;
+}
+.pageDescription {
+	font-size: clamp(1rem, 2vw, 1.5rem);
+	margin: 2rem 0;
+}
+.phoneNumber {
+	color: var(--textColor);
+}
+.cardWrapper {
+	grid-area: content;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 3rem;
+	padding-top: 5rem;
+}
+.contentCard {
+	width: calc(100% - 2rem);
+	margin: 0 auto;
+	padding: 1rem;
+	border-radius: 0.5rem;
+	background: transparent;
+	border: 8px solid var(--pageCardBorder);
+}
+.contentCardTitle {
+	font-size: clamp(2.75rem, 5vw, 4rem);
+	font-weight: bold;
+	color: var(--titleColor);
+	text-shadow: 2px 5px 6px oklch(0 0 0 / 1);
+	width: fit-content;
+	padding: 0 1rem;
+	margin: 0;
+	translate: 0 calc(clamp(2.75rem, 5vw, 3.75rem) * -1);
+	.mission & {
+		font-size: clamp(2rem, 5vw, 3rem);
+		translate: 0 calc(clamp(2rem, 5vw, 3rem) * -1);
+		@media (max-width: 1020px) {
+			translate: 0 calc(clamp(2.5rem, 5vw, 3.75rem) * -1);
+		}
+	}
+}
+.cardContentWrapper {
+	display: grid;
+	grid-template-columns: 2fr 1.25fr;
+	gap: 2.5rem;
+	@media (max-width: 1020px) {
+		grid-template-columns: 1fr;
+		gap: 1rem;
+	}
+	.mission &,
+	.vision & {
+		grid-template-columns: 1fr;
+		padding: 0 3vw;
+	}
+}
+.cardImageWrapper {
+	border-radius: 0.5rem;
+
+	overflow: hidden;
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.contentCardText {
+	margin: 0 0 1.5rem;
+}
+.cardAccent {
+	font-weight: 700;
+	text-decoration: underline;
+}
+.wrapper1 {
+	animation: cardsIn 0.75s ease-in-out forwards;
+	opacity: 0;
+	scale: 0.7;
+	translate: -10% 0;
+	transform-origin: left;
+}
+.wrapper2 {
+	animation: cardsIn 0.75s ease-in-out forwards;
+	animation-delay: 0.25s;
+	opacity: 0;
+	scale: 0.7;
+	translate: 10% 0;
+	transform-origin: right;
+}
+.wrapper3 {
+	animation: cardsIn 0.75s ease-in-out forwards;
+	animation-delay: 0.5s;
+	opacity: 0;
+	scale: 0.7;
+	translate: -10% 0;
+	transform-origin: left;
+}
+.wrapper4 {
+	animation: cardsIn 0.75s ease-in-out forwards;
+	animation-delay: 0.75s;
+	opacity: 0;
+	scale: 0.7;
+	translate: 10% 0;
+	transform-origin: right;
 }
