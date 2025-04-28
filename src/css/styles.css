@@ -1,24 +1,31 @@
 :root {
 	interpolate-size: allow-keywords;
-	--accentColor: #ed1f25;
-	--titleColor: #ff8000;
-	--secondaryColor: #dedede;
+	--accentColor: var(--contrastColor);
+	--animHoverEase: cubic-bezier(0.25, 1, 0.5, 1);
+	--animHoverTime: 400ms;
 	--backgroundColor: #121212;
-	--textColor: #efefef;
 	--cardBackground: rgba(255, 255, 255, 0.6);
-	--cardTextColor: #121212;
-	--cardTitleStroke: none;
 	--cardBorder: #dedede;
-	--pageCardBorder: #333;
-	--cardTitleShadow: 3px 3px 2px oklch(0 0 0 / 0.7);
-	--overlayColor: oklch(0 0 0 / 0.5);
-	--textShadow: 2px 2px 4px oklch(0 0 0 / 0.8);
 	--cardImageShadow: 3px 3px 8px oklch(1 0 0 / 0.4);
-	--mockButtonWidth: 150px;
-	--mockButtonFontSize: 3rem;
-	--mockButtonBorderRadius: 1rem;
+	--cardTextColor: #121212;
+	--cardTitleShadow: 3px 3px 2px oklch(0 0 0 / 0.7);
+	--cardTitleStroke: none;
+	--contrastColor: oklch(0.67 0.0402 227.15);
 	--footerBg: #121212;
 	--footerBorder: #efefef;
+	--glowButtonBackground: #d7d7d7;
+	--glowButtonTextColor: #121212;
+	--mockButtonBorderRadius: 1rem;
+	--mockButtonFontSize: 3rem;
+	--mockButtonWidth: 150px;
+	--navBackground: #333;
+	--overlayColor: oklch(0 0 0 / 0.5);
+	--pageCardBorder: #333;
+	--primaryColor: oklch(0.55 0.1392 35.84);
+	--secondaryColor: #dedede;
+	--textColor: #efefef;
+	--textShadow: 2px 2px 4px oklch(0 0 0 / 0.8);
+	--titleColor: var(--contrastColor);
 	--clipPath: polygon(
 		0% 0%,
 		100% 0%,
@@ -46,18 +53,23 @@
 	);
 }
 .light {
+	--accentColor: var(--primaryColor);
 	--backgroundColor: #efefef;
-	--footerBg: #ffffff;
-	--footerBorder: #000;
-	--pageCardBorder: #cdcdcd;
-	--textColor: #121212;
 	--cardBackground: #444;
-	--cardTextColor: #fff;
-	--cardTitleStroke: 2px var(--cardBackground);
-	--overlayColor: oklch(1 0 0 / 0.2);
-	--textShadow: 2px 2px 4px oklch(1 0 0 / 0.8);
 	--cardBorder: #333;
 	--cardImageShadow: 3px 3px 8px oklch(0 0 0 / 0.7);
+	--cardTextColor: #fff;
+	--cardTitleStroke: 2px var(--cardBackground);
+	--footerBg: #ffffff;
+	--footerBorder: #000;
+	--glowButtonBackground: #333333;
+	--glowButtonTextColor: #d7d7d7;
+	--navBackground: #dedede;
+	--overlayColor: oklch(1 0 0 / 0.2);
+	--pageCardBorder: #cdcdcd;
+	--textColor: #121212;
+	--textShadow: 2px 2px 4px oklch(1 0 0 / 0.8);
+	--titleColor: var(--primaryColor);
 	--hdr-gradient: radial-gradient(
 		farthest-corner circle at var(--backgroundCenterX) var(--backgroundCenterY) in oklab,
 		oklch(1 0 0) 0% 30%,
@@ -275,4 +287,42 @@ a {
 	scale: 0.7;
 	translate: 10% 0;
 	transform-origin: right;
+}
+
+.serviceTimesModal {
+	opacity: 0;
+	scale: 0.5;
+	background: var(--backgroundColor);
+	color: var(--textColor);
+	width: calc(100vw - 2rem);
+	height: fit-content;
+	max-width: 800px;
+	border-radius: 1rem;
+	padding: 2rem;
+	transition: all 0.5s ease-in-out;
+	transition-behavior: allow-discrete;
+	&::backdrop {
+		opacity: 0;
+		transition: opacity 0.25s ease-in-out;
+		transition-behavior: allow-discrete;
+	}
+	&:popover-open {
+		opacity: 1;
+		scale: 1;
+		transition: all 0.5s ease-in-out;
+
+		@starting-style {
+			opacity: 0;
+			scale: 0.5;
+		}
+		&::backdrop {
+			opacity: 1;
+			background: oklch(0 0 0 / 0.5);
+			transition: opacity 0.25s ease-in-out;
+			transition-behavior: allow-discrete;
+			@starting-style {
+				opacity: 0;
+			}
+		}
+	}
 }

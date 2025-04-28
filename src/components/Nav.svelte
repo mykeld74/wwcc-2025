@@ -243,7 +243,7 @@
 		width: 20px;
 		height: 20px;
 		display: block;
-		background: #333;
+		background: var(--navBackground);
 		transform: translateY(-50%) rotate(45deg);
 	}
 
@@ -251,7 +251,7 @@
 		opacity: 0;
 		display: flex;
 		position: absolute;
-		background-color: #333;
+		background-color: var(--navBackground);
 		border-radius: 20px;
 		width: 100px;
 		height: 100px;
@@ -304,11 +304,12 @@
 		position: relative;
 		overflow: hidden;
 		padding: 1rem;
-		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
 		transform: translateY(0);
 		will-change: opacity;
 		display: none;
 		transition: all 0.3s ease-in-out;
+		border-radius: 20px;
 	}
 	.navLink {
 		white-space: nowrap;

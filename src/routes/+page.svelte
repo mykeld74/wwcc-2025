@@ -84,20 +84,6 @@
 	</div>
 </section>
 
-<dialog id="serviceTimesModal" class="serviceTimesModal" popover>
-	<h2>Service Times</h2>
-	<p class="xtraLrg">9:30am</p>
-	<p>7700 Woodard Dr.</p>
-	<p>Lakewood, CO 80227</p>
-	<iframe
-		src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3070.8329214253686!2d-105.08480848435234!3d39.675972808278864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876b81ad73d8223d%3A0xef2d6fab8083844!2sWestwoods%20Community%20Church!5e0!3m2!1sen!2sus!4v1569100714699!5m2!1sen!2sus"
-		frameBorder="0"
-		allowFullScreen
-		title="Westwoods Map"
-		id="wwMap"
-	></iframe>
-</dialog>
-
 <style>
 	@property --backgroundSize {
 		syntax: '<number>';
@@ -208,42 +194,7 @@
 			scale: 1;
 		}
 	}
-	.serviceTimesModal {
-		opacity: 0;
-		scale: 0.5;
-		transition: all 0.5s ease-in-out;
-		transition-behavior: allow-discrete;
-		&::backdrop {
-			opacity: 0;
-			transition: opacity 0.25s ease-in-out;
-			transition-behavior: allow-discrete;
-		}
-		&:popover-open {
-			opacity: 1;
-			scale: 1;
-			transition: all 0.5s ease-in-out;
-			width: calc(100vw - 2rem);
-			height: fit-content;
-			max-width: 800px;
-			border-radius: 1rem;
-			background: var(--backgroundColor);
-			color: var(--textColor);
-			padding: 2rem;
-			@starting-style {
-				opacity: 0;
-				scale: 0.5;
-			}
-			&::backdrop {
-				opacity: 1;
-				background: oklch(0 0 0 / 0.5);
-				transition: opacity 0.25s ease-in-out;
-				transition-behavior: allow-discrete;
-				@starting-style {
-					opacity: 0;
-				}
-			}
-		}
-	}
+
 	.wwIsContainer {
 		display: grid;
 		grid-area: content;

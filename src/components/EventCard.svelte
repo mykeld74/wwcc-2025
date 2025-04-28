@@ -1,8 +1,6 @@
 <script>
 	let { children, cardContent, data } = $props();
 	import { PortableText } from '@portabletext/svelte';
-
-	$inspect(data);
 </script>
 
 {#each data as event}

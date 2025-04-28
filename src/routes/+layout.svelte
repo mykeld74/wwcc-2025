@@ -1,7 +1,7 @@
 <script>
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	import { ThemeToggle, Nav, Image } from '$components';
+	import { ThemeToggle, Nav, Image, ServiceTimes } from '$components';
 	let { data, children } = $props();
 	let theme = $state('light');
 	let isReady = $state(false);
@@ -110,11 +110,16 @@
 			</div>
 			<div class="footerText">
 				<p>&copy;{new Date().getFullYear()} Westwoods Community Church</p>
-
+				<button class="serviceTimesButton" popovertarget="serviceTimesModal">
+					Directions and Service Times
+				</button>
 				<p>7700 W. Woodard Drive | Lakewood | CO | 80227 | 303.279.1616</p>
 			</div>
 		</div>
 	</footer>
+	<dialog id="serviceTimesModal" class="serviceTimesModal" popover>
+		<ServiceTimes />
+	</dialog>
 {/if}
 
 <style>
@@ -186,5 +191,16 @@
 
 	.contentWrapper {
 		margin-block-end: 100px;
+	}
+	.serviceTimesButton {
+		background: none;
+		border: none;
+		cursor: pointer;
+		color: var(--textColor);
+		padding: 0;
+		transition: color 250ms ease-in-out;
+		&:hover {
+			color: var(--accentColor);
+		}
 	}
 </style>
