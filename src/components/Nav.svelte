@@ -22,12 +22,12 @@
 				{ label: 'Values', href: '/about-us/values', icon: 'icon' },
 				{ label: 'Mission', href: '/about-us/mission', icon: 'icon' },
 				{ label: 'Vision', href: '/about-us/vision', icon: 'icon' },
+				{ label: 'What We Believe', href: '/about-us/what-we-believe', icon: 'icon' },
 				{
 					label: 'Volunteer Opportunities',
 					href: '/about-us/volunteer-opportunities',
 					icon: 'icon'
 				},
-				{ label: 'What We Believe', href: '/about-us/what-we-believe', icon: 'icon' },
 				{ label: 'Leadership', href: '/about-us/leadership', icon: 'icon' }
 			]
 		},
@@ -49,7 +49,7 @@
 			links: [
 				{
 					label: 'Submit a Prayer Request',
-					href: 'https://docs.google.com/forms/d/e/1FAIpQLScjbhWqcpsjKnubkYgRQiX-rAsuNejM8AD2Bk2YzpAqdJh2Tw/viewform',
+					href: '/prayer-request',
 					icon: 'wwLogo'
 				}
 			]
@@ -257,6 +257,7 @@
 		height: 100px;
 		transform-origin: 50% 0;
 		justify-content: center;
+		pointer-events: none;
 		will-change: transform, width, height, opacity;
 
 		:global(&.open) {
@@ -319,6 +320,7 @@
 			color: var(--textColor);
 			text-decoration: none;
 			transition: color 0.3s ease-in-out;
+			cursor: pointer;
 			&:hover {
 				color: var(--accentColor);
 			}

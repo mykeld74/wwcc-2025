@@ -1,0 +1,99 @@
+import nodemailer from 'nodemailer';
+import { env } from '$env/dynamic/private';
+
+// Create reusable transporter object using SMTP transport
+const transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+		user: env.GOOGLE_EMAIL,
+		pass: env.GOOGLE_EMAIL_PASSWORD
+	}
+});
+
+export const actions = {
+	default: async ({ request }) => {
+		try {
+			const formData = await request.formData();
+			const name = formData.get('name');
+			const email = formData.get('email');
+			const phone = formData.get('phone');
+			const team = formData.get('team');
+			const message = formData.get('message');
+
+			let sendTo = formData.get('sendTo');
+
+			switch (sendTo) {
+				case 'WWKids':
+					sendTo = 'mike@bigbearded.dev';
+					break;
+				case 'StudentMinistry':
+					sendTo = 'mike@msdweb.pro';
+					break;
+				case 'Tech/Worship':
+					sendTo = 'mike@bigbearded.dev';
+					break;
+				case 'General':
+					sendTo = 'mike@bigbearded.dev';
+					break;
+				default:
+					sendTo = 'mike@bigbearded.dev';
+					break;
+			}
+
+			// Email options
+			const mailOptions = {
+				from: `"Westwoods Volunteer Inquiry" <${env.GOOGLE_EMAIL}>`,
+				to: sendTo, // Send to yourself
+				subject: `New volunteer inquiry from ${name}`,
+				text: `
+					Name: ${name}
+					Email: ${email}
+					Phone: ${phone || 'Not provided'}
+					
+					Message:
+					${message}
+				`,
+				html: `
+				<div class="emailContent">
+					<h2>New Volunteer Opportunity Submission</h2>
+					<p><strong>Name:</strong> ${name}</p>
+					<p><strong>Email:</strong> ${email}</p>
+					<p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+					<p><strong>Team:</strong> ${team}</p>
+					<h3>Message:</h3>
+					<p>${message}</p>
+					</div>
+
+					<p>This is an automated email from the Westwoods Church website. Please do not reply to this email.</p>
+					<style>
+						.emailContent {
+							background-color: #f0f0f0;
+							padding: 20px;
+							border-radius: 10px;
+							border: 1px solid #ccc;
+						}
+						h2 {
+							color: #222;
+						}
+						p {
+							color: #333;
+						}
+					</style>
+				`
+			};
+
+			await transporter.sendMail(mailOptions);
+
+			return {
+				success: true,
+				message: 'Thank you for your message. We will get back to you soon!'
+			};
+		} catch (error) {
+			console.error('Email error:', error);
+			return {
+				success: false,
+				message: 'Sorry, there was an error sending your message. Please try again later.'
+			};
+		}
+	}
+};

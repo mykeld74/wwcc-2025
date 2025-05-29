@@ -49,5 +49,6 @@
 		border-radius: 20px;
 		height: 100%;
 		border: 5px solid var(--accentColor);
+		box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.6);
 	}
 </style>

@@ -48,7 +48,7 @@
 
 <div class="contentWrapper leadership">
 	<div class="pastorsWrapper">
-		<h2 class="">Our Staff</h2>
+		<h2 class="pageTitle">Our Staff</h2>
 		<div class="pastors staffCardWrapper">
 			{#each staff as leader}
 				<LeaderCard name={leader.name} title={leader.title} image={leader.image} />
@@ -56,7 +56,7 @@
 		</div>
 	</div>
 	<div class="eldersWrapper">
-		<h2 class="">Our Elders</h2>
+		<h2 class="pageTitle">Our Elders</h2>
 		<div class="elders staffCardWrapper">
 			{#each elders as leader}
 				<LeaderCard name={leader.name} title={leader.title} image={leader.image} />
@@ -70,5 +70,9 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 		gap: 3rem;
+	}
+	.pageTitle {
+		font-size: 2.5rem;
+		margin-bottom: 2rem;
 	}
 </style>

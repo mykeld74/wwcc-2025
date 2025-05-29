@@ -1,12 +1,21 @@
 <script>
+	import { onMount } from 'svelte';
 	let { children, cardContent, data } = $props();
 	import { PortableText } from '@portabletext/svelte';
+
+	onMount(() => {
+		// remove Summer Connect | from all titles
+		data = data.map((event) => ({
+			...event,
+			title: event.title.replace(/^Summer Connect \| /, '')
+		}));
+	});
 </script>
 
 {#each data as event}
 	<div class="card">
-		<h2 class="cardHeader">{event.title}</h2>
-		<div class="cardBody">
+		<h2 class="cardTitle">{event.title}</h2>
+		<div class="cardBodyWrapper">
 			<PortableText value={event.body} />
 		</div>
 	</div>
@@ -15,70 +24,29 @@
 <style>
 	.card {
 		display: grid;
-		grid-template-columns: [left-start] 0px [left-end content-start] 1fr [content-end right-start] 0px [right-end];
-		grid-template-rows:
-			[title-start space-start] calc(var(--titleSize) * 0.6)
-			[body-start space-end] auto [ title-end] auto [body-end];
-		--titleSize: clamp(2rem, 3vw, 3rem);
-
-		margin-top: calc((var(--titleSize) * 0.85));
-		position: relative;
-	}
-
-	.cardHeader {
-		font-family: 'Poppins', sans-serif;
-		font-size: var(--titleSize);
-		font-weight: 600;
-		width: 100%;
-		color: #ff8000;
-		grid-area: title / content;
-		margin: 0 0 0 2rem;
-		padding: 0;
-		text-shadow: var(--cardTitleStroke);
-		-webkit-text-stroke: var(--cardTitleStroke);
-		z-index: 1;
-	}
-	.cardTitle {
-		font-family: 'Poppins', sans-serif;
-		font-size: clamp(1.4rem, 2vw, 2rem);
-		font-weight: 600;
-		width: 100%;
-		text-decoration: underline;
-		text-underline-offset: 0.2rem;
-		margin: 1.5rem 0 0;
-	}
-	.cardBody {
-		grid-area: body / content;
-		width: 100%;
-		background-color: var(--cardBackground);
-		color: var(--cardTextColor);
-		padding: calc(var(--titleSize) * 0.45) 1rem 1rem;
+		grid-template-rows: auto 1fr auto;
+		padding: 2rem 1rem 1rem;
 		border-radius: 0.5rem;
+		margin-top: 3rem;
+		position: relative;
+		border: 8px solid var(--pageCardBorder);
 	}
 
-	.card {
-		--index0: calc(var(--index) - 1); /* 0-based index */
-		--reverse-index: calc(var(--numcards) - var(--index0)); /* reverse index */
-		--reverse-index0: calc(var(--reverse-index) - 1); /* 0-based reverse index */
+	.cardTitle {
+		font-size: clamp(1.5rem, 3vw, 2.5rem);
+		font-weight: 700;
+		color: var(--titleColor);
+		margin: 0;
+		padding: 0;
+		text-shadow: var(--cardTitleShadow);
+		text-align: left;
+		margin-top: calc(clamp(2.75rem, 5vw, 4.1rem) * -1);
 	}
 
-	@keyframes scale {
-		to {
-			transform: scale(calc(1.1 - calc(0.1 * var(--reverse-index))));
-		}
-	}
-
-	#cards {
-		--numcards: 4;
-		view-timeline-name: --cards-element-scrolls-in-body;
-	}
-
-	.card__content {
-		--start-range: calc(var(--index0) / var(--numcards) * 100%);
-		--end-range: calc((var(--index)) / var(--numcards) * 100%);
-
-		animation: linear scale forwards;
-		animation-timeline: --cards-element-scrolls-in-body;
-		animation-range: exit-crossing var(--start-range) exit-crossing var(--end-range);
+	.cardBodyWrapper {
+		width: 100%;
+		margin: 0;
+		justify-self: center;
+		margin-bottom: 1rem;
 	}
 </style>

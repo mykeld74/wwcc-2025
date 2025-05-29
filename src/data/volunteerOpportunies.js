@@ -22,7 +22,7 @@ const Opportunities = [
 		id: '03'
 	},
 	{
-		title: 'Green Room Team',
+		title: 'Connection Team',
 		desc: 'Reaches out to new people at Westwoods, helping them get connected.',
 		time: 'Every Sunday after service',
 		team: 'General',
@@ -37,7 +37,7 @@ const Opportunities = [
 	},
 	{
 		title: 'Women’s Ministry',
-		desc: 'Conducts Bible studies with women of all ages. Each group meets bi-monthly.',
+		desc: 'Our Women’s Ministry is a very active group with multiple opportunities to serve.',
 		team: 'General',
 		id: '06'
 	},
@@ -65,7 +65,7 @@ const Opportunities = [
 	{
 		title: 'Worship Team',
 		desc: 'Facilitates musical worship material on Sunday services.',
-		time: 'Thursday Night rehearsal and Sunday services',
+		time: 'Thursday Night rehearsals, Sunday services, and special events',
 		team: 'Tech/Worship',
 		id: '10'
 	},

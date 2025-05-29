@@ -1,5 +1,4 @@
 <script>
-	import { PortableText } from '@portabletext/svelte';
 	import { EventCard } from '$components';
 	let { data } = $props();
 </script>
@@ -18,4 +17,9 @@
 </div>
 
 <style>
+	.connectEvents {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
+	}
 </style>

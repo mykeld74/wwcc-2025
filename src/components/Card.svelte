@@ -6,10 +6,16 @@
 	<h2 class="cardTitle">{cardContent?.title}</h2>
 	<div class="cardBodyWrapper">
 		<p class="cardBody">{cardContent?.desc}</p>
-		<p class="cardBody">{cardContent?.time}</p>
+		{#if cardContent?.time}
+			<p class="cardBody"><strong>When:</strong> {cardContent?.time}</p>
+		{/if}
 	</div>
 	<div class="cardButtonWrapper">
-		<button class="cardButton">Learn More</button>
+		<button
+			class={`cardButton cardButton-${cardContent?.team}`}
+			data-team={cardContent?.team}
+			data-title={cardContent?.title}>Learn More</button
+		>
 	</div>
 </div>
 
