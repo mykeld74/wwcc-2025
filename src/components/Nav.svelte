@@ -5,6 +5,7 @@
 	let triggers = $state([]);
 	let background = $state(null);
 	let nav = $state(null);
+	let isMobileMenuOpen = $state(false);
 
 	const navItems = [
 		{
@@ -72,7 +73,7 @@
 	let isMobile = $state(false);
 
 	let checkIsMobile = () => {
-		if (innerWidth < 1150) {
+		if (innerWidth < 1110) {
 			isMobile = true;
 		} else {
 			isMobile = false;
@@ -181,11 +182,58 @@
 		background.classList.remove('open');
 		isFirstHover = true;
 	}
+
+	function toggleMobileMenu() {
+		isMobileMenuOpen = !isMobileMenuOpen;
+		document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+	}
+
+	function closeMobileMenu() {
+		isMobileMenuOpen = false;
+		document.body.style.overflow = '';
+	}
 </script>
 
 <svelte:window bind:innerWidth on:resize={checkIsMobile} />
 
-{#if !isMobile}
+{#if isMobile}
+	<button class="mobileMenuButton" onclick={toggleMobileMenu} aria-label="Toggle mobile menu">
+		<div class="hamburger" class:active={isMobileMenuOpen}>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</button>
+
+	{#if isMobileMenuOpen}
+		<div class="mobileNavOverlay">
+			<div class="mobileNav" role="dialog" aria-modal="true" tabindex="0">
+				<div class="mobileNavHeader">
+					<a href="/" onclick={closeMobileMenu}>
+						<Image source="wwLogo" altTag="Westwoods Community Church Logo" />
+					</a>
+				</div>
+
+				<div class="mobileNavContent">
+					{#each [...navItems, ...navItems2] as item}
+						<div class="mobileNavSection">
+							<h3 class="mobileNavLabel">{item.label}</h3>
+							<ul class="mobileNavLinks">
+								{#each item.links as link}
+									<li>
+										<a href={link.href} onclick={closeMobileMenu}>
+											{link.label}
+										</a>
+									</li>
+								{/each}
+							</ul>
+						</div>
+					{/each}
+				</div>
+			</div>
+		</div>
+	{/if}
+{:else}
 	<nav class="nav">
 		<div class="navBackground">
 			<span class="navArrow"></span>
@@ -351,5 +399,122 @@
 		margin: 0 auto;
 		grid-area: nav;
 		font-size: 1.25rem;
+	}
+
+	.mobileMenuButton {
+		position: fixed;
+		top: 1rem;
+		right: 1rem;
+		z-index: 1000;
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: 0.5rem;
+	}
+
+	.hamburger {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		width: 24px;
+		height: 18px;
+	}
+
+	.hamburger span {
+		display: block;
+		width: 100%;
+		height: 2px;
+		background-color: var(--textColor);
+		transition: all 0.3s ease-in-out;
+	}
+
+	.hamburger.active span:nth-child(1) {
+		transform: translateY(8px) rotate(45deg);
+	}
+
+	.hamburger.active span:nth-child(2) {
+		opacity: 0;
+	}
+
+	.hamburger.active span:nth-child(3) {
+		transform: translateY(-8px) rotate(-45deg);
+	}
+
+	.mobileNavOverlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 999;
+	}
+
+	.mobileNav {
+		position: fixed;
+		top: 0;
+		right: 0;
+		width: 80%;
+		max-width: 400px;
+		height: 100vh;
+		background-color: var(--navBackground);
+		padding: 1rem;
+		overflow-y: auto;
+		animation: slideIn 0.3s ease-out;
+	}
+
+	@keyframes slideIn {
+		from {
+			transform: translateX(100%);
+		}
+		to {
+			transform: translateX(0);
+		}
+	}
+
+	.mobileNavHeader {
+		max-width: 100px;
+		margin: 0 auto;
+		margin-bottom: 2rem;
+	}
+
+	.mobileNavContent {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.mobileNavSection {
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		padding-bottom: 1rem;
+	}
+
+	.mobileNavLabel {
+		font-size: 1.25rem;
+		margin-bottom: 1rem;
+		color: var(--textColor);
+	}
+
+	.mobileNavLinks {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.mobileNavLinks li {
+		margin-bottom: 0.75rem;
+	}
+
+	.mobileNavLinks a {
+		color: var(--textColor);
+		text-decoration: none;
+		font-size: 1rem;
+		display: block;
+		padding: 0.5rem 0;
+		transition: color 0.3s ease;
+	}
+
+	.mobileNavLinks a:hover {
+		color: var(--accentColor);
 	}
 </style>

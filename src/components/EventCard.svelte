@@ -33,14 +33,14 @@
 	}
 
 	.cardTitle {
-		font-size: clamp(1.5rem, 3vw, 2.5rem);
+		font-size: 2.5rem;
 		font-weight: 700;
 		color: var(--titleColor);
 		margin: 0;
 		padding: 0;
 		text-shadow: var(--cardTitleShadow);
 		text-align: left;
-		margin-top: calc(clamp(2.75rem, 5vw, 4.1rem) * -1);
+		margin-top: -4rem;
 	}
 
 	.cardBodyWrapper {

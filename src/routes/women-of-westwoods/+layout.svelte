@@ -21,11 +21,14 @@
 </div>
 
 <style>
+	.wowLayout {
+		grid-area: content;
+	}
 	.bannerContainer {
 		width: 100vw;
 	}
 	.contentContainer {
-		width: calc(100vw - 4rem);
+		width: calc(100% - 2rem);
 		margin: 0 auto;
 		max-width: 1200px;
 	}
@@ -37,10 +40,6 @@
 		max-width: 1000px;
 		margin: 0 auto;
 		place-items: center;
-	}
-	.wowLinksContainer {
-		margin-top: 3rem;
-		padding: 1rem 0;
 		a {
 			width: 100%;
 		}

@@ -133,6 +133,11 @@
 		top: 0;
 		background-color: var(--backgroundColor);
 		z-index: 100;
+		@media (max-width: 1110px) {
+			grid-template-columns: 1fr;
+			grid-template-areas: 'right';
+			height: 60px;
+		}
 	}
 	.contentWrapper {
 		width: 100%;
