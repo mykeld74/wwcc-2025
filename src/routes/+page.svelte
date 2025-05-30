@@ -196,9 +196,9 @@
 	}
 
 	.wwIsContainer {
-		display: grid;
+		width: calc(100% - 2rem);
+		max-width: 1200px;
+		margin: 0 auto;
 		grid-area: content;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 2rem;
 	}
 </style>
