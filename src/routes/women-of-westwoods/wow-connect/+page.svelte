@@ -22,7 +22,7 @@
 	}
 	.connectEvents {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(clamp(360px, 100%, 400px), 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 100%, 400px), 1fr));
 		gap: 2rem;
 	}
 </style>
