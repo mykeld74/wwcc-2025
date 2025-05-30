@@ -205,7 +205,6 @@ a {
 	margin: 0 auto;
 }
 .contentCard {
-	width: calc(100% - 2rem);
 	margin: 0 auto;
 	padding: 1rem;
 	border-radius: 0.5rem;

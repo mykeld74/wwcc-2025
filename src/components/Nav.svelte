@@ -404,7 +404,7 @@
 	.mobileMenuButton {
 		position: fixed;
 		top: 1rem;
-		right: 1rem;
+		right: 1.5rem;
 		z-index: 1000;
 		background: none;
 		border: none;
