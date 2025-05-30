@@ -38,7 +38,7 @@
 		padding: 0;
 		text-shadow: var(--cardTitleShadow);
 		text-align: left;
-		margin-top: calc(clamp(2.75rem, 5vw, 4.1rem) * -1);
+		margin-top: calc(clamp(3.75rem, 5vw, 4.1rem) * -1);
 	}
 
 	.cardBodyWrapper {

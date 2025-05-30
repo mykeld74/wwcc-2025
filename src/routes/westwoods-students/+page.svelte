@@ -42,6 +42,7 @@
 		grid-area: header / full;
 	}
 	.wwStudentsContainer {
+		width: calc(100% - 3rem);
 		max-width: 1200px;
 		margin: 0 auto;
 		grid-area: content;

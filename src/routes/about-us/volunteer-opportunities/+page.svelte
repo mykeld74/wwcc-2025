@@ -78,10 +78,12 @@
 
 <div class="contentWrapper" class:blurred={isPopoverOpen}>
 	<h1 class="pageTitle">Volunteer Opportunities</h1>
-	<div class="volunteerOpportunitiesWrapper">
-		{#each Opportunities as opportunity}
-			<Card cardContent={opportunity} />
-		{/each}
+	<div class="volunteerOpportunitiesContainer">
+		<div class="volunteerOpportunitiesWrapper">
+			{#each Opportunities as opportunity}
+				<Card cardContent={opportunity} />
+			{/each}
+		</div>
 	</div>
 </div>
 
@@ -147,11 +149,20 @@
 </dialog>
 
 <style>
+	.volunteerOpportunitiesContainer {
+		width: calc(100% - 3rem);
+		margin: 0 auto;
+		max-width: 1200px;
+		grid-area: content;
+	}
 	.volunteerOpportunitiesWrapper {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(390px, 1fr));
 		gap: 20px;
 		margin-top: 2rem;
+
+		margin: 0 auto;
+		grid-area: content;
 	}
 	.formGroup {
 		display: flex;

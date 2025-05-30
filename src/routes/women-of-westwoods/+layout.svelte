@@ -22,7 +22,7 @@
 
 <style>
 	.wowLayout {
-		grid-area: content;
+		grid-area: full;
 	}
 	.bannerContainer {
 		width: 100vw;
@@ -31,6 +31,9 @@
 		width: calc(100% - 2rem);
 		margin: 0 auto;
 		max-width: 1200px;
+	}
+	.wowLinksContainer {
+		margin-top: 3rem;
 	}
 	.wowLinks {
 		display: grid;

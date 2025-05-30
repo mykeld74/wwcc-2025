@@ -141,11 +141,11 @@
 	}
 	.contentWrapper {
 		width: 100%;
-		overflow-x: hidden;
+		/* overflow-x: hidden; */
 		display: grid;
 		grid-template-columns:
 			[full-start left-start] auto [left-end wide-start] auto [content-start]
-			clamp(300px, 100%, 1240px)
+			1fr
 			[content-end] auto [wide-end right-start] auto [right-end full-end];
 		grid-template-rows: [header-start] auto [header-end hero-start] auto [hero-end cards-start] auto [cards-end content-start] auto [content-end];
 	}
