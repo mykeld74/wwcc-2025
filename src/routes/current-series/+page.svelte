@@ -26,7 +26,7 @@
 </svelte:head>
 
 <div class="hero">
-	<h1>Current Series</h1>
+	<h1 class="pageTitle">Current Series</h1>
 	<h2 class="joinUs">Join us Sunday mornings!</h2>
 	<p class="times">9:30am Live in person and online</p>
 </div>
@@ -189,5 +189,11 @@
 	li {
 		font-size: 1.2rem;
 		margin-block-end: 0.5rem;
+	}
+	.contentWrapper {
+		width: calc(100% - 2rem);
+		margin: 0 auto;
+		max-width: 1200px;
+		grid-area: content;
 	}
 </style>

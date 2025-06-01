@@ -210,7 +210,8 @@
 		left: calc(0% - var(--border-width) / 2);
 		padding: var(--border-width);
 		box-sizing: border-box;
-		background: conic-gradient(
+		background:
+			conic-gradient(
 				from var(--angle-1) at 50% 50%,
 				rgba(0, 0, 0, 0.5),
 				rgba(0, 0, 0, 0) 5% 40%,

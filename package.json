@@ -36,6 +36,7 @@
 		"cloudinary": "^2.5.1",
 		"gsap": "^3.13.0",
 		"imask": "^7.6.1",
-		"open-props": "^1.7.9"
+		"open-props": "^1.7.9",
+		"wwcc-2025": "link:"
 	}
 }

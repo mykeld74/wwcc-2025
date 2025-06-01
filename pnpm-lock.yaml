@@ -23,6 +23,9 @@ importers:
       open-props:
         specifier: ^1.7.9
         version: 1.7.15
+      wwcc-2025:
+        specifier: 'link:'
+        version: 'link:'
     devDependencies:
       '@eslint/compat':
         specifier: ^1.2.3
