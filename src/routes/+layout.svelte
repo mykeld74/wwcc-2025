@@ -6,8 +6,20 @@
 	let theme = $state('light');
 	let isReady = $state(false);
 	let initialDarkMode = $state(false);
+	let currentPageTitle = $state('Westwoods Community Church');
 	import '../css/styles.css';
 	import '../css/reset.css';
+
+	let title = $derived(data.pathname.split('/').pop());
+
+	// regex to split the title on the - and capitalize the first letter of each word
+	let formattedTitle = $derived(
+		title.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) || 'Home'
+	);
+	// update the title when the page changes
+	$effect(() => {
+		currentPageTitle = `${formattedTitle} | Westwoods Community Church`;
+	});
 
 	onMount(() => {
 		if (localStorage.getItem('theme') === 'dark') {
@@ -46,7 +58,7 @@
 		rel="stylesheet"
 	/>
 	<script src="https://js.churchcenter.com/modal/v1"></script>
-	<title>Westwoods Community Church</title>
+	<title>{currentPageTitle}</title>
 </svelte:head>
 
 {#if isReady}
