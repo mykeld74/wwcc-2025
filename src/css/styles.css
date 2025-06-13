@@ -21,7 +21,7 @@
 	--navBackground: #333;
 	--overlayColor: oklch(0 0 0 / 0.5);
 	--pageCardBorder: #333;
-	--primaryColor: oklch(0.55 0.1392 35.84);
+	--primaryColor: oklch(0.5988 0.1464 40.71);
 	--secondaryColor: #dedede;
 	--textColor: #efefef;
 	--textShadow: 2px 2px 4px oklch(0 0 0 / 0.8);
@@ -215,14 +215,15 @@ a {
 	font-size: clamp(2.75rem, 5vw, 4rem);
 	font-weight: bold;
 	color: var(--titleColor);
-	text-shadow: 2px 5px 6px oklch(0 0 0 / 1);
+	text-shadow: 2px 4px 4px oklch(0 0 0 / 0.65);
 	width: fit-content;
 	padding: 0 1rem;
 	margin: 0;
 	translate: 0 calc(clamp(2.75rem, 5vw, 3.75rem) * -1);
-	.mission & {
+	.mission &,
+	.planVisit & {
 		font-size: clamp(2rem, 5vw, 3rem);
-		translate: 0 calc(clamp(2rem, 5vw, 3rem) * -1);
+		translate: 0 calc(clamp(2rem, 5vw, 3.25rem) * -1);
 		@media (max-width: 1020px) {
 			translate: 0 calc(clamp(2.5rem, 5vw, 3.75rem) * -1);
 		}
@@ -237,7 +238,9 @@ a {
 		gap: 1rem;
 	}
 	.mission &,
-	.vision & {
+	.vision &,
+	.planVisit &,
+	.whatWeBelieve & {
 		grid-template-columns: 1fr;
 		padding: 0 3vw;
 	}

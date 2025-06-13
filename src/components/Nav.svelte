@@ -29,7 +29,8 @@
 					href: '/about-us/volunteer-opportunities',
 					icon: 'icon'
 				},
-				{ label: 'Leadership', href: '/about-us/leadership', icon: 'icon' }
+				{ label: 'Leadership', href: '/about-us/leadership', icon: 'icon' },
+				{ label: 'Plan a Visit', href: '/about-us/plan-a-visit', icon: 'icon' }
 			]
 		},
 		{
