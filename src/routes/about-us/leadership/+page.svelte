@@ -70,6 +70,8 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 		gap: 3rem;
+		max-width: 1200px;
+		margin: 0 auto;
 	}
 	.pageTitle {
 		font-size: 2.5rem;

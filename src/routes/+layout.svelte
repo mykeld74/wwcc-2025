@@ -16,6 +16,7 @@
 	let formattedTitle = $derived(
 		title.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) || 'Home'
 	);
+
 	// update the title when the page changes
 	$effect(() => {
 		currentPageTitle = `${formattedTitle} | Westwoods Community Church`;
@@ -71,7 +72,7 @@
 		<div
 			in:fade={{ duration: 150, delay: 155 }}
 			out:fade={{ duration: 150 }}
-			class="contentWrapper"
+			class={`contentWrapper ${title}`}
 		>
 			{@render children?.()}
 		</div>
@@ -160,6 +161,10 @@
 			1fr
 			[content-end] auto [wide-end right-start] auto [right-end full-end];
 		grid-template-rows: [header-start] auto [header-end hero-start] auto [hero-end cards-start] auto [cards-end content-start] auto [content-end];
+		margin-block-end: 100px;
+		&.missional-communities {
+			margin-block-end: 0;
+		}
 	}
 	footer {
 		background: var(--footerBg);
@@ -206,9 +211,6 @@
 		transition: fill 250ms ease-in-out;
 	}
 
-	.contentWrapper {
-		margin-block-end: 100px;
-	}
 	.serviceTimesButton {
 		background: none;
 		border: none;

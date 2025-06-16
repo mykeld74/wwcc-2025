@@ -6,15 +6,26 @@
 	<h2 class="cardTitle">{cardContent?.title}</h2>
 	<div class="cardBodyWrapper">
 		<p class="cardBody">{cardContent?.desc}</p>
-		{#if cardContent?.time}
-			<p class="cardBody"><strong>When:</strong> {cardContent?.time}</p>
+		{#if cardContent?.day}
+			<p class="cardBody"><strong>Day:</strong> {cardContent?.day}</p>
 		{/if}
-		{#if cardContent?.features}
-			<ul class="cardBody">
-				{#each cardContent?.features as feature}
-					<li>{feature}</li>
+		{#if cardContent?.time}
+			<p class="cardBody"><strong>Time:</strong> {cardContent?.time}</p>
+		{/if}
+		{#if cardContent?.contact}
+			<p class="cardBody">
+				<strong>Contact:</strong>
+				<br />
+
+				{#each cardContent?.contact as contact}
+					<span class="contactNumber">
+						{contact}
+					</span><br />
 				{/each}
-			</ul>
+			</p>
+		{/if}
+		{#if cardContent?.location}
+			<p class="cardBody"><strong>Location:</strong> {cardContent?.location}</p>
 		{/if}
 	</div>
 	{#if cardContent?.button}
@@ -30,6 +41,7 @@
 
 <style>
 	.card {
+		position: relative;
 		display: grid;
 		grid-template-rows: auto 1fr auto;
 		padding: 2rem 1rem 1rem;
@@ -37,6 +49,14 @@
 		margin-top: 3rem;
 		position: relative;
 		border: 8px solid var(--pageCardBorder);
+		z-index: 1;
+		&:after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: var(--cardBackground);
+			z-index: -1;
+		}
 	}
 
 	.cardTitle {

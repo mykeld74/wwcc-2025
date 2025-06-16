@@ -4,7 +4,7 @@
 	--animHoverEase: cubic-bezier(0.25, 1, 0.5, 1);
 	--animHoverTime: 400ms;
 	--backgroundColor: #121212;
-	--cardBackground: rgba(255, 255, 255, 0.6);
+	--cardBackground: rgba(0, 0, 0, 0.3);
 	--cardBorder: #dedede;
 	--cardImageShadow: 3px 3px 8px oklch(1 0 0 / 0.4);
 	--cardTextColor: #121212;
@@ -55,11 +55,11 @@
 .light {
 	--accentColor: var(--primaryColor);
 	--backgroundColor: #efefef;
-	--cardBackground: #444;
+	--cardBackground: rgba(255, 255, 255, 0.3);
 	--cardBorder: #333;
 	--cardImageShadow: 3px 3px 8px oklch(0 0 0 / 0.7);
 	--cardTextColor: #fff;
-	--cardTitleStroke: 2px var(--cardBackground);
+	--cardTitleStroke: 2px #444;
 	--footerBg: #ffffff;
 	--footerBorder: #000;
 	--glowButtonBackground: #333333;

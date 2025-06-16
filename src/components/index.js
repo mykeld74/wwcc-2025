@@ -8,6 +8,7 @@ import HomePageCard from './HomePageCard.svelte';
 import Image from './Image.svelte';
 import LeaderCard from './LeaderCard.svelte';
 import Logo from './Logo.svelte';
+import McCard from './mcCard.svelte';
 import ScrollingHero from './ScrollingHero.svelte';
 import ServiceTimes from './ServiceTimes.svelte';
 
@@ -22,6 +23,7 @@ export {
 	Image,
 	LeaderCard,
 	Logo,
+	McCard,
 	ScrollingHero,
 	ServiceTimes
 };
