@@ -1,9 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	const { initialDarkMode } = $props();
-
-	let darkMode = $state(initialDarkMode);
-	let newTheme = $state('light');
+	import { getTheme, toggleTheme } from '$lib/theme.svelte.js';
 
 	let isDebouncing = false;
 
@@ -11,23 +8,16 @@
 		if (isDebouncing) return;
 		isDebouncing = true;
 
-		darkMode = !darkMode;
-		newTheme = darkMode ? 'dark' : 'light';
-		localStorage.setItem('theme', newTheme);
-
-		if (darkMode) {
-			document.body.classList.add('dark');
-			document.body.classList.remove('light');
-		} else {
-			document.body.classList.remove('dark');
-			document.body.classList.add('light');
-		}
+		toggleTheme();
 		await new Promise((resolve) => setTimeout(resolve, 300));
 		isDebouncing = false;
 	};
 </script>
 
-<button class={darkMode ? 'dark' : 'light'} onclick={clickHandler} aria-label="Toggle theme"
+<button
+	class={getTheme() === 'dark' ? 'dark' : 'light'}
+	onclick={clickHandler}
+	aria-label="Toggle theme"
 ></button>
 
 <style lang="postcss">

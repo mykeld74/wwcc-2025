@@ -118,6 +118,7 @@
 		height: 100%;
 	}
 	:global(.scrollerContainer[data-animated]) {
+		width: 100%;
 		overflow: hidden;
 		mask: linear-gradient(90deg, transparent, #fff 15%, #fff 85%, transparent);
 		.innerScroller {

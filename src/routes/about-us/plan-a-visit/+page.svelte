@@ -1,5 +1,9 @@
 <script>
 	import { fade } from 'svelte/transition';
+	import { getTheme } from '$lib/theme.svelte.js';
+	let visitForm = $derived(
+		`https://westwoods.churchcenter.com/people/forms/674179?theme=${getTheme()}`
+	);
 </script>
 
 <svelte:head>
@@ -121,11 +125,7 @@
 						form to let us know your coming or ask any questions you may still have.
 					</p>
 					<div class="buttonWrapper">
-						<a
-							href="https://westwoods.churchcenter.com/people/forms/674179"
-							data-open-in-church-center-modal="true"
-							class="button"
-						>
+						<a href={visitForm} data-open-in-church-center-modal="true" class="button">
 							Plan a Visit Form
 						</a>
 					</div>

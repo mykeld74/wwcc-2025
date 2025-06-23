@@ -40,7 +40,7 @@
 	}
 
 	.cardTitle {
-		font-size: clamp(2.5rem, 5vw, 3.2rem);
+		font-size: clamp(2.5rem, 5vw, 3rem);
 		font-weight: 700;
 		color: var(--titleColor);
 		margin: 0;

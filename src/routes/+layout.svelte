@@ -2,10 +2,9 @@
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import { ThemeToggle, Nav, Image, ServiceTimes } from '$components';
+
 	let { data, children } = $props();
-	let theme = $state('light');
 	let isReady = $state(false);
-	let initialDarkMode = $state(false);
 	let currentPageTitle = $state('Westwoods Community Church');
 	import '../css/styles.css';
 	import '../css/reset.css';
@@ -23,31 +22,7 @@
 	});
 
 	onMount(() => {
-		if (localStorage.getItem('theme') === 'dark') {
-			document.body.classList.add('dark');
-			document.body.classList.remove('light');
-			theme = 'dark';
-			initialDarkMode = true;
-			isReady = true;
-			return;
-		} else if (
-			window.matchMedia('(prefers-color-scheme: dark)').matches &&
-			localStorage.getItem('theme') !== 'light'
-		) {
-			document.body.classList.add('dark');
-			document.body.classList.remove('light');
-			theme = 'dark';
-			initialDarkMode = true;
-			isReady = true;
-			return;
-		} else {
-			document.body.classList.remove('dark');
-			document.body.classList.add('light');
-			theme = 'light';
-			initialDarkMode = false;
-			isReady = true;
-			return;
-		}
+		isReady = true;
 	});
 </script>
 
@@ -65,7 +40,7 @@
 {#if isReady}
 	<header>
 		<Nav />
-		<ThemeToggle {initialDarkMode} />
+		<ThemeToggle />
 	</header>
 
 	{#key data.pathname}
@@ -154,7 +129,7 @@
 	}
 	.contentWrapper {
 		width: 100%;
-		/* overflow-x: hidden; */
+		overflow-x: hidden;
 		display: grid;
 		grid-template-columns:
 			[full-start left-start] auto [left-end wide-start] auto [content-start]

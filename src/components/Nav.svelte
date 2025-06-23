@@ -1,13 +1,28 @@
 <script>
 	import { onMount } from 'svelte';
 	import { Image } from '$components';
+	import { getTheme } from '$lib/theme.svelte.js';
 
 	let triggers = $state([]);
 	let background = $state(null);
 	let nav = $state(null);
 	let isMobileMenuOpen = $state(false);
 
-	const navItems = [
+	let planningCenterUrl = $derived(
+		`https://westwoods.churchcenter.com/giving?open-in-church-center-modal=true&theme=${getTheme()}`
+	);
+
+	$effect(() => {
+		// Update planning center URL when theme changes
+		planningCenterUrl = `https://westwoods.churchcenter.com/giving?open-in-church-center-modal=true&theme=${getTheme()}`;
+	});
+
+	onMount(() => {
+		// Initial setup
+		planningCenterUrl = `https://westwoods.churchcenter.com/giving?open-in-church-center-modal=true&theme=${getTheme()}`;
+	});
+
+	const navItems = $derived([
 		{
 			label: 'Our Groups',
 			links: [
@@ -40,8 +55,8 @@
 				{ label: 'Weddings', href: 'facility-rentals/weddings', icon: 'icon' }
 			]
 		}
-	];
-	const navItems2 = [
+	]);
+	const navItems2 = $derived([
 		{
 			label: 'Have a Question',
 			links: [{ label: 'Contact Us', href: '/contact-us', icon: 'icon' }]
@@ -61,12 +76,12 @@
 			links: [
 				{
 					label: 'Give Online',
-					href: 'https://westwoods.churchcenter.com/giving?open-in-church-center-modal=true',
+					href: planningCenterUrl,
 					icon: 'wwLogo'
 				}
 			]
 		}
-	];
+	]);
 
 	let isFirstHover = true;
 	let hoverTimer;
