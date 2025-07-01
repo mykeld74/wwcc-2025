@@ -52,7 +52,19 @@
 			label: 'Building Usage',
 			links: [
 				{ label: 'Facility Rentals', href: '/facility-rentals', icon: 'icon' },
-				{ label: 'Weddings', href: 'facility-rentals/weddings', icon: 'icon' }
+				{ label: 'Wedding Info', href: '/facility-rentals/weddings', icon: 'icon' },
+				{
+					label: 'Wedding Request Form',
+					href: '/facility-rentals/weddings/rental-form',
+					icon: 'icon'
+				},
+				{ label: 'Funeral Request Form', href: '/facility-rentals/funeral-rental', icon: 'icon' },
+				{ label: 'General Request Form', href: '/facility-rentals/general-rental', icon: 'icon' },
+				{
+					label: 'Non-Profit Request Form',
+					href: '/facility-rentals/non-profit-rental',
+					icon: 'icon'
+				}
 			]
 		}
 	]);
@@ -378,7 +390,7 @@
 	}
 	.navLink {
 		white-space: nowrap;
-		padding: 0.5rem 0;
+		padding: 0.15rem 0;
 
 		a {
 			color: var(--textColor);
