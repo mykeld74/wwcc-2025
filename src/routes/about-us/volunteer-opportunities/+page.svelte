@@ -152,13 +152,13 @@
 	.volunteerOpportunitiesContainer {
 		width: calc(100% - 3rem);
 		margin: 0 auto;
-		max-width: 1200px;
+		max-width: 1100px;
 		grid-area: content;
 	}
 	.volunteerOpportunitiesWrapper {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(390px, 1fr));
-		gap: 20px;
+		grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+		gap: 3rem;
 		margin-top: 2rem;
 
 		margin: 0 auto;

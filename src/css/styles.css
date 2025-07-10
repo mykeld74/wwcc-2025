@@ -188,7 +188,7 @@ a {
 	text-wrap: balance;
 }
 .pageDescription {
-	font-size: clamp(1rem, 2vw, 1.5rem);
+	font-size: clamp(1.2rem, 2vw, 1.5rem);
 	margin: 2rem 0;
 }
 .phoneNumber {

@@ -518,9 +518,11 @@
 	}
 
 	.mobileNavLabel {
-		font-size: 1.25rem;
+		font-size: 1.4rem;
+		font-weight: 700;
 		margin-bottom: 1rem;
 		color: var(--textColor);
+		text-decoration: underline;
 	}
 
 	.mobileNavLinks {
@@ -536,7 +538,7 @@
 	.mobileNavLinks a {
 		color: var(--textColor);
 		text-decoration: none;
-		font-size: 1rem;
+		font-size: 1.2em;
 		display: block;
 		padding: 0.5rem 0;
 		transition: color 0.3s ease;

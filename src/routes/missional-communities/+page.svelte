@@ -30,7 +30,7 @@
 	.mcsWrapper {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-		gap: 3rem;
+		gap: 1rem 3rem;
 		max-width: 1000px;
 		margin: 0 auto;
 	}
