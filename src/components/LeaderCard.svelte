@@ -32,6 +32,7 @@
 		overflow: hidden;
 		aspect-ratio: 1/1;
 		height: 80%;
+		border: 2px solid #333;
 		/* box-shadow: 3px 3px 0 var(--accentColor); */
 		padding: 0;
 

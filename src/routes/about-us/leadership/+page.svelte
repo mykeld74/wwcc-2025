@@ -35,10 +35,7 @@
 	];
 
 	const elders = [
-		{
-			name: 'Charlie and Karissa Eberly',
-			image: 'Eberly'
-		},
+		{ name: 'Sue & Steve Saindon', image: 'Saindon' },
 		{
 			name: 'Tom and Jenni Blackman',
 			image: 'Blackman'

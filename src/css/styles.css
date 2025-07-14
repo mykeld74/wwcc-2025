@@ -327,6 +327,8 @@ a {
 			background: oklch(0 0 0 / 0.5);
 			transition: opacity 0.25s ease-in-out;
 			transition-behavior: allow-discrete;
+			pointer-events: auto;
+			backdrop-filter: blur(5px);
 			@starting-style {
 				opacity: 0;
 			}
