@@ -19,3 +19,9 @@
 		or <a href="mailto:jcsmmw@gmail.com">jcsmmw@gmail.com</a>
 	</p>
 </div>
+
+<style>
+	.contentWrapper {
+		min-height: 35vh;
+	}
+</style>
