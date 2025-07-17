@@ -53,7 +53,7 @@
 	</button>
 </section>
 
-<section id="weAreContainer" class="wwIsContainer">
+<section id="weAreContainer" class="wwIsWrapper">
 	<h2 class="wwIs center">Westwoods Is:</h2>
 	<div class="wwIsContainer">
 		<div class="wwIsBlock b1">
@@ -118,14 +118,7 @@
 			--backgroundSize: 1;
 		}
 	}
-	/* .contentWrapper {
-		display: grid;
-		grid-template-columns:
-			[full-start left-start] auto [left-end wide-start] auto [content-start]
-			clamp(300px, 100%, 1240px)
-			[content-end] auto [wide-end right-start] auto [right-end full-end];
-		grid-template-rows: [header-start] auto [header-end hero-start] auto [hero-end card-start] auto [card-end content-start] auto [content-end];
-	} */
+
 	.hero {
 		grid-area: hero / full;
 		text-align: center;
@@ -250,9 +243,40 @@
 	}
 
 	.wwIsContainer {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
 		width: calc(100% - 2rem);
 		max-width: 1200px;
 		margin: 0 auto;
-		grid-area: content;
+	}
+	.wwIsWrapper {
+		background: url('https://res.cloudinary.com/mykeld74/image/upload/f_auto,q_auto,w_auto/WestwoodsCC/wwWorship25.jpg')
+			no-repeat center 300px fixed;
+		background-size: cover;
+		padding: 6rem;
+		border-radius: 10px;
+		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+		grid-area: full;
+		margin-block-start: 5rem;
+	}
+	.wwIs {
+		font-size: clamp(2rem, 5vw, 4rem);
+		font-weight: 700;
+		margin: 0 0 2rem;
+		color: #fff;
+	}
+	.wwIsBlock {
+		background: var(--wwIsBackground);
+		padding: 2rem;
+		border-radius: 10px;
+		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+		p,
+		li {
+			font-size: clamp(1.25rem, 2vw, 1.75rem);
+		}
+		&.b3 {
+			grid-column: span 2;
+		}
 	}
 </style>

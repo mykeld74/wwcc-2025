@@ -5,6 +5,7 @@
 	--animHoverTime: 400ms;
 	--backgroundColor: #121212;
 	--cardBackground: rgba(0, 0, 0, 0.3);
+	--wwIsBackground: rgba(0, 0, 0, 0.5);
 	--cardBorder: #dedede;
 	--cardImageShadow: 3px 3px 8px oklch(1 0 0 / 0.4);
 	--cardTextColor: #121212;
@@ -60,6 +61,7 @@
 	--cardImageShadow: 3px 3px 8px oklch(0 0 0 / 0.7);
 	--cardTextColor: #fff;
 	--cardTitleStroke: 2px #444;
+	--wwIsBackground: rgba(255, 255, 255, 0.7);
 	--footerBg: #ffffff;
 	--footerBorder: #000;
 	--glowButtonBackground: #333333;
@@ -178,6 +180,9 @@ li {
 .center {
 	text-align: center;
 }
+.bold {
+	font-weight: 700;
+}
 a {
 	color: var(--accentColor);
 }
@@ -186,6 +191,7 @@ a {
 	margin: 2rem 0 0;
 	text-align: center;
 	text-wrap: balance;
+	grid-area: header / content;
 }
 .pageDescription {
 	font-size: clamp(1.2rem, 2vw, 1.5rem);

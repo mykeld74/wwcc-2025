@@ -1,3 +1,5 @@
+<h1 class="pageTitle">Our Vision</h1>
+
 <div class="cardWrapper vision">
 	<div class="contentCard wrapper1">
 		<h2 class="contentCardTitle">Loving and Following Christ</h2>

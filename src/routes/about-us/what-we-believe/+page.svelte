@@ -107,6 +107,8 @@
 	}
 </script>
 
+<h1 class="pageTitle">What We Believe</h1>
+
 <div class="contentWrapper whatWeBelieve">
 	<div class="cardWrapper wrapper1">
 		<div class="contentCard">

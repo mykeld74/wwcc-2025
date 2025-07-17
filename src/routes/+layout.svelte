@@ -47,7 +47,7 @@
 		<div
 			in:fade={{ duration: 150, delay: 155 }}
 			out:fade={{ duration: 150 }}
-			class={`contentWrapper ${title}`}
+			class={`contentWrapper ${title || 'home'}`}
 		>
 			{@render children?.()}
 		</div>
@@ -137,7 +137,8 @@
 			[content-end] auto [wide-end right-start] auto [right-end full-end];
 		grid-template-rows: [header-start] auto [header-end hero-start] auto [hero-end cards-start] auto [cards-end content-start] auto [content-end];
 		margin-block-end: 100px;
-		&.missional-communities {
+		&.missional-communities,
+		&.home {
 			margin-block-end: 0;
 		}
 	}

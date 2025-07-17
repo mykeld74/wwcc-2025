@@ -2,6 +2,7 @@
 	import { Worship, Community, Outreach } from '$img';
 </script>
 
+<h1 class="pageTitle">Our Values</h1>
 <div class="cardWrapper">
 	<div class="contentCard wrapper1">
 		<h2 class="contentCardTitle">Worship</h2>

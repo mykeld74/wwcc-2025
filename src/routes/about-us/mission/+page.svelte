@@ -1,3 +1,5 @@
+<h1 class="pageTitle">Our Mission</h1>
+
 <div class="contentWrapper mission">
 	<div class="cardWrapper wrapper1">
 		<div class="contentCard">

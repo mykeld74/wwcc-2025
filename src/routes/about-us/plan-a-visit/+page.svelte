@@ -13,6 +13,8 @@
 	/>
 </svelte:head>
 
+<h1 class="pageTitle">Plan a Visit</h1>
+
 <div class="contentWrapper planVisit">
 	<div class="cardWrapper wrapper1">
 		<div class="contentCard">
