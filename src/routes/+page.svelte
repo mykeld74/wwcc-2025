@@ -255,7 +255,7 @@
 	}
 	.wwIsWrapper {
 		background: url('https://res.cloudinary.com/mykeld74/image/upload/f_auto,q_auto,w_auto/WestwoodsCC/wwWorship25.jpg')
-			no-repeat center 300px fixed;
+			no-repeat center 100px fixed;
 		background-size: cover;
 
 		border-radius: 10px;
