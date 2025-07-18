@@ -249,16 +249,21 @@
 		width: calc(100% - 2rem);
 		max-width: 1200px;
 		margin: 0 auto;
+		@container (width < 1000px) {
+			grid-template-columns: 1fr;
+		}
 	}
 	.wwIsWrapper {
 		background: url('https://res.cloudinary.com/mykeld74/image/upload/f_auto,q_auto,w_auto/WestwoodsCC/wwWorship25.jpg')
 			no-repeat center 300px fixed;
 		background-size: cover;
-		padding: 6rem;
+
 		border-radius: 10px;
 		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 		grid-area: full;
 		margin-block-start: 5rem;
+		container-type: inline-size;
+		container-name: wwIsWrapper;
 	}
 	.wwIs {
 		font-size: clamp(2rem, 5vw, 4rem);
@@ -277,6 +282,9 @@
 		}
 		&.b3 {
 			grid-column: span 2;
+			@container (width < 1000px) {
+				grid-column: span 1;
+			}
 		}
 	}
 </style>
