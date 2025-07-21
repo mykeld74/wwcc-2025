@@ -97,7 +97,7 @@
 <svelte:head>
 	<meta
 		name="description"
-		content="Contact our mobile phlebotomy team for questions or to learn more about our services. We're here to help with your blood drawing needs."
+		content="Contact Westwoods Community Church for questions, prayer requests, or to learn more about our ministries and events. We’re here to help!"
 	/>
 </svelte:head>
 

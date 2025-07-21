@@ -22,6 +22,10 @@
 </script>
 
 <svelte:head>
+	<meta
+		name="description"
+		content="Watch the latest sermon series from Westwoods Community Church. Join us Sunday mornings in person or online for inspiring messages and worship."
+	/>
 	<link rel="preload" as="video" href={videoUrl} />
 </svelte:head>
 

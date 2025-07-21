@@ -2,6 +2,13 @@
 	import { ScrollingHero } from '$components';
 </script>
 
+<svelte:head>
+	<meta
+		name="description"
+		content="Westwoods Students is a community for 6th-12th graders to connect, grow, and be encouraged in their faith journey. Join us for weekly gatherings and special events."
+	/>
+</svelte:head>
+
 <div class="wwStudentHero">
 	<ScrollingHero currentPage="students" />
 </div>

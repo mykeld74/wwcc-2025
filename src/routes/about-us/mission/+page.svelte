@@ -1,3 +1,10 @@
+<svelte:head>
+	<meta
+		name="description"
+		content="Discover the mission of Westwoods Community Church—serving as the body of Christ, using our gifts to serve others, and fulfilling the Great Commission to make disciples of all nations."
+	/>
+</svelte:head>
+
 <h1 class="pageTitle">Our Mission</h1>
 
 <div class="contentWrapper mission">

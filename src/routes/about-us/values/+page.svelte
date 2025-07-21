@@ -2,6 +2,13 @@
 	import { Worship, Community, Outreach } from '$img';
 </script>
 
+<svelte:head>
+	<meta
+		name="description"
+		content="Explore the core values of Westwoods Community Church, including worship, prayer, excellence, and purposeful living as we honor Christ in all we do."
+	/>
+</svelte:head>
+
 <h1 class="pageTitle">Our Values</h1>
 <div class="cardWrapper">
 	<div class="contentCard wrapper1">

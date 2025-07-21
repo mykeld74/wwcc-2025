@@ -9,6 +9,13 @@
 	});
 </script>
 
+<svelte:head>
+	<meta
+		name="description"
+		content="Westwoods Kids provides a safe, fun, and loving environment for children to learn about Jesus. Discover our core values and how we serve families every Sunday."
+	/>
+</svelte:head>
+
 {#if isReady}
 	<div class="titleContainer">
 		<h1 class="heroTitle">Welcome to Westwoods Kids</h1>

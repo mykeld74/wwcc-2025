@@ -1,3 +1,10 @@
+<svelte:head>
+	<meta
+		name="description"
+		content="Learn about the vision of Westwoods Community Church: loving and following Christ, serving each other, and maintaining a healthy balance of worship, community, and outreach."
+	/>
+</svelte:head>
+
 <h1 class="pageTitle">Our Vision</h1>
 
 <div class="cardWrapper vision">

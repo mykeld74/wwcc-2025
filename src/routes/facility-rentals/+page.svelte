@@ -29,6 +29,13 @@
 	];
 </script>
 
+<svelte:head>
+	<meta
+		name="description"
+		content="Host your next event at Westwoods Community Church. Explore our rental spaces including the auditorium, café, coffee shop, and welcome area for weddings, meetings, and more."
+	/>
+</svelte:head>
+
 <div class="contentWrapper">
 	<h1 class="pageTitle">Facility Rentals</h1>
 	<div class="facilityRentalsContainer">

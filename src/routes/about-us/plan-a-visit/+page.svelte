@@ -9,7 +9,7 @@
 <svelte:head>
 	<meta
 		name="description"
-		content="Plan your visit to Westwoods Community Church. Join us for worship services, find directions, and learn what to expect."
+		content="Plan your visit to Westwoods Community Church. Find service times, directions, what to expect, and information about our kids and student programs."
 	/>
 </svelte:head>
 

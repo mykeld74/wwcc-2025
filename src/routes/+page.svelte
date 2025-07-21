@@ -33,6 +33,13 @@
 	});
 </script>
 
+<svelte:head>
+	<meta
+		name="description"
+		content="Westwoods Community Church is a non-denominational, intergenerational community church in Lakewood, CO. Join us for authentic relationships, relevant teaching, and a place to belong before you believe."
+	/>
+</svelte:head>
+
 <div class="bgImageContainer">
 	<div class="backgroundImageOuterWrapper">
 		<div class="backgroundImage"></div>

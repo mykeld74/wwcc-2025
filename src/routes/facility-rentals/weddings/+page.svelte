@@ -1,3 +1,10 @@
+<svelte:head>
+	<meta
+		name="description"
+		content="Celebrate your wedding at Westwoods Community Church. View our wedding packages, venue details, and start your reservation process today."
+	/>
+</svelte:head>
+
 <div class="contentWrapper">
 	<h1 class="pageTitle">Weddings</h1>
 

@@ -107,6 +107,13 @@
 	}
 </script>
 
+<svelte:head>
+	<meta
+		name="description"
+		content="Read about the beliefs of Westwoods Community Church, centered on the gospel, salvation through Jesus Christ, and the foundational truths of Christianity."
+	/>
+</svelte:head>
+
 <h1 class="pageTitle">What We Believe</h1>
 
 <div class="contentWrapper whatWeBelieve">

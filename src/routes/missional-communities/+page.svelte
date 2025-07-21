@@ -4,6 +4,13 @@
 	import { Image } from '$components';
 </script>
 
+<svelte:head>
+	<meta
+		name="description"
+		content="Join a Missional Community at Westwoods Community Church. Connect, serve, and grow in small groups that do life together through learning, serving, and celebrating."
+	/>
+</svelte:head>
+
 <div class="outerMcWrapper">
 	<div class="mcLogoWrapper">
 		<Image source="mcLogo" altTag="Missional Communities Logo" />

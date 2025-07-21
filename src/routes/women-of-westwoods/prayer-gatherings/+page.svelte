@@ -1,3 +1,10 @@
+<svelte:head>
+	<meta
+		name="description"
+		content="Join our Women of Westwoods prayer gatherings for support, encouragement, and community. Open to all women and special groups for adoptive and foster moms."
+	/>
+</svelte:head>
+
 <div class="contentWrapper">
 	<h1>Prayer Gatherings</h1>
 	<h2>We currently have 2 opportunities to gather for prayer.</h2>

@@ -1,3 +1,10 @@
+<svelte:head>
+	<meta
+		name="description"
+		content="The Women’s Ministry at Westwoods Community Church offers connection, encouragement, and opportunities for women to grow in faith and friendship."
+	/>
+</svelte:head>
+
 <h1 class="pageTitle">Welcome to Women of Westwoods (WoW)</h1>
 <p>
 	The Women's Ministry of Westwoods is an arm of the church that provides opportunities for every
