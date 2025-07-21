@@ -367,6 +367,7 @@
 	.navTrigger {
 		text-decoration: none;
 		color: var(--textColor);
+		cursor: pointer;
 	}
 	.dropdownContainer {
 		position: absolute;
