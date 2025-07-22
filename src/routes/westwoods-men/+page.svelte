@@ -23,6 +23,11 @@
 		wisdom for life’s challenges. Come as you are, grab a cup of coffee, and start your weekend with
 		brothers who want to see you thrive!
 	</p>
+	<p class="pageDescription">
+		If you have any questions, please contact us at <a href="mailto:westwoodsmen@gmail.com"
+			>westwoodsmen@gmail.com</a
+		>.
+	</p>
 	<hr />
 	<ul class="dateAndTime">
 		<li><strong>When:</strong> Saturday mornings at 7:00am</li>
