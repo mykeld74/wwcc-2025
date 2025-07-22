@@ -16,6 +16,11 @@ import WoW5 from './wow/wow5.webp';
 import Worship from './worship.webp';
 import Community from './community.webp';
 import Outreach from './outreach.webp';
+import Men1 from './men/wm1.webp';
+import Men2 from './men/wm2.webp';
+import Men3 from './men/wm3.webp';
+import Men4 from './men/wm4.webp';
+import Men5 from './men/wm5.webp';
 
 export {
 	Banner1,
@@ -35,5 +40,10 @@ export {
 	WoW5,
 	Worship,
 	Community,
-	Outreach
+	Outreach,
+	Men1,
+	Men2,
+	Men3,
+	Men4,
+	Men5
 };

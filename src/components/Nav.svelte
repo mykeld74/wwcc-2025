@@ -28,6 +28,7 @@
 			links: [
 				{ label: 'Westwoods Kids', href: '/westwoods-kids', icon: 'icon' },
 				{ label: 'Westwoods Students', href: '/westwoods-students', icon: 'icon' },
+				{ label: 'Westwoods Men', href: '/westwoods-men', icon: 'icon' },
 				{ label: 'Women of Westwoods', href: '/women-of-westwoods', icon: 'icon' },
 				{ label: 'Missional Communities', href: '/missional-communities', icon: 'icon' }
 			]

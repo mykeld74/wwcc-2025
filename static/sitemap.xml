@@ -1,87 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://westwoodschurch.com/</loc>
+    <loc>https://westwoodscc.org/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/about-us/mission</loc>
+    <loc>https://westwoodscc.org/about-us/mission</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/about-us/vision</loc>
+    <loc>https://westwoodscc.org/about-us/vision</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/about-us/values</loc>
+    <loc>https://westwoodscc.org/about-us/values</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/about-us/what-we-believe</loc>
+    <loc>https://westwoodscc.org/about-us/what-we-believe</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/about-us/plan-a-visit</loc>
+    <loc>https://westwoodscc.org/about-us/plan-a-visit</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/facility-rentals</loc>
+    <loc>https://westwoodscc.org/facility-rentals</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/facility-rentals/weddings</loc>
+    <loc>https://westwoodscc.org/facility-rentals/weddings</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/facility-rentals/general-rental</loc>
+    <loc>https://westwoodscc.org/facility-rentals/general-rental</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/current-series</loc>
+    <loc>https://westwoodscc.org/current-series</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/missional-communities</loc>
+    <loc>https://westwoodscc.org/missional-communities</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/westwoods-kids</loc>
+    <loc>https://westwoodscc.org/westwoods-kids</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/westwoods-students</loc>
+    <loc>https://westwoodscc.org/westwoods-students</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/women-of-westwoods</loc>
+    <loc>https://westwoodscc.org/westwoods-men</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/women-of-westwoods/prayer-gatherings</loc>
+    <loc>https://westwoodscc.org/women-of-westwoods</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://westwoodscc.org/women-of-westwoods/prayer-gatherings</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/prayer-request</loc>
+    <loc>https://westwoodscc.org/prayer-request</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://westwoodschurch.com/contact-us</loc>
+    <loc>https://westwoodscc.org/contact-us</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

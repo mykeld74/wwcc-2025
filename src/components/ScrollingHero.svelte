@@ -16,7 +16,12 @@
 		WoW2,
 		WoW3,
 		WoW4,
-		WoW5
+		WoW5,
+		Men1,
+		Men2,
+		Men3,
+		Men4,
+		Men5
 	} from '$img';
 	import { Image } from '$components';
 
@@ -31,6 +36,9 @@
 	} else if (currentPage === 'wow') {
 		pages = [WoW1, WoW2, WoW3, WoW4, WoW5];
 		logo = 'WoW_Logo2025';
+	} else if (currentPage === 'men') {
+		pages = [Men1, Men2, Men3, Men4, Men5];
+		logo = 'wmLogo';
 	}
 
 	let scrollers = [];
@@ -103,6 +111,12 @@
 			max-width: 650px;
 			background: rgba(255, 255, 255, 0.75);
 			padding: 0.45rem 0.25rem 0.25rem;
+			border-radius: 300vw;
+		}
+		&.men {
+			width: clamp(250px, 90vw, 800px);
+			background: rgba(255, 255, 255, 0.75);
+			padding: 1rem 2rem;
 			border-radius: 300vw;
 		}
 	}
