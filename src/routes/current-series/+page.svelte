@@ -58,7 +58,8 @@
 	</div>
 
 	<div class="currentSeriesList">
-		<h2>Our current series:<br />{currentSeriesID[0].title}</h2>
+		<h2 class="ourCurrentSeries">Our current series:</h2>
+		<p class="currentSeriesTitle">{currentSeriesID[0].title}</p>
 		{#if description}
 			<ul>
 				{#each description as desc}
@@ -157,6 +158,14 @@
 				scale: 1.05;
 			}
 		}
+	}
+	.ourCurrentSeries {
+		font-size: clamp(1.75rem, 4vw, 3rem);
+		margin: 2rem 0 1rem 0;
+	}
+	.currentSeriesTitle {
+		margin: 0 0 1rem 0;
+		font-size: clamp(1.25rem, 4vw, 2rem);
 	}
 	.seriesTitle {
 		text-align: center;
