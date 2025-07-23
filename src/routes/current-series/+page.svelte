@@ -32,7 +32,7 @@
 <div class="hero">
 	<h1 class="pageTitle">Current Series</h1>
 	<h2 class="joinUs">Join us Sunday mornings!</h2>
-	<p class="times">9:30am Live in person and online</p>
+	<h2 class="times">9:30am Live in person and online</h2>
 </div>
 <div class="contentWrapper">
 	<div class="videoWrapper">
@@ -103,6 +103,16 @@
 </div>
 
 <style>
+	.hero {
+		display: flex;
+		flex-direction: column;
+	}
+	.joinUs {
+		margin: 2rem 0 0;
+	}
+	.times {
+		margin: 0.5rem 0 3rem 0;
+	}
 	.videoWrapper {
 		display: grid;
 		grid-template-columns: 1fr;
