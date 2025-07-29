@@ -224,7 +224,6 @@
 		rotate: -90deg;
 		transform-origin: right center;
 		transform: translateY(calc(-50% + 110px));
-		z-index: 100;
 		transition: all 0.5s ease-in-out;
 		border-radius: 10px 10px 0 0;
 		box-shadow: -4px -3px 6px 2px rgba(0, 0, 0, 0.25);
