@@ -36,7 +36,7 @@ export const actions = {
 					sendTo = 'info@westwoodscc.org';
 					break;
 				default:
-					sendTo = 'mike@bigbearded.dev';
+					sendTo = 'info@westwoodscc.org';
 					break;
 			}
 
