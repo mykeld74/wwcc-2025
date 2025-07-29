@@ -318,6 +318,7 @@ a {
 	color: var(--textColor);
 	width: calc(100vw - 2rem);
 	height: fit-content;
+	max-height: 80svh;
 	max-width: 800px;
 	border-radius: 1rem;
 	padding: 2rem;

@@ -31,7 +31,8 @@
 			status.submitting = false;
 			if (result.type === 'success') {
 				status.success = true;
-				status.message = result.data.message;
+				status.message =
+					'Thank you! Your message has been sent successfully. We will contact you soon.';
 				// Reset form on success
 				formData = {
 					name: '',
@@ -44,7 +45,7 @@
 				setTimeout(() => {
 					status.success = false;
 					status.message = '';
-					ContactModal.hidePopover();
+					document.getElementById('ContactModal').hidePopover();
 				}, 3500);
 			} else {
 				status.success = false;
@@ -64,7 +65,7 @@
 			button.addEventListener('click', () => {
 				Team = button.dataset.team;
 				Title = button.dataset.title;
-				ContactModal.showPopover();
+				contactModal.showPopover();
 				isPopoverOpen = true;
 			});
 		});
@@ -211,5 +212,26 @@
 	}
 	.contactModalDisclaimer {
 		font-size: 1.25rem;
+	}
+
+	.alert {
+		padding: 1rem;
+		border-radius: 0.5rem;
+		margin-bottom: 1rem;
+		font-size: 1.1rem;
+		font-weight: 500;
+		text-align: center;
+	}
+
+	.alert.success {
+		background: rgba(34, 197, 94, 0.1);
+		color: #16a34a;
+		border: 1px solid #16a34a;
+	}
+
+	.alert.error {
+		background: rgba(239, 68, 68, 0.1);
+		color: #dc2626;
+		border: 1px solid #dc2626;
 	}
 </style>
