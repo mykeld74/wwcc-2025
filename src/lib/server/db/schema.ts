@@ -23,6 +23,20 @@ export const prayerRequests = pgTable('prayer_requests', {
 	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });
 
+export const volunteerOpportunities = pgTable('volunteer_opportunities', {
+	id: serial('id').primaryKey(),
+	name: varchar('name', { length: 255 }).notNull(),
+	email: varchar('email', { length: 255 }).notNull(),
+	phone: varchar('phone', { length: 20 }),
+	team: text('team').notNull(),
+	sendTo: varchar('send_to', { length: 255 }).notNull(),
+	department: varchar('department', { length: 255 }).notNull(),
+	message: text('message'),
+	addressed: boolean('addressed').default(false).notNull(),
+	submittedAt: timestamp('submitted_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
+});
+
 export const sessions = pgTable('sessions', {
 	id: serial('id').primaryKey(),
 	userId: integer('user_id')

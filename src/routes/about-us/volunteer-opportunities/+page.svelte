@@ -16,6 +16,7 @@
 		phone: '',
 		team: `Please contact me about volunteering for ${Title}.`,
 		sendTo: '',
+		department: Title,
 		message: ''
 	};
 
@@ -40,6 +41,7 @@
 					phone: '',
 					team: `Please contact me about volunteering for ${Title}.`,
 					sendTo: Team,
+					department: Title,
 					message: ''
 				};
 				setTimeout(() => {
@@ -140,6 +142,7 @@
 					value={`Please contact me about volunteering for ${Title}.`}
 				/>
 				<input type="hidden" name="sendTo" value={Team} />
+				<input type="hidden" name="department" value={Title} />
 
 				<button type="submit" class="submitButton" disabled={status.submitting}>
 					{status.submitting ? 'Sending...' : 'Send Message'}
