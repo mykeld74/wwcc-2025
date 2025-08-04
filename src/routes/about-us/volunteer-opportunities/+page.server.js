@@ -27,19 +27,19 @@ export const actions = {
 
 			switch (sendTo) {
 				case 'WWKids':
-					sendTo = 'kayla@westwoodscc.org';
+					sendTo = 'mike@msdweb.pro';
 					break;
 				case 'StudentMinistry':
-					sendTo = 'drew@westwoodscc.org';
+					sendTo = 'mike@msdweb.pro';
 					break;
 				case 'Tech/Worship':
-					sendTo = 'chris@westwoodscc.org';
+					sendTo = 'mike@msdweb.pro';
 					break;
 				case 'General':
-					sendTo = 'info@westwoodscc.org';
+					sendTo = 'mike@msdweb.pro';
 					break;
 				default:
-					sendTo = 'info@westwoodscc.org';
+					sendTo = 'mike@msdweb.pro';
 					break;
 			}
 
