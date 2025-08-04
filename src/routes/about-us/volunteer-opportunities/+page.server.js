@@ -1,5 +1,7 @@
 import nodemailer from 'nodemailer';
 import { env } from '$env/dynamic/private';
+import { db } from '$lib/server/db';
+import { volunteerOpportunities } from '$lib/server/db/schema';
 
 // Create reusable transporter object using SMTP transport
 const transporter = nodemailer.createTransport({
@@ -18,6 +20,7 @@ export const actions = {
 			const email = formData.get('email');
 			const phone = formData.get('phone');
 			const team = formData.get('team');
+			const department = formData.get('department');
 			const message = formData.get('message');
 
 			let sendTo = formData.get('sendTo');
@@ -40,6 +43,18 @@ export const actions = {
 					break;
 			}
 
+			// Save to database
+			await db.insert(volunteerOpportunities).values({
+				name,
+				email,
+				phone: phone || null,
+				team,
+				sendTo,
+				department,
+				message: message || null,
+				addressed: false
+			});
+
 			// Email options
 			const mailOptions = {
 				from: `"Westwoods Volunteer Inquiry" <${env.GOOGLE_EMAIL}>`,
@@ -59,6 +74,7 @@ export const actions = {
 					<p><strong>Name:</strong> ${name}</p>
 					<p><strong>Email:</strong> ${email}</p>
 					<p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+
 					<p><strong>Team:</strong> ${team}</p>
 					<h3>Message:</h3>
 					<p>${message}</p>
