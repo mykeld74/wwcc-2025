@@ -25,6 +25,8 @@
 			window.gtag = gtag;
 		}
 	});
+
+	console.log('GoogleAnalytics', measurementId);
 </script>
 
 <!-- Google Analytics tracking code will be injected here -->

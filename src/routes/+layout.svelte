@@ -4,6 +4,8 @@
 	import { ThemeToggle, Nav, Image, ServiceTimes, GoogleAnalytics } from '$components';
 	import { config } from '$lib/config.js';
 
+	console.log(config);
+
 	let { data, children } = $props();
 	let isReady = $state(false);
 	let currentPageTitle = $state('Westwoods Community Church');
