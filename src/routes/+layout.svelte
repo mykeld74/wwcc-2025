@@ -1,7 +1,8 @@
 <script>
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	import { ThemeToggle, Nav, Image, ServiceTimes } from '$components';
+	import { ThemeToggle, Nav, Image, ServiceTimes, GoogleAnalytics } from '$components';
+	import { config } from '$lib/config.js';
 
 	let { data, children } = $props();
 	let isReady = $state(false);
@@ -109,6 +110,9 @@
 		<ServiceTimes />
 	</dialog>
 {/if}
+
+<!-- Google Analytics -->
+<GoogleAnalytics measurementId={config.googleAnalyticsId} />
 
 <style>
 	header {

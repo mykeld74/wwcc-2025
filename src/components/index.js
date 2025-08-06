@@ -11,6 +11,7 @@ import Logo from './Logo.svelte';
 import McCard from './mcCard.svelte';
 import ScrollingHero from './ScrollingHero.svelte';
 import ServiceTimes from './ServiceTimes.svelte';
+import GoogleAnalytics from './GoogleAnalytics.svelte';
 
 export {
 	ThemeToggle,
@@ -25,5 +26,6 @@ export {
 	Logo,
 	McCard,
 	ScrollingHero,
-	ServiceTimes
+	ServiceTimes,
+	GoogleAnalytics
 };

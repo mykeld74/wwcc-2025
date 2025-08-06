@@ -1,6 +1,29 @@
-# sv
+# Westwoods Community Church Website
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A modern, responsive website for Westwoods Community Church built with SvelteKit.
+
+## Features
+
+- Modern Svelte 5 syntax with runes
+- Responsive design with CSS Grid
+- Dark/light theme support
+- Google Analytics integration
+- Optimized images with Cloudinary
+- Accessibility-focused components
+
+## Google Analytics Setup
+
+To enable Google Analytics tracking:
+
+1. Create a Google Analytics 4 property in [Google Analytics](https://analytics.google.com/)
+2. Get your Measurement ID (format: G-XXXXXXXXXX)
+3. Create a `.env` file in the project root and add:
+   ```
+   VITE_GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
+   ```
+4. Replace `G-XXXXXXXXXX` with your actual Measurement ID
+
+The Google Analytics component will automatically track page views and can be extended for custom events.
 
 ## Creating a project
 
