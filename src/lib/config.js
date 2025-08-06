@@ -8,3 +8,12 @@ export const config = {
 	environment: import.meta.env.MODE,
 	isProduction: import.meta.env.PROD
 };
+
+// Log configuration in development
+if (import.meta.env.DEV) {
+	console.log('Environment config:', {
+		googleAnalyticsId: config.googleAnalyticsId,
+		environment: config.environment,
+		isProduction: config.isProduction
+	});
+}
