@@ -105,7 +105,6 @@ export const actions = {
 				message: 'Thank you for your message. We will get back to you soon!'
 			};
 		} catch (error) {
-			console.error('Email error:', error);
 			return {
 				success: false,
 				message: 'Sorry, there was an error sending your message. Please try again later.'

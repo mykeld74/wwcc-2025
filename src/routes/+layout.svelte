@@ -1,10 +1,7 @@
 <script>
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	import { ThemeToggle, Nav, Image, ServiceTimes, GoogleAnalytics } from '$components';
-	import { config } from '$lib/config.js';
-
-	console.log(config);
+	import { ThemeToggle, Nav, Image, ServiceTimes } from '$components';
 
 	let { data, children } = $props();
 	let isReady = $state(false);
@@ -37,6 +34,17 @@
 		rel="stylesheet"
 	/>
 	<script src="https://js.churchcenter.com/modal/v1"></script>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-55JS0EX64L"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+		gtag('config', 'G-55JS0EX64L');
+	</script>
 	<title>{currentPageTitle}</title>
 </svelte:head>
 
@@ -112,9 +120,6 @@
 		<ServiceTimes />
 	</dialog>
 {/if}
-
-<!-- Google Analytics -->
-<GoogleAnalytics measurementId={config.googleAnalyticsId} />
 
 <style>
 	header {

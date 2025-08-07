@@ -1,3 +1,2 @@
-// Export analytics utilities
-export * from './analytics.js';
+// Export utilities
 export * from './config.js';
