@@ -1,21 +1,42 @@
 <script>
 	let { data, children } = $props();
 	import { ScrollingHero, GlassButton, GlowButton } from '$components';
+	import { page } from '$app/stores';
+
+	// Determine which specific WoW page we're on
+	const currentWowPage = $derived($page.url.pathname.split('/').pop() || 'wowHome');
+	const wowPageName = $derived(
+		currentWowPage === 'women-of-westwoods' ? 'wowHome' : currentWowPage
+	);
 </script>
 
 <div class="wowLayout">
-	<div class="bannerContainer">
-		<ScrollingHero currentPage="wow" />
-	</div>
+	{#if wowPageName !== 'mom2mom'}
+		<div class={'bannerContainer'}>
+			<ScrollingHero currentPage="wow" currentSubPage={wowPageName} />
+		</div>
+	{/if}
+
 	<div class="contentContainer">
 		{@render children()}
 	</div>
 
 	<div class="wowLinksContainer">
 		<div class="wowLinks">
-			<a href="../women-of-westwoods"><GlowButton text="WoW Home" /></a>
-			<a href="../women-of-westwoods/wow-connect"> <GlowButton text="WoW Connect" /></a>
-			<a href="../women-of-westwoods/prayer-gatherings"> <GlowButton text="Prayer Gatherings" /></a>
+			{#if wowPageName !== 'wowHome'}
+				<a href="../women-of-westwoods"><GlowButton text="WoW Home" /></a>
+			{/if}
+			{#if wowPageName !== 'wow-connect'}
+				<a href="../women-of-westwoods/wow-connect"> <GlowButton text="WoW Connect" /></a>
+			{/if}
+			{#if wowPageName !== 'prayer-gatherings'}
+				<a href="../women-of-westwoods/prayer-gatherings">
+					<GlowButton text="Prayer Gatherings" /></a
+				>
+			{/if}
+			{#if wowPageName !== 'mom2mom'}
+				<a href="../women-of-westwoods/mom2mom"> <GlowButton text="Mom2Mom" /></a>
+			{/if}
 		</div>
 	</div>
 </div>
