@@ -38,7 +38,11 @@
 
 			<p>Please register you and/or your kids here so we know you're coming.</p>
 			<div class="registerButton">
-				<a href="https://westwoods.churchcenter.com/registrations/events/3084243">
+				<a
+					href="https://westwoods.churchcenter.com/registrations/events/3084243"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
 					<GlowButton text="REGISTER HERE" />
 				</a>
 			</div>
