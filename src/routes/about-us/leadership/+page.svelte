@@ -31,6 +31,11 @@
 			name: 'Sara and Justin Phelps',
 			title: 'Church Administrator',
 			image: 'Phelps'
+		},
+		{
+			name: 'Emma and Chase Sprinkle',
+			title: 'Youth Intern',
+			image: 'Sprinkle'
 		}
 	];
 
@@ -39,6 +44,14 @@
 		{
 			name: 'Tom and Jenni Blackman',
 			image: 'Blackman'
+		},
+		{
+			name: 'Bobby and Becky Rinehart',
+			image: 'Reinhart'
+		},
+		{
+			name: 'Ken and Courtney Maxwell',
+			image: 'Maxwell'
 		}
 	];
 </script>
@@ -65,10 +78,13 @@
 <style>
 	.staffCardWrapper {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 		gap: 3rem;
 		max-width: 1200px;
 		margin: 0 auto;
+		@media (max-width: 840px) {
+			grid-template-columns: 1fr;
+		}
 	}
 	.pageTitle {
 		font-size: 2.5rem;
