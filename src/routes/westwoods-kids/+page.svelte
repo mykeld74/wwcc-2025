@@ -4,8 +4,34 @@
 
 	let isReady = $state(false);
 
+	let showVolunteerKickoff = $state(true);
+
+	// show volunteer kickoff dialog on page load
+
 	onMount(() => {
 		isReady = true;
+		showVolunteerKickoff = true;
+	});
+
+	// Show the volunteer kickoff dialog after the component renders
+	$effect(() => {
+		if (isReady && showVolunteerKickoff) {
+			// Use a small delay to ensure the DOM is fully rendered
+			setTimeout(() => {
+				const dialog = document.getElementById('wwKidsVolunteerKickoff');
+				console.log(dialog);
+				if (dialog) {
+					dialog.showModal();
+
+					// Add click event listener to backdrop to close dialog
+					dialog.addEventListener('click', (event) => {
+						if (event.target === dialog) {
+							dialog.close();
+						}
+					});
+				}
+			}, 100);
+		}
 	});
 </script>
 
@@ -63,9 +89,16 @@
 			</p>
 		</div>
 	</div>
-	<button class="applicationButton" popovertarget="wwKidsApplication"
-		>Apply to volunteer with Westwoods Kids</button
-	>
+	<div class="applicationButtons">
+		<button class="applicationButton" popovertarget="wwKidsApplication"
+			>Apply to volunteer with Westwoods Kids</button
+		>
+		<a
+			href="https://westwoods.churchcenter.com/registrations/events/3071040"
+			target="_blank"
+			class="applicationButton">Register for Volunteer Kickoff</a
+		>
+	</div>
 	<dialog id="wwKidsApplication" class="contactModal wwKidsApplication" popover>
 		<h2 class="applicationTitle">Westwoods Kids Application</h2>
 		<iframe
@@ -75,6 +108,39 @@
 			marginheight="0"
 			marginwidth="0">Loading…</iframe
 		>
+	</dialog>
+
+	<dialog id="wwKidsVolunteerKickoff" class=" wwKidsVolunteerKickoffmodal">
+		<div class="wwKidsVolunteerKickoffContent">
+			<button
+				class="closeButton"
+				on:click={() => document.getElementById('wwKidsVolunteerKickoff')?.close()}
+				aria-label="Close dialog"
+			>
+				×
+			</button>
+			<h2 class="pageTitle">Westwoods Kids Volunteer Kickoff</h2>
+			<p class="wwKidsVolunteerKickoffDescription">
+				Please join us for our Westwoods Kids Volunteer Kickoff. We will provide lunch and
+				childcare.
+			</p>
+			<p class="wwKidsVolunteerKickoffDescription">
+				Date: Sunday, September 7th Time: 11:00 AM - 2:30 PM Location: Westwoods Community Church
+			</p>
+			<p class="wwKidsVolunteerKickoffDescription">
+				This is our yearly mandatory training for all Westwoods’ Kids volunteers. Please contact
+				your room leader and Kayla as soon as possible if you are unable to attend.
+			</p>
+			<p class="wwKidsVolunteerKickoffDescription">
+				Please fill out the form below to get started.
+			</p>
+			<a
+				href="https://westwoods.churchcenter.com/registrations/events/3071040"
+				target="_blank"
+				class="wwKidsVolunteerKickoffButton"
+				on:click={() => document.getElementById('wwKidsVolunteerKickoff')?.close()}>Register Here</a
+			>
+		</div>
 	</dialog>
 {/if}
 
@@ -176,9 +242,116 @@
 		font-size: 1.25rem;
 		font-weight: 600;
 		transition: all 0.3s ease-in-out;
+		width: 100%;
+		text-align: center;
 		&:hover {
 			background: #4d1434;
 			scale: 1.05;
 		}
+	}
+	.applicationButtons {
+		display: flex;
+
+		gap: 3rem;
+	}
+
+	/* Westwoods Kids Volunteer Kickoff Modal Styles */
+	.wwKidsVolunteerKickoffmodal {
+		opacity: 0;
+		scale: 0.5;
+		background: var(--backgroundColor);
+		color: var(--textColor);
+		width: calc(100vw - 2rem);
+		height: fit-content;
+		max-height: 80svh;
+		max-width: 800px;
+		border-radius: 1rem;
+		padding: 2rem;
+		border: 2px solid var(--accentColor);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+		transition: all 0.5s ease-in-out;
+		transition-behavior: allow-discrete;
+	}
+
+	.wwKidsVolunteerKickoffmodal::backdrop {
+		opacity: 0;
+		background: oklch(0 0 0 / 0.5);
+		backdrop-filter: blur(5px);
+		transition: opacity 0.25s ease-in-out;
+		transition-behavior: allow-discrete;
+	}
+
+	.wwKidsVolunteerKickoffmodal[open] {
+		opacity: 1;
+		scale: 1;
+	}
+
+	.wwKidsVolunteerKickoffmodal[open]::backdrop {
+		opacity: 1;
+	}
+
+	.wwKidsVolunteerKickoffContent {
+		text-align: center;
+		position: relative;
+	}
+
+	.closeButton {
+		position: absolute;
+		top: -10px;
+		right: -10px;
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		background: var(--accentColor);
+		color: #fff;
+		border: none;
+		cursor: pointer;
+		font-size: 20px;
+		font-weight: bold;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.3s ease-in-out;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	}
+
+	.closeButton:hover {
+		background: var(--contrastColor);
+		transform: scale(1.1);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+	}
+
+	.wwKidsVolunteerKickoffContent .pageTitle {
+		font-size: clamp(1.5rem, 3vw, 2.5rem);
+		color: var(--accentColor);
+		margin: 0 0 1.5rem;
+		font-weight: 600;
+	}
+
+	.wwKidsVolunteerKickoffDescription {
+		font-size: 1.1rem;
+		line-height: 1.6;
+		margin: 0 0 1rem;
+		color: var(--textColor);
+	}
+
+	.wwKidsVolunteerKickoffButton {
+		display: inline-block;
+		margin: 1.5rem 0 0;
+		padding: 1rem 2rem;
+		background: var(--accentColor);
+		color: #fff;
+		text-decoration: none;
+		border-radius: 0.5rem;
+		font-size: 1.1rem;
+		font-weight: 600;
+		transition: all 0.3s ease-in-out;
+		border: 2px solid transparent;
+	}
+
+	.wwKidsVolunteerKickoffButton:hover {
+		background: var(--contrastColor);
+		transform: translateY(-2px);
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 	}
 </style>
