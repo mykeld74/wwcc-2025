@@ -1,6 +1,5 @@
-import ThemeToggle from './ThemeToggle.svelte';
-import Nav from './Nav.svelte';
 import Card from './Card.svelte';
+import CurrentEvents from './CurrentEvents.svelte';
 import EventCard from './EventCard.svelte';
 import GlassButton from './GlassButton.svelte';
 import GlowButton from './GlowButton.svelte';
@@ -9,13 +8,14 @@ import Image from './Image.svelte';
 import LeaderCard from './LeaderCard.svelte';
 import Logo from './Logo.svelte';
 import McCard from './mcCard.svelte';
+import Nav from './Nav.svelte';
 import ScrollingHero from './ScrollingHero.svelte';
 import ServiceTimes from './ServiceTimes.svelte';
+import ThemeToggle from './ThemeToggle.svelte';
 
 export {
-	ThemeToggle,
-	Nav,
 	Card,
+	CurrentEvents,
 	EventCard,
 	GlassButton,
 	GlowButton,
@@ -24,6 +24,8 @@ export {
 	LeaderCard,
 	Logo,
 	McCard,
+	Nav,
 	ScrollingHero,
-	ServiceTimes
+	ServiceTimes,
+	ThemeToggle
 };

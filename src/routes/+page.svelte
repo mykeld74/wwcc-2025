@@ -203,6 +203,7 @@
 		border: none;
 		cursor: pointer;
 	}
+
 	@keyframes flyIn {
 		from {
 			opacity: 0;

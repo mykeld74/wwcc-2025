@@ -1,7 +1,7 @@
 <script>
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	import { ThemeToggle, Nav, Image, ServiceTimes } from '$components';
+	import { ThemeToggle, Nav, Image, ServiceTimes, CurrentEvents } from '$components';
 
 	let { data, children } = $props();
 	let isReady = $state(false);
@@ -119,6 +119,9 @@
 	<dialog id="serviceTimesModal" class="serviceTimesModal" popover>
 		<ServiceTimes />
 	</dialog>
+	<dialog id="currentEventsModal" class="currentEventsModal" popover>
+		<CurrentEvents />
+	</dialog>
 {/if}
 
 <style>
@@ -146,7 +149,7 @@
 			[full-start left-start] auto [left-end wide-start] auto [content-start]
 			1fr
 			[content-end] auto [wide-end right-start] auto [right-end full-end];
-		grid-template-rows: [header-start] auto [header-end hero-start] auto [hero-end cards-start] auto [cards-end content-start] auto [content-end];
+		grid-template-rows: [header-start] auto [header-end hero-start] auto [hero-end cards-start] auto[currentEvents-start cards-end] auto[currentEvents-end content-start] auto [content-end];
 		margin-block-end: 100px;
 		&.missional-communities,
 		&.home {

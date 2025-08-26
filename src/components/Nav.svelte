@@ -47,7 +47,8 @@
 				},
 				{ label: 'Leadership', href: '/about-us/leadership', icon: 'icon' },
 				{ label: 'Plan a Visit', href: '/about-us/plan-a-visit', icon: 'icon' },
-				{ label: 'FAQs', href: '/faq', icon: 'icon' }
+
+				{ label: 'Current Events', href: '#', icon: 'icon', isModal: true }
 			]
 		},
 		{
@@ -73,7 +74,10 @@
 	const navItems2 = $derived([
 		{
 			label: 'Have a Question',
-			links: [{ label: 'Contact Us', href: '/contact-us', icon: 'icon' }]
+			links: [
+				{ label: 'Contact Us', href: '/contact-us', icon: 'icon' },
+				{ label: 'FAQs', href: '/faq', icon: 'icon' }
+			]
 		},
 		{
 			label: 'Prayer',
@@ -222,6 +226,60 @@
 		isMobileMenuOpen = false;
 		document.body.style.overflow = '';
 	}
+
+	function handleModalClick(label) {
+		if (label === 'Current Events') {
+			console.log('Attempting to open Current Events modal...');
+			const modal = document.getElementById('currentEventsModal');
+			console.log('Modal element:', modal);
+			if (modal) {
+				try {
+					modal.showPopover();
+					console.log('Modal opened successfully');
+				} catch (error) {
+					console.error('Error opening modal:', error);
+					// Fallback to showModal if popover doesn't work
+					try {
+						modal.showModal();
+						console.log('Modal opened with showModal fallback');
+					} catch (fallbackError) {
+						console.error('Fallback also failed:', fallbackError);
+					}
+				}
+			} else {
+				console.error('Modal element not found');
+			}
+		}
+		// Close the dropdown after opening modal
+		const background = document.querySelector('.navBackground');
+		background.classList.remove('open');
+	}
+
+	function handleMobileModalClick(label) {
+		if (label === 'Current Events') {
+			console.log('Attempting to open Current Events modal from mobile...');
+			const modal = document.getElementById('currentEventsModal');
+			console.log('Modal element (mobile):', modal);
+			if (modal) {
+				try {
+					modal.showPopover();
+					console.log('Modal opened successfully from mobile');
+				} catch (error) {
+					console.error('Error opening modal from mobile:', error);
+					// Fallback to showModal if popover doesn't work
+					try {
+						modal.showModal();
+						console.log('Modal opened with showModal fallback from mobile');
+					} catch (fallbackError) {
+						console.error('Fallback also failed from mobile:', fallbackError);
+					}
+				}
+			} else {
+				console.error('Modal element not found from mobile');
+			}
+		}
+		closeMobileMenu();
+	}
 </script>
 
 <svelte:window bind:innerWidth on:resize={checkIsMobile} />
@@ -251,9 +309,18 @@
 							<ul class="mobileNavLinks">
 								{#each item.links as link}
 									<li>
-										<a href={link.href} onclick={closeMobileMenu}>
-											{link.label}
-										</a>
+										{#if link.isModal}
+											<button
+												class="mobileNavModalButton"
+												onclick={() => handleMobileModalClick(link.label)}
+											>
+												{link.label}
+											</button>
+										{:else}
+											<a href={link.href} onclick={closeMobileMenu}>
+												{link.label}
+											</a>
+										{/if}
 									</li>
 								{/each}
 							</ul>
@@ -278,9 +345,15 @@
 						<ul class={`navLinks dropdown ${item.label.toLowerCase().replace(/\s+/g, '_')}`}>
 							{#each item.links as link}
 								<li class="navLink">
-									<a href={link.href} onclick={handleItemClick}>
-										<p class="navLabel">{link.label}</p>
-									</a>
+									{#if link.isModal}
+										<button class="navModalButton" onclick={() => handleModalClick(link.label)}>
+											<p class="navLabel">{link.label}</p>
+										</button>
+									{:else}
+										<a href={link.href} onclick={handleItemClick}>
+											<p class="navLabel">{link.label}</p>
+										</a>
+									{/if}
 								</li>
 							{/each}
 						</ul>
@@ -299,9 +372,15 @@
 						<ul class={`navLinks dropdown ${item.label.toLowerCase().replace(/\s+/g, '_')}`}>
 							{#each item.links as link}
 								<li class="navLink">
-									<a href={link.href} onclick={handleItemClick}>
-										<p class="navLabel">{link.label}</p>
-									</a>
+									{#if link.isModal}
+										<button class="navModalButton" onclick={() => handleModalClick(link.label)}>
+											<p class="navLabel">{link.label}</p>
+										</button>
+									{:else}
+										<a href={link.href} onclick={handleItemClick}>
+											<p class="navLabel">{link.label}</p>
+										</a>
+									{/if}
 								</li>
 							{/each}
 						</ul>
@@ -403,6 +482,21 @@
 			&:hover {
 				color: var(--accentColor);
 			}
+		}
+	}
+
+	.navModalButton {
+		background: none;
+		border: none;
+		color: var(--textColor);
+		text-decoration: none;
+		transition: color 0.3s ease-in-out;
+		cursor: pointer;
+		padding: 0;
+		font-size: inherit;
+		font-family: inherit;
+		&:hover {
+			color: var(--accentColor);
 		}
 	}
 
@@ -548,6 +642,25 @@
 	}
 
 	.mobileNavLinks a:hover {
+		color: var(--accentColor);
+	}
+
+	.mobileNavModalButton {
+		background: none;
+		border: none;
+		color: var(--textColor);
+		text-decoration: none;
+		font-size: 1.2em;
+		display: block;
+		padding: 0.5rem 0;
+		transition: color 0.3s ease;
+		cursor: pointer;
+		width: 100%;
+		text-align: left;
+		font-family: inherit;
+	}
+
+	.mobileNavModalButton:hover {
 		color: var(--accentColor);
 	}
 </style>

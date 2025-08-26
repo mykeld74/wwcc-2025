@@ -54,7 +54,7 @@
 					"name": "How do I contact the church?",
 					"acceptedAnswer": {
 						"@type": "Answer",
-						"text": "You can reach us through our Contact page, by email at info@westwoodschurch.com, or by phone at 303-279-1616."
+						"text": "You can reach us through our Contact page, by email at info@westwoodscc.org, or by phone at 303-279-1616."
 					}
 				}
 			]
@@ -103,7 +103,7 @@
 		<h2>How do I contact the church?</h2>
 		<p>
 			You can reach us through our <a href="/contact-us">Contact page</a>, by email at
-			<a href="mailto:info@westwoodschurch.com">info@westwoodschurch.com</a>, or by phone at
+			<a href="mailto:info@westwoodscc.org">info@westwoodscc.org</a>, or by phone at
 			<a href="tel:303-279-1616">303-279-1616</a>.
 		</p>
 	</div>
