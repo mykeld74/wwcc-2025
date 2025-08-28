@@ -39,7 +39,7 @@ const mcs = [
 	},
 	{
 		title: 'Young Adults',
-		day: 'Tuesday Night',
+		day: 'Wednesday Night',
 		time: '6:30pm',
 		contact: ['720.346.3246']
 	}
