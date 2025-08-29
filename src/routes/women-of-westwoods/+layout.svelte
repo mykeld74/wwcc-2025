@@ -27,7 +27,7 @@
 				<a href="../women-of-westwoods"><GlowButton text="WoW Home" /></a>
 			{/if}
 			{#if wowPageName !== 'wow-connect'}
-				<a href="../women-of-westwoods/wow-connect"> <GlowButton text="WoW Connect" /></a>
+				<a href="../women-of-westwoods/wow-connect"> <GlowButton text="WoW Events" /></a>
 			{/if}
 			{#if wowPageName !== 'prayer-gatherings'}
 				<a href="../women-of-westwoods/prayer-gatherings">
