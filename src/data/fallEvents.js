@@ -17,7 +17,7 @@ const FallEvents = [
 	{
 		id: '05',
 		date: '9.7',
-		description: 'Kids Min training - for all existing as well as new volunteers'
+		description: 'Kids Ministry training - for all existing as well as new volunteers'
 	},
 	{
 		id: '06',
