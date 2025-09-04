@@ -26,7 +26,7 @@ const FallEvents = [
 	},
 	{
 		id: '07',
-		date: '9.20/21',
+		date: '9.20-9.21',
 		description: 'Love Lakewood Weekend'
 	},
 	{
