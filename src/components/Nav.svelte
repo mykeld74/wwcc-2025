@@ -583,7 +583,7 @@
 		max-width: 400px;
 		height: 100vh;
 		background-color: var(--navBackground);
-		padding: 1rem;
+		padding: 1rem 1rem 10rem 1rem;
 		overflow-y: auto;
 		animation: slideIn 0.3s ease-out;
 	}
