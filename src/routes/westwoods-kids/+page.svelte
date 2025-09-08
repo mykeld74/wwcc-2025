@@ -110,7 +110,7 @@
 		>
 	</dialog>
 
-	<dialog id="wwKidsVolunteerKickoff" class=" wwKidsVolunteerKickoffmodal">
+	<!-- <dialog id="wwKidsVolunteerKickoff" class=" wwKidsVolunteerKickoffmodal">
 		<div class="wwKidsVolunteerKickoffContent">
 			<button
 				class="closeButton"
@@ -141,7 +141,7 @@
 				on:click={() => document.getElementById('wwKidsVolunteerKickoff')?.close()}>Register Here</a
 			>
 		</div>
-	</dialog>
+	</dialog> -->
 {/if}
 
 <style>
