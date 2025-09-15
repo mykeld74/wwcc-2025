@@ -312,7 +312,8 @@ a {
 
 .serviceTimesModal,
 .contactModal,
-.currentEventsModal {
+.currentEventsModal,
+.announcementModal {
 	opacity: 0;
 	scale: 0.5;
 	background: var(--backgroundColor);

@@ -1,6 +1,6 @@
 <div class="serviceTimesContainer">
 	<h2>Service Times</h2>
-	<p class="xtraLrg">9:30am</p>
+	<p class="xtraLrg">9:00 & 10:30am</p>
 	<p class="services">7700 Woodard Dr.</p>
 	<p class="services">Lakewood, CO 80227</p>
 	<div class="mapContainer">

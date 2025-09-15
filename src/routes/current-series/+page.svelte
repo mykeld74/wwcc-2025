@@ -32,7 +32,7 @@
 <div class="hero">
 	<h1 class="pageTitle">Current Series</h1>
 	<h2 class="joinUs">Join us Sunday mornings!</h2>
-	<h2 class="times">9:30am Live in person and online</h2>
+	<h2 class="times">9:00 & 10:30am Live in person and online</h2>
 </div>
 <div class="contentWrapper">
 	<div class="videoWrapper">

@@ -14,7 +14,7 @@
 					"name": "What time are your Sunday services?",
 					"acceptedAnswer": {
 						"@type": "Answer",
-						"text": "Our Sunday service starts at 9:30am. We recommend arriving a few minutes early to grab a cup of coffee or water and get settled."
+						"text": "Our Sunday services start at 9:00 & 10:30am. We recommend arriving a few minutes early to grab a cup of coffee or water and get settled."
 					 in}
 				},
 				{
@@ -67,8 +67,8 @@
 	<div class="faqItem">
 		<h2>What time are your Sunday services?</h2>
 		<p>
-			Our Sunday service starts at 9:30am. We recommend arriving a few minutes early to grab a cup
-			of coffee or water and get settled in.
+			Our Sunday services start at 9:00 & 10:30am. We recommend arriving a few minutes early to grab
+			a cup of coffee or water and get settled in.
 		</p>
 	</div>
 	<div class="faqItem">

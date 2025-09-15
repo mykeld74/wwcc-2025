@@ -28,8 +28,40 @@
 		newWindow: false
 	};
 
+	let isReady = $state(false);
+	let showAnnouncement = $state(true);
+
+	// open announcement modal on initial page load
 	onMount(() => {
-		const serviceTimesModal = document.getElementById('serviceTimesModal');
+		isReady = true;
+		showAnnouncement = true;
+	});
+
+	$effect(() => {
+		if (!isReady || !showAnnouncement) return;
+		setTimeout(() => {
+			const dialog = document.getElementById('announcementModal');
+			if (!dialog) return;
+			try {
+				dialog.showPopover?.();
+			} catch {}
+			if (!dialog.matches(':popover-open')) {
+				try {
+					dialog.showModal?.();
+				} catch {}
+			}
+			// close when clicking backdrop
+			dialog.addEventListener(
+				'click',
+				(e) => {
+					if (e.target === dialog) {
+						if (dialog.matches(':popover-open')) dialog.hidePopover?.();
+						else dialog.close?.();
+					}
+				},
+				{ once: true }
+			);
+		}, 100);
 	});
 </script>
 
@@ -109,6 +141,50 @@
 		</div>
 	</a>
 </div>
+
+<dialog id="announcementModal" class="announcementModal" popover>
+	<div class="modalContent">
+		<div class="modalHeader">
+			<h2>Upcoming Announcements</h2>
+		</div>
+		<div class="currentEvents">
+			<div class="eventItem">
+				<h3>9.20</h3>
+				<hr />
+				<p>
+					Love Lakewood service day — meet at Westwoods at 9:00 to go and complete service projects
+					around Lakewood.
+				</p>
+			</div>
+			<div class="eventItem">
+				<h3>9.21</h3>
+				<hr />
+				<p>
+					We will be having a joint service with other churches in Lakewood who have also
+					participated in the Love Lakewood weekend. We will be meeting at Bear Creek High School at
+					10:00am.
+				</p>
+			</div>
+			<div class="eventItem">
+				<h3>9.28</h3>
+				<hr />
+				<p>We will be going to 2 services at 9:00 and 10:30am.</p>
+			</div>
+		</div>
+		<div class="modalActions">
+			<button
+				class="closeButton"
+				onclick={() => {
+					const dialog = document.getElementById('announcementModal');
+					if (!dialog) return;
+					if (dialog.matches(':popover-open')) dialog.hidePopover?.();
+					else dialog.close?.();
+					showAnnouncement = false;
+				}}>Close</button
+			>
+		</div>
+	</div>
+</dialog>
 
 <style>
 	@property --backgroundSize {
@@ -247,6 +323,54 @@
 	}
 	.planAVisitArrowPath {
 		fill: var(--textColor);
+	}
+
+	/* Announcement modal local tweaks reuse global modal styles */
+	.announcementModal {
+		.modalHeader {
+			h2 {
+				margin: 0;
+				color: var(--accentColor);
+				font-size: clamp(1.5rem, 4vw, 2rem);
+				font-weight: 700;
+				padding-bottom: 1rem;
+			}
+		}
+		.currentEvents {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+		.eventItem {
+			display: flex;
+			flex-direction: column;
+			border: 1px solid var(--contrastColor);
+			padding: 1rem;
+			border-radius: 0.5rem;
+			gap: 0.5rem;
+			h3 {
+				color: var(--accentColor);
+				margin: 0;
+			}
+			p {
+				margin: 0;
+			}
+			hr {
+				width: 100%;
+			}
+		}
+		.modalActions {
+			margin-top: 1rem;
+			text-align: right;
+		}
+		.closeButton {
+			background: var(--accentColor);
+			color: #fff;
+			border: none;
+			border-radius: 0.5rem;
+			padding: 0.5rem 1rem;
+			cursor: pointer;
+		}
 	}
 
 	.wwIsContainer {

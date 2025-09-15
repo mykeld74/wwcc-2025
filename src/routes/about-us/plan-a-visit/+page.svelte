@@ -38,7 +38,7 @@
 				<div class="cardContent">
 					<p class="contentCardText">
 						<span class="cardAccent">Service Times:</span> Our services are every Sunday, starting at
-						9:30am. We recommend you come a couple of minutes early.
+						9:00 & 10:30am. We recommend you come a couple of minutes early.
 					</p>
 					<p class="contentCardText">
 						<span class="cardAccent">Location:</span> Our address is 7700 W Woodard Dr., Lakewood, CO,
