@@ -144,33 +144,11 @@
 
 <dialog id="announcementModal" class="announcementModal" popover>
 	<div class="modalContent">
-		<div class="modalHeader">
-			<h2>Upcoming Announcements</h2>
-		</div>
-		<div class="currentEvents">
-			<div class="eventItem">
-				<h3>9.20</h3>
-				<hr />
-				<p>
-					Love Lakewood service day — meet at Westwoods at 9:00 to go and complete service projects
-					around Lakewood.
-				</p>
-			</div>
-			<div class="eventItem">
-				<h3>9.21</h3>
-				<hr />
-				<p>
-					We will be having a joint service with other churches in Lakewood who have also
-					participated in the Love Lakewood weekend. We will be meeting at Bear Creek High School at
-					10:00am.
-				</p>
-			</div>
-			<div class="eventItem">
-				<h3>9.28</h3>
-				<hr />
-				<p>We will be going to 2 services at 9:00 and 10:30am.</p>
-			</div>
-		</div>
+		<h2>
+			Beginning this Sunday, September 28th, we will be going to 2 services at 9:00 and 10:30am. We
+			will also be celebrating our 25th Anniversary! Can't wait to see you there!
+		</h2>
+
 		<div class="modalActions">
 			<button
 				class="closeButton"
@@ -327,14 +305,8 @@
 
 	/* Announcement modal local tweaks reuse global modal styles */
 	.announcementModal {
-		.modalHeader {
-			h2 {
-				margin: 0;
-				color: var(--accentColor);
-				font-size: clamp(1.5rem, 4vw, 2rem);
-				font-weight: 700;
-				padding-bottom: 1rem;
-			}
+		h2 {
+			line-height: 1.75;
 		}
 		.currentEvents {
 			display: grid;
