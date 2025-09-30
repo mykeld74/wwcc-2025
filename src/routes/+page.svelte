@@ -31,37 +31,8 @@
 	let isReady = $state(false);
 	let showAnnouncement = $state(true);
 
-	// open announcement modal on initial page load
 	onMount(() => {
 		isReady = true;
-		showAnnouncement = true;
-	});
-
-	$effect(() => {
-		if (!isReady || !showAnnouncement) return;
-		setTimeout(() => {
-			const dialog = document.getElementById('announcementModal');
-			if (!dialog) return;
-			try {
-				dialog.showPopover?.();
-			} catch {}
-			if (!dialog.matches(':popover-open')) {
-				try {
-					dialog.showModal?.();
-				} catch {}
-			}
-			// close when clicking backdrop
-			dialog.addEventListener(
-				'click',
-				(e) => {
-					if (e.target === dialog) {
-						if (dialog.matches(':popover-open')) dialog.hidePopover?.();
-						else dialog.close?.();
-					}
-				},
-				{ once: true }
-			);
-		}, 100);
 	});
 </script>
 
@@ -142,7 +113,7 @@
 	</a>
 </div>
 
-<dialog id="announcementModal" class="announcementModal" popover>
+<!-- <dialog id="announcementModal" class="announcementModal" popover>
 	<div class="modalContent">
 		<h2>
 			Beginning this Sunday, September 28th, we will be going to 2 services at 9:00 and 10:30am. We
@@ -162,7 +133,7 @@
 			>
 		</div>
 	</div>
-</dialog>
+</dialog> -->
 
 <style>
 	@property --backgroundSize {
