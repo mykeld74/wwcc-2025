@@ -4,7 +4,13 @@ const mcs = [
 		day: '2nd Sunday',
 		contact: ['303.519.0501'],
 		time: '2:00pm'
-	},{title: 'Seasoned Ladies', day: '4th Sunday', contact: ['303.250.4738'], time: 'After 2nd Service'}
+	},
+	{
+		title: 'Seasoned Ladies',
+		day: '4th Sunday',
+		contact: ['303.250.4738'],
+		time: 'After 2nd Service'
+	},
 	{
 		title: 'Brake/Marchena',
 		day: 'Wednesday Night',
