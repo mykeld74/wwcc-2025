@@ -5,7 +5,12 @@ const mcs = [
 		contact: ['303.519.0501'],
 		time: '2:00pm'
 	},
-
+	{
+		title: 'Brake/Marchena',
+		day: 'Wednesday Night',
+		contact: ['720.384.8944'],
+		time: '6:00pm'
+	},
 	{
 		title: 'Blackman/Winger',
 		day: 'Wednesday Night',
@@ -17,12 +22,6 @@ const mcs = [
 		day: 'Every Other Wednesday Night',
 		contact: ['503.989.0932'],
 		time: '7:00pm'
-	},
-	{
-		title: 'Barrientos/Phelps',
-		day: 'Friday Night',
-		contact: ['303.653.3148'],
-		time: '6:30pm'
 	},
 
 	{
