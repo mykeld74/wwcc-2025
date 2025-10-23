@@ -33,7 +33,7 @@ const mcs = [
 	{
 		title: 'Westwoods Students',
 		day: 'Monday Night',
-		time: '6:30pm',
+		time: '7:00pm',
 		location: '@Westwoods Community Church'
 	},
 	{
