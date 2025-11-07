@@ -8,13 +8,36 @@
 	let nav = $state(null);
 	let isMobileMenuOpen = $state(false);
 
+	$inspect(getTheme());
+
 	let planningCenterUrl = $derived(
 		`https://westwoods.churchcenter.com/giving?open-in-church-center-modal=true&theme=${getTheme()}`
 	);
+	let weddingRequestFormUrl = $derived(
+		`https://westwoods.churchcenter.com/people/forms/1082003?open-in-church-center-modal=true&theme=${getTheme()}`
+	);
+	let funeralRequestFormUrl = $derived(
+		`https://westwoods.churchcenter.com/people/forms/1082098?open-in-church-center-modal=true&theme=${getTheme()}`
+	);
+	let generalRequestFormUrl = $derived(
+		`https://westwoods.churchcenter.com/people/forms/1082137?open-in-church-center-modal=true&theme=${getTheme()}`
+	);
+	let nonProfitRequestFormUrl = $derived(
+		`https://westwoods.churchcenter.com/people/forms/1082195?open-in-church-center-modal=true&theme=${getTheme()}`
+	);
+
+	$inspect('weddingRequestFormUrl:', weddingRequestFormUrl);
+	$inspect('funeralRequestFormUrl:', funeralRequestFormUrl);
+	$inspect('generalRequestFormUrl:', generalRequestFormUrl);
+	$inspect('nonProfitRequestFormUrl:', nonProfitRequestFormUrl);
 
 	$effect(() => {
 		// Update planning center URL when theme changes
 		planningCenterUrl = `https://westwoods.churchcenter.com/giving?open-in-church-center-modal=true&theme=${getTheme()}`;
+		weddingRequestFormUrl = `https://westwoods.churchcenter.com/people/forms/1082003?open-in-church-center-modal=true&theme=${getTheme()}`;
+		funeralRequestFormUrl = `https://westwoods.churchcenter.com/people/forms/1082098?open-in-church-center-modal=true&theme=${getTheme()}`;
+		generalRequestFormUrl = `https://westwoods.churchcenter.com/people/forms/1082137?open-in-church-center-modal=true&theme=${getTheme()}`;
+		nonProfitRequestFormUrl = `https://westwoods.churchcenter.com/people/forms/1082195?open-in-church-center-modal=true&theme=${getTheme()}`;
 	});
 
 	onMount(() => {
@@ -58,14 +81,22 @@
 				{ label: 'Wedding Info', href: '/facility-rentals/weddings', icon: 'icon' },
 				{
 					label: 'Wedding Request Form',
-					href: '/facility-rentals/weddings/rental-form',
+					href: weddingRequestFormUrl,
 					icon: 'icon'
 				},
-				{ label: 'Funeral Request Form', href: '/facility-rentals/funeral-rental', icon: 'icon' },
-				{ label: 'General Request Form', href: '/facility-rentals/general-rental', icon: 'icon' },
+				{
+					label: 'Funeral Request Form',
+					href: funeralRequestFormUrl,
+					icon: 'icon'
+				},
+				{
+					label: 'General Request Form',
+					href: generalRequestFormUrl,
+					icon: 'icon'
+				},
 				{
 					label: 'Non-Profit Request Form',
-					href: '/facility-rentals/non-profit-rental',
+					href: nonProfitRequestFormUrl,
 					icon: 'icon'
 				}
 			]

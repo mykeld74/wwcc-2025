@@ -4,8 +4,8 @@
 	const rooms = [
 		{
 			title: 'Auditorium',
-			desc: 'Seating for 200-250',
-			features: ['Full sound, lighting and video options', 'Hanging lights and pallet backdrop']
+			desc: 'Seating for 250-300',
+			features: ['Full sound, lighting and video options', 'Hanging lights']
 		},
 		{
 			title: 'The Café',

@@ -17,12 +17,13 @@
 					href="mailto:joe@westwoodscc.org">Joe@westwoodscc.org</a
 				>
 				and he'll be in touch! If you regularly attend Westwoods, we would love to give you a family
-				discount. Please reach out to discuss prices. You can add a Westwoods' approved bartender to
-				any reception package.
+				discount. Please reach out to discuss prices. A Westwoods Pastor can be available to officiate
+				for you but may require premarital counseling and, because we honor their time, there will be
+				an additional fee. You may also add a Westwoods' approved bartender to any reception package.
 				<a
-					href="https://drive.google.com/file/d/0B_maZVwX6vgjUGN2d2ZQRjlXRjQ/view"
+					href="https://drive.google.com/file/d/1U4-2z40-JD2Pq4Uv39Vqs3CWMPTCGM2P/view"
 					rel="noopener noreferrer"
-					target="_blank">Please view our policy and fees here.</a
+					target="_blank">Please view our alcohol policy and fees here.</a
 				>
 			</p>
 		</div>
@@ -31,15 +32,16 @@
 			<h2 class="sectionTitle">Payment Terms</h2>
 			<ul>
 				<li>
-					Each rental includes a damage deposit that will be returned to you in full after the event
-					if there are no damages. If there are damages, we will be in contact with you.
+					Each rental must include a credit card number on file for damages. If there are damages,
+					we will be in contact with you before charging you.
 				</li>
-				<li>The date will be secured on our calendar after we receive your damage deposit.</li>
-				<li>Payment in full is required 60 days prior to your wedding date.</li>
+				<li>The date will be secured on our calendar after we receive your card on file.</li>
+				<li>Payment in full is required 7 days prior to your wedding date.</li>
 			</ul>
 			<p>
 				To start the reservation process for your wedding, <a
-					href="/facility-rentals/weddings/rental-form">please use this link</a
+					href="https://westwoods.churchcenter.com/people/forms/1082003?open-in-church-center-modal=true"
+					>please use this link</a
 				> .
 			</p>
 		</div>
@@ -47,12 +49,13 @@
 		<div class="packagesSection">
 			<div class="packageCard">
 				<h3 class="packageTitle">Gold Auditorium Package</h3>
-				<p class="packagePrice">$1,850.00 fee, $300 damage deposit</p>
-				<p class="packageDescription">Auditorium for ceremony, Café for reception</p>
+				<p class="packagePrice">$1,850.00</p>
+				<p class="packageDescription">
+					Auditorium for ceremony, Welcome Area or Café for reception
+				</p>
 
 				<h4 class="packageSubtitle">Westwoods will provide:</h4>
 				<ul>
-					<li>Pastor to officiate</li>
 					<li>
 						Wedding Coordinator to host the building during ceremony and reception, as well as
 						coordinate the wedding ceremony if desired
@@ -71,14 +74,13 @@
 
 			<div class="packageCard">
 				<h3 class="packageTitle">Silver Auditorium Package</h3>
-				<p class="packagePrice">$1,125.00 fee, $150 damage deposit</p>
+				<p class="packagePrice">$1,200.00</p>
 				<p class="packageDescription">
 					Auditorium for ceremony only, reception at a different venue
 				</p>
 
 				<h4 class="packageSubtitle">Westwoods will provide:</h4>
 				<ul>
-					<li>Pastor to officiate</li>
 					<li>
 						Wedding Coordinator to host the building as well as coordinate the wedding ceremony if
 						desired
@@ -92,16 +94,18 @@
 			</div>
 
 			<div class="packageCard">
-				<h3 class="packageTitle">Gold Workshop Package</h3>
-				<p class="packagePrice">$1,550.00 fee, $300 damage deposit</p>
+				<h3 class="packageTitle">Gold Café Package</h3>
+				<p class="packagePrice">$1,550.00</p>
 				<p class="packageDescription">
-					The Workshop for ceremony, Café for reception or lawn for reception depending on time of
-					year
+					The Café for ceremony and reception or courtyard for reception
+				</p>
+				<p class="packageNote">
+					*Only select this option if your wedding invite list is small enough to accommodate row
+					seating and reception space with little to no table set up between ceremony and reception
 				</p>
 
 				<h4 class="packageSubtitle">Westwoods will provide:</h4>
 				<ul>
-					<li>Pastor to officiate</li>
 					<li>
 						Wedding Coordinator to host the building during the ceremony and reception as well as
 						coordinate the wedding ceremony if desired
@@ -109,7 +113,7 @@
 					<li>Tech support for sound</li>
 					<li>
 						Building use on day of wedding up to 8 hours for set up, ceremony and reception, as well
-						as 1 hour the night prior for the wedding rehearsal
+						as 2 hours the night prior for the wedding rehearsal
 					</li>
 					<li>
 						Our cleaning crew will take care of the deep cleaning after the reception, but you will
@@ -119,48 +123,21 @@
 			</div>
 
 			<div class="packageCard">
-				<h3 class="packageTitle">Silver Workshop Package</h3>
-				<p class="packagePrice">$900.00 fee, $150 damage deposit</p>
-				<p class="packageDescription">
-					The Workshop for ceremony, reception in The Workshop or at a different venue
-				</p>
-				<p class="packageNote">
-					*Only select this option if your wedding invite list is small enough to accommodate row
-					seating and reception space with little to no table set up between ceremony and reception
-				</p>
+				<h3 class="packageTitle">Silver Café Package</h3>
+				<p class="packagePrice">$800.00</p>
+				<p class="packageDescription">The Café for the ceremony or reception in The Café only</p>
 
 				<h4 class="packageSubtitle">Westwoods will provide:</h4>
 				<ul>
-					<li>Pastor to officiate</li>
 					<li>
 						Wedding Coordinator to host the building during the ceremony and reception as well as
 						coordinate the wedding ceremony if desired
 					</li>
 					<li>Tech support for sound</li>
 					<li>
-						Building use on day of wedding up to 8 hours for set up, ceremony and reception, as well
-						as 1 hour the night prior for the wedding rehearsal
+						Building use on day of wedding up to 8 hours for set up, ceremony or reception, as well
+						as 2 hours the night prior for the wedding rehearsal, if needed
 					</li>
-				</ul>
-			</div>
-
-			<div class="packageCard">
-				<h3 class="packageTitle">Basic Workshop Package</h3>
-				<p class="packagePrice">$525.00 fee, $100 damage deposit</p>
-				<p class="packageDescription">The Workshop for ceremony, reception at a different venue</p>
-
-				<h4 class="packageSubtitle">Westwoods will provide:</h4>
-				<ul>
-					<li>Pastor to officiate</li>
-					<li>
-						Wedding Coordinator to host the building during the ceremony as well as coordinate the
-						wedding ceremony if desired
-					</li>
-					<li>
-						Building use on day of wedding up to 4 hours for set up and ceremony as well as 1 hour
-						the night prior for the wedding rehearsal
-					</li>
-					<li>*No sound with this option</li>
 				</ul>
 			</div>
 		</div>

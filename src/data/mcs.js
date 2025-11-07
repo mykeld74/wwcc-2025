@@ -7,7 +7,7 @@ const mcs = [
 	},
 	{
 		title: 'Seasoned Ladies',
-		day: '4th Sunday',
+		day: '1st and 3rd Sundays',
 		contact: ['303.250.4738'],
 		time: 'After 2nd Service'
 	},
