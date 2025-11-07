@@ -1,3 +1,7 @@
+<script lang="ts">
+	import { AlcoholPolicy } from '$components';
+</script>
+
 <svelte:head>
 	<meta
 		name="description"
@@ -20,11 +24,9 @@
 				discount. Please reach out to discuss prices. A Westwoods Pastor can be available to officiate
 				for you but may require premarital counseling and, because we honor their time, there will be
 				an additional fee. You may also add a Westwoods' approved bartender to any reception package.
-				<a
-					href="https://drive.google.com/file/d/1U4-2z40-JD2Pq4Uv39Vqs3CWMPTCGM2P/view"
-					rel="noopener noreferrer"
-					target="_blank">Please view our alcohol policy and fees here.</a
-				>
+				<button type="button" class="alcoholPolicyButton" popovertarget="alcoholPolicyModal">
+					Please view our alcohol policy and fees here.
+				</button>
 			</p>
 		</div>
 
@@ -147,10 +149,33 @@
 				Contact Joe at <a href="mailto:joe@westwoodscc.org">Joe@WestwoodsCC.org</a> if you have any questions!
 			</p>
 		</div>
+
+		<dialog id="alcoholPolicyModal" class="alcoholPolicyModal" popover>
+			<AlcoholPolicy />
+		</dialog>
 	</div>
 </div>
 
 <style>
+	.alcoholPolicyButton {
+		appearance: none;
+		background: none;
+		border: none;
+		color: var(--accentColor);
+		cursor: pointer;
+		display: inline;
+		font: inherit;
+		padding: 0;
+		text-decoration: underline;
+		transition: color 0.3s ease;
+	}
+
+	.alcoholPolicyButton:hover,
+	.alcoholPolicyButton:focus-visible {
+		color: color-mix(in oklch, var(--accentColor) 75%, white);
+		outline: none;
+	}
+
 	.weddingContent {
 		width: calc(100% - 3rem);
 		margin: 0 auto;

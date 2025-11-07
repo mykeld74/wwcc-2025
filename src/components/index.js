@@ -1,3 +1,4 @@
+import AlcoholPolicy from './AlcoholPolicy.svelte';
 import Card from './Card.svelte';
 import CurrentEvents from './CurrentEvents.svelte';
 import EventCard from './EventCard.svelte';
@@ -14,6 +15,7 @@ import ServiceTimes from './ServiceTimes.svelte';
 import ThemeToggle from './ThemeToggle.svelte';
 
 export {
+ 	AlcoholPolicy,
 	Card,
 	CurrentEvents,
 	EventCard,
