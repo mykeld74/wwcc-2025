@@ -177,7 +177,7 @@
 	}
 
 	.weddingContent {
-		width: calc(100% - 3rem);
+		width: calc(100% - 3vw);
 		margin: 0 auto;
 		max-width: 1000px;
 		grid-area: content;
