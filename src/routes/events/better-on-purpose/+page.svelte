@@ -1,5 +1,27 @@
 <script>
 	import { Image } from '$components';
+	import { slide } from 'svelte/transition';
+
+	const faqs = [
+		{
+			question: 'Is it just for married couples or can engaged couples come as well?',
+			answer: 'It is focused toward married couples but would be good for engaged couples as well!'
+		},
+		{
+			question: "Is there an online option if we can't make it to Denver?",
+			answer: "Sorry due to the conversational nature of the event - streaming isn't possible"
+		},
+		{
+			question: 'Is there childcare available?',
+			answer: 'Sorry, childcare is not available for this event'
+		}
+	];
+
+	let openIndex = $state(null);
+
+	function toggleFaq(index) {
+		openIndex = openIndex === index ? null : index;
+	}
 </script>
 
 <svelte:head>
@@ -129,6 +151,26 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="faqSection">
+		<h2 class="faqTitle">Frequently Asked Questions</h2>
+		<div class="faqContainer">
+			{#each faqs as faq, index}
+				<div class="faqItem">
+					<button class="faqQuestion" onclick={() => toggleFaq(index)}>
+						<span class="faqQuestionText">{faq.question}</span>
+						<span class="faqIcon" class:open={openIndex === index}>+</span>
+					</button>
+					{#if openIndex === index}
+						<div class="faqAnswer" transition:slide>
+							<p>{faq.answer}</p>
+						</div>
+					{/if}
+				</div>
+			{/each}
+		</div>
+	</div>
+
 	<a
 		href="https://westwoods.churchcenter.com/registrations/events/3306711"
 		class="registerButton"
@@ -191,5 +233,70 @@
 	.cardWrapper.event .cardContentWrapper {
 		grid-template-columns: 1fr;
 		padding: 0 3vw;
+	}
+	.faqSection {
+		width: 100%;
+		max-width: 1200px;
+		margin: 4rem auto 2rem;
+		padding: 0 1rem;
+	}
+	.faqTitle {
+		font-size: clamp(2rem, 4vw, 3rem);
+		color: var(--titleColor);
+		text-align: center;
+		margin-bottom: 2rem;
+	}
+	.faqContainer {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+	.faqItem {
+		border: 2px solid var(--pageCardBorder);
+		border-radius: 0.5rem;
+		overflow: hidden;
+		background: var(--cardBackground);
+	}
+	.faqQuestion {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1.5rem;
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		text-align: left;
+		color: var(--textColor);
+		transition: background-color 0.3s ease;
+		&:hover {
+			background-color: oklch(0 0 0 / 0.1);
+		}
+	}
+	.faqQuestionText {
+		font-size: clamp(1.1rem, 2vw, 1.25rem);
+		font-weight: 600;
+		flex: 1;
+		padding-right: 1rem;
+	}
+	.faqIcon {
+		font-size: 2rem;
+		font-weight: 300;
+		line-height: 1;
+		color: var(--accentColor);
+		transition: transform 0.3s ease;
+		flex-shrink: 0;
+		&.open {
+			transform: rotate(45deg);
+		}
+	}
+	.faqAnswer {
+		padding: 0 1.5rem 1.5rem;
+		color: var(--textColor);
+		p {
+			font-size: clamp(1rem, 2vw, 1.15rem);
+			line-height: 1.6;
+			margin: 0;
+		}
 	}
 </style>
