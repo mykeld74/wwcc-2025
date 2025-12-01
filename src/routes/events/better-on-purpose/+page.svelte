@@ -126,7 +126,7 @@
 			<div class="cardContentWrapper">
 				<div class="cardContent">
 					<p class="contentCardText">
-						<span class="cardAccent">Cost: $60</span>
+						<span class="cardAccent">Cost: $60 per couple</span>
 					</p>
 					<p class="contentCardText">
 						Includes conference, snacks, lunch and all conference materials
@@ -136,7 +136,7 @@
 		</div>
 
 		<div class="contentCard">
-			<h2 class="contentCardTitle">Your Leaders</h2>
+			<h2 class="contentCardTitle">Your Hosts</h2>
 			<div class="cardContentWrapper">
 				<div class="cardContent">
 					<p class="contentCardText">
