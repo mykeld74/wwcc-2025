@@ -49,6 +49,20 @@
 			filter: brightness(1.15);
 			scale: 1.05;
 		}
+		&#UpcomingEvent {
+			grid-column: 1 / -1;
+			grid-row: 2;
+			width: 100%;
+			max-width: 600px;
+			margin: 0 auto;
+			.imageWrapper {
+				aspect-ratio: 1536/1024;
+			}
+			.cardBody {
+				color: #24636a;
+				margin-bottom: 0;
+			}
+		}
 	}
 	.imageWrapper {
 		width: 100%;

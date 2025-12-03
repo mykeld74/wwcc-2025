@@ -27,6 +27,13 @@
 		image: 'building',
 		newWindow: false
 	};
+	const event = {
+		title: 'Upcoming Event',
+		body: 'Learn more...',
+		image: 'marriage',
+		link: '/events/better-on-purpose',
+		newWindow: false
+	};
 
 	let isReady = $state(false);
 	let showAnnouncement = $state(true);
@@ -61,6 +68,7 @@
 	<button class="serviceTimesButton" popovertarget="serviceTimesModal">
 		<HomePageCard cardContent={times} />
 	</button>
+	<HomePageCard cardContent={event} />
 </section>
 
 <section id="weAreContainer" class="wwIsWrapper">
