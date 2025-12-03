@@ -62,14 +62,16 @@
 	<div class="title" id="title">Westwoods Community Church</div>
 	<h2 class="belong">Belong before you believe!</h2>
 </section>
-<section class="homePageCards">
-	<HomePageCard cardContent={MAS} />
-	<HomePageCard cardContent={currentSeries} />
-	<button class="serviceTimesButton" popovertarget="serviceTimesModal">
-		<HomePageCard cardContent={times} />
-	</button>
-	<HomePageCard cardContent={event} />
-</section>
+<div class="homePageCardsContainer">
+	<section class="homePageCards">
+		<HomePageCard cardContent={MAS} />
+		<HomePageCard cardContent={currentSeries} />
+		<button class="serviceTimesButton" popovertarget="serviceTimesModal">
+			<HomePageCard cardContent={times} />
+		</button>
+		<HomePageCard cardContent={event} />
+	</section>
+</div>
 
 <section id="weAreContainer" class="wwIsWrapper">
 	<h2 class="wwIs center">Westwoods Is:</h2>
@@ -220,14 +222,19 @@
 			transition: background 0.5s ease-in-out;
 		}
 	}
-	.homePageCards {
+	.homePageCardsContainer {
 		grid-area: cards / full;
+		container-type: inline-size;
+		container-name: homePageCards;
+	}
+	.homePageCards {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+		grid-template-columns: repeat(3, 1fr);
 		gap: 3rem;
 		padding-inline: 3rem;
-		@media (max-width: 768px) {
-			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+		@container homePageCards (max-width: 768px) {
+			grid-template-columns: 1fr;
 			padding-inline: 1rem;
 		}
 	}
