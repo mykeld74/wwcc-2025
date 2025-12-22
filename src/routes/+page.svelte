@@ -40,6 +40,12 @@
 
 	onMount(() => {
 		isReady = true;
+		if (showAnnouncement) {
+			const dialog = document.getElementById('announcementModal');
+			if (dialog) {
+				dialog.showPopover?.();
+			}
+		}
 	});
 </script>
 
@@ -123,12 +129,14 @@
 	</a>
 </div>
 
-<!-- <dialog id="announcementModal" class="announcementModal" popover>
+<dialog id="announcementModal" class="announcementModal" popover>
 	<div class="modalContent">
-		<h2>
-			Beginning this Sunday, September 28th, we will be going to 2 services at 9:00 and 10:30am. We
-			will also be celebrating our 25th Anniversary! Can't wait to see you there!
-		</h2>
+		<h1>Important Announcements</h1>
+		<h2>There will be no services on Sunday, December 28th.</h2>
+		<p>
+			Sunday, December 28th we will have no morning worship services, but we hope that you will join
+			us for our Christmas Eve services, December 24th at 2:00pm and 3:30pm.
+		</p>
 
 		<div class="modalActions">
 			<button
@@ -143,7 +151,7 @@
 			>
 		</div>
 	</div>
-</dialog> -->
+</dialog>
 
 <style>
 	@property --backgroundSize {
