@@ -134,8 +134,9 @@
 		<h1>Important Announcements</h1>
 		<h2>There will be no services on Sunday, December 28th.</h2>
 		<p>
-			Sunday, December 28th we will have no morning worship services, but we hope that you will join
-			us for our Christmas Eve services, December 24th at 2:00pm and 3:30pm.
+			Sunday, December 28th we will have no morning worship services, but we will be back to our
+			normal 2 services on Sunday, January 4th. We hope you'll join us as we explore what it means
+			to be a Christian.
 		</p>
 
 		<div class="modalActions">
