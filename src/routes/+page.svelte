@@ -36,16 +36,16 @@
 	};
 
 	let isReady = $state(false);
-	let showAnnouncement = $state(true);
+	// let showAnnouncement = $state(true);
 
 	onMount(() => {
 		isReady = true;
-		if (showAnnouncement) {
-			const dialog = document.getElementById('announcementModal');
-			if (dialog) {
-				dialog.showPopover?.();
-			}
-		}
+		// if (showAnnouncement) {
+		// 	const dialog = document.getElementById('announcementModal');
+		// 	if (dialog) {
+		// 		dialog.showPopover?.();
+		// 	}
+		// }
 	});
 </script>
 
@@ -129,7 +129,7 @@
 	</a>
 </div>
 
-<dialog id="announcementModal" class="announcementModal" popover>
+<!-- <dialog id="announcementModal" class="announcementModal" popover>
 	<div class="modalContent">
 		<h1>Important Announcements</h1>
 		<h2>There will be no services on Sunday, December 28th.</h2>
@@ -152,7 +152,7 @@
 			>
 		</div>
 	</div>
-</dialog>
+</dialog> -->
 
 <style>
 	@property --backgroundSize {
