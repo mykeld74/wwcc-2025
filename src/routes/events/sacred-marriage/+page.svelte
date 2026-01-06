@@ -115,9 +115,12 @@
 		display: grid;
 		grid-template-columns: 1fr 2fr;
 		gap: 2rem;
-		padding-top: 5rem;
+		padding: 5rem 1rem 2rem;
 		max-width: 1200px;
 		margin: 0 auto;
+		@media (max-width: 800px) {
+			grid-template-columns: 1fr;
+		}
 	}
 	.pageHeroText {
 		display: flex;
@@ -131,7 +134,7 @@
 		color: var(--titleColor);
 	}
 	.imageWrapper {
-		width: 100%;
+		width: 90%;
 		max-width: 1200px;
 		margin: 0 auto 3rem;
 		object-fit: cover;
