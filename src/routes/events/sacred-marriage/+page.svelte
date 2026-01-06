@@ -7,7 +7,8 @@
 	<title>Sacred Marriage | Westwoods Community Church</title>
 	<meta
 		name="description"
-		content="What if God designed marriage to make you holy instead of happy? What if your relationship isn't as much about you and your spouse as it is about you and God?"
+		content="What if God designed marriage to make us holy more than to make us happy? What if your
+				relationship isn't as much about you and your spouse as it is about you and God?"
 	/>
 </svelte:head>
 
@@ -19,8 +20,8 @@
 		<div class="pageHeroText">
 			<h1 class="pageHeroTitle">Sacred Marriage</h1>
 			<p class="pageHeroDescription">
-				What if God designed marriage to make you holy instead of happy? What if your relationship
-				isn't as much about you and your spouse as it is about you and God?
+				What if God designed marriage to make us holy more than to make us happy? What if your
+				relationship isn't as much about you and your spouse as it is about you and God?
 			</p>
 		</div>
 	</div>
