@@ -60,7 +60,9 @@
 			<div class="cardContentWrapper">
 				<div class="cardContent">
 					<p class="contentCardText">
-						<span class="cardAccent">When:</span> Friday's, February 6th - March 27th
+						<span class="cardAccent">When:</span> Every other Friday, beginning February 6th - will skip
+						Good Friday (April 3rd) and meet the following Friday (April 10th) and resume every other
+						Friday thereafter.
 					</p>
 					<p class="contentCardText">
 						<span class="cardAccent">Time:</span> 6:30 PM - 8:00 PM
