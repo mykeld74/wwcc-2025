@@ -75,7 +75,6 @@
 		<button class="serviceTimesButton" popovertarget="serviceTimesModal">
 			<HomePageCard cardContent={times} />
 		</button>
-		<HomePageCard cardContent={event} />
 	</section>
 </div>
 

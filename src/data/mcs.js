@@ -1,52 +1,70 @@
 const mcs = [
+	// Sunday
 	{
-		title: 'Ver Millers',
+		title: 'Ver Miller',
 		day: '2nd Sunday',
 		contact: ['303.519.0501'],
 		time: '2:00pm'
 	},
 	{
 		title: 'Seasoned Ladies',
-		day: '1st and 3rd Sundays',
+		day: '4th Sunday',
 		contact: ['303.250.4738'],
 		time: 'After 2nd Service'
 	},
+	// Monday
 	{
-		title: 'Brake/Marchena',
-		day: 'Wednesday Night',
+		title: 'Westwoods Students',
+		day: 'Monday',
+		contact: ['303.547.7427'],
+		time: 'Evenings'
+	},
+	// Tuesday
+	{
+		title: 'Young Adult Group',
+		day: 'Tuesday',
+		contact: ['720.338.6192'],
+		time: 'Evenings'
+	},
+	// Wednesday
+	{
+		title: 'Marchena/Brake',
+		day: 'Wednesday',
 		contact: ['720.384.8944'],
 		time: '6:00pm'
 	},
 	{
 		title: 'Blackman/Winger',
-		day: 'Wednesday Night',
+		day: 'Wednesday',
 		contact: ['303.859.3294', '303.985.4856'],
 		time: '6:30pm'
 	},
 	{
 		title: 'Van Schooten',
-		day: 'Every Other Wednesday Night',
+		day: 'Every Other Wednesday',
 		contact: ['503.989.0932'],
 		time: '7:00pm'
 	},
-
+	// Thursday
 	{
-		title: 'Westwoods Students',
-		day: 'Monday Night',
-		time: '7:00pm',
-		location: '@Westwoods Community Church'
+		title: 'Adoptive Moms Group',
+		day: '1st Thursday',
+		contact: ['303.807.0092'],
+		time: '6:00pm'
 	},
+	// Friday
+	{
+		title: 'Newly Marrieds',
+		day: 'Every Other Friday',
+		contact: ['970.589.0805'],
+		time: 'Evening'
+	},
+	// Saturday
 	{
 		title: "Men's Group",
-		day: 'Saturday Morning',
-		time: '7:00am',
-		contact: ['740.624.7669']
-	},
-	{
-		title: 'Young Adults',
-		day: 'Wednesday Night',
-		time: '6:30pm',
-		contact: ['720.346.3246']
+		day: 'Saturday',
+		contact: ['740.624.7669'],
+		time: '7:00am'
 	}
 ];
 

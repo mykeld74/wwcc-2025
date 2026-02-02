@@ -38,7 +38,7 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 		gap: 1rem 3rem;
-		max-width: 1000px;
+		max-width: 1400px;
 		margin: 0 auto;
 	}
 	.outerMcWrapper {
