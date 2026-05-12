@@ -6,8 +6,8 @@
 	let { data, children } = $props();
 	let isReady = $state(false);
 	let currentPageTitle = $state('Westwoods Community Church');
-	import '../css/styles.css';
-	import '../css/reset.css';
+	import '$css/styles.css';
+	import '$css/reset.css';
 
 	let title = $derived(data.pathname.split('/').pop());
 
