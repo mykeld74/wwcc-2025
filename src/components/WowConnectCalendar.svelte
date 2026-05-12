@@ -299,7 +299,8 @@
 
 	.calendarLayout {
 		display: grid;
-		grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+		/* ~100px more for calendar vs 1.4fr/1fr at ~1280px row; panel narrows accordingly */
+		grid-template-columns: minmax(0, 1.95fr) minmax(0, 1fr);
 		gap: 2rem;
 		align-items: start;
 	}

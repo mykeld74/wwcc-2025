@@ -16,8 +16,8 @@
 	<div class="connectIntro">
 		<h1>WOW Connect</h1>
 		<p>
-			The women of Westwoods have many opportunities to connect with each other. Browse the
-			calendar and open an event for full details, registration, and Church Center links.
+			The women of Westwoods have many opportunities to connect with each other. Browse the calendar
+			and open an event for full details, registration, and Church Center links.
 		</p>
 	</div>
 	<div class="calendarSlot">
