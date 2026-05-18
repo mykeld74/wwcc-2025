@@ -1,6 +1,6 @@
-/** Shared types for WOW Connect calendar + event detail (safe for client + server imports). */
+/** Shared types for Planning Center calendar UI (list, month view, event detail). */
 
-export type WowConnectUiEvent = {
+export type CalendarUiEvent = {
 	id: string;
 	eventId: string;
 	instanceId: string;
@@ -17,7 +17,7 @@ export type WowConnectUiEvent = {
 	featured: boolean | null;
 };
 
-export type WowEventDetailPayload = {
+export type CalendarEventDetailPayload = {
 	event: {
 		id: string;
 		name: string;

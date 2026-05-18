@@ -1,7 +1,11 @@
-<script>
-	import WowConnectCalendar from '$components/WowConnectCalendar.svelte';
+<script lang="ts">
+	import { CalendarEvents } from '$components/calendar-events';
+	import { wowConnectEventHref } from '$lib/wowConnectPaths';
 
 	let { data } = $props();
+
+	const wowEmptyMonthMessage = (monthYear: string) =>
+		`No WOW events in ${monthYear}. Try another month.`;
 </script>
 
 <svelte:head>
@@ -16,12 +20,18 @@
 	<div class="connectIntro">
 		<h1>WOW Connect</h1>
 		<p>
-			The women of Westwoods have many opportunities to connect with each other. Browse the calendar
-			and open an event for full details, registration, and Church Center links.
+			The women of Westwoods have many opportunities to connect with each other. Browse this
+			month's events or switch to the calendar view. Open an event for full details,
+			registration, and Church Center links.
 		</p>
 	</div>
 	<div class="calendarSlot">
-		<WowConnectCalendar events={data.events} />
+		<CalendarEvents
+			events={data.events}
+			eventHref={wowConnectEventHref}
+			emptyMonthMessage={wowEmptyMonthMessage}
+			calendarSelectHint="Select a highlighted date to see WOW events."
+		/>
 	</div>
 </div>
 

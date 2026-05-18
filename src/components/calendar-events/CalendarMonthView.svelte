@@ -1,23 +1,56 @@
 <script lang="ts">
-	import type { WowConnectUiEvent } from '$lib/wowConnectCalendarTypes';
+	import type { CalendarUiEvent } from '$lib/calendarEventTypes';
+	import {
+		buildEventsByDateKey,
+		formatDateLong,
+		formatMonthYear,
+		formatTime,
+		getDateKey,
+		isSameLocalDay,
+		parseCalendarEvents,
+		shiftMonth
+	} from '$lib/calendarEventDates';
+	import {
+		defaultCalendarEventHref,
+		defaultCalendarSelectHint,
+		type CalendarEventHref
+	} from '$lib/calendarEventsView';
 
-	const DISPLAY_TZ = 'America/Denver';
+	let {
+		events = [],
+		currentMonth = $bindable(new Date()),
+		eventHref = defaultCalendarEventHref,
+		heading = 'Upcoming',
+		calendarSelectHint = defaultCalendarSelectHint
+	}: {
+		events: CalendarUiEvent[];
+		currentMonth?: Date;
+		eventHref?: CalendarEventHref;
+		heading?: string;
+		calendarSelectHint?: string;
+	} = $props();
 
-	let { events = [] }: { events: WowConnectUiEvent[] } = $props();
+	type ParsedEvent = ReturnType<typeof parseCalendarEvents>[number];
 
-	type ParsedEvent = WowConnectUiEvent & { start: Date; end: Date | null };
+	const parsedEvents = $derived(parseCalendarEvents(events));
+	const resolveEventHref = (event: CalendarUiEvent) => eventHref(event);
 
-	const parsedEvents = $derived(
-		events.map((e) => ({
-			...e,
-			start: new Date(e.startDate),
-			end: e.endDate ? new Date(e.endDate) : null
-		}))
-	);
-
-	let currentMonth = $state(new Date());
 	let selectedDate = $state<Date | null>(null);
 	let selectedDateEvents = $state<ParsedEvent[]>([]);
+
+	let eventsByDateKeyCache = $state(new Map<string, ParsedEvent[]>());
+	let eventsCacheKey = $state('');
+
+	$effect(() => {
+		const list = parsedEvents;
+		const eventsKey = `${list.length}-${list[0]?.id || ''}-${list[list.length - 1]?.id || ''}`;
+		if (eventsKey !== eventsCacheKey) {
+			eventsByDateKeyCache = buildEventsByDateKey(list);
+			eventsCacheKey = eventsKey;
+		}
+	});
+
+	const eventDateKeys = $derived(new Set(eventsByDateKeyCache.keys()));
 
 	function getDaysInMonth(date: Date) {
 		return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
@@ -40,45 +73,6 @@
 		return days;
 	}
 
-	function getDateKey(date: Date) {
-		const formatter = new Intl.DateTimeFormat('en-US', {
-			timeZone: DISPLAY_TZ,
-			year: 'numeric',
-			month: '2-digit',
-			day: '2-digit'
-		});
-		const parts = formatter.formatToParts(date);
-		const y = parts.find((p) => p.type === 'year')?.value || '';
-		const m = parts.find((p) => p.type === 'month')?.value || '';
-		const d = parts.find((p) => p.type === 'day')?.value || '';
-		return `${y}-${m}-${d}`;
-	}
-
-	function isSameLocalDay(a: Date, b: Date) {
-		return getDateKey(a) === getDateKey(b);
-	}
-
-	let eventsByDateKeyCache = $state(new Map<string, ParsedEvent[]>());
-	let eventsCacheKey = $state('');
-
-	$effect(() => {
-		const list = parsedEvents;
-		const eventsKey = `${list.length}-${list[0]?.id || ''}-${list[list.length - 1]?.id || ''}`;
-		if (eventsKey !== eventsCacheKey) {
-			const dateMap = new Map<string, ParsedEvent[]>();
-			for (const event of list) {
-				if (!event.start || Number.isNaN(event.start.getTime())) continue;
-				const startKey = getDateKey(event.start);
-				if (!dateMap.has(startKey)) dateMap.set(startKey, []);
-				dateMap.get(startKey)!.push(event);
-			}
-			eventsByDateKeyCache = dateMap;
-			eventsCacheKey = eventsKey;
-		}
-	});
-
-	const eventDateKeys = $derived(new Set(eventsByDateKeyCache.keys()));
-
 	function dayHasEvents(date: Date | null) {
 		if (!date) return false;
 		return eventDateKeys.has(getDateKey(date));
@@ -92,12 +86,6 @@
 	function selectDate(date: Date) {
 		selectedDate = date;
 		selectedDateEvents = getEventsForDate(date);
-	}
-
-	function formatMonthYear(date: Date) {
-		return new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric', timeZone: DISPLAY_TZ }).format(
-			date
-		);
 	}
 
 	function formatDay(date: Date) {
@@ -114,30 +102,12 @@
 		);
 	}
 
-	function formatDateLong(date: Date) {
-		return new Intl.DateTimeFormat('en-US', {
-			weekday: 'long',
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric',
-			timeZone: DISPLAY_TZ
-		}).format(date);
-	}
-
-	function formatTime(date: Date) {
-		return new Intl.DateTimeFormat('en-US', {
-			hour: 'numeric',
-			minute: '2-digit',
-			timeZone: DISPLAY_TZ
-		}).format(date);
-	}
-
 	function previousMonth() {
-		currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+		currentMonth = shiftMonth(currentMonth, -1);
 	}
 
 	function nextMonth() {
-		currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+		currentMonth = shiftMonth(currentMonth, 1);
 	}
 
 	function goToToday() {
@@ -150,18 +120,20 @@
 
 <div class="calendarSection">
 	<div class="calendarHeader">
-		<h2 class="calendarTitle">Upcoming</h2>
+		<h2 class="calendarTitle">{heading}</h2>
 		<div class="calendarNav">
-			<button type="button" class="navBtn" onclick={previousMonth}>←</button>
+			<button type="button" class="navBtn" onclick={previousMonth} aria-label="Previous month">
+				←
+			</button>
 			<button type="button" class="navBtn" onclick={goToToday}>Today</button>
-			<button type="button" class="navBtn" onclick={nextMonth}>→</button>
+			<button type="button" class="navBtn" onclick={nextMonth} aria-label="Next month">→</button>
 		</div>
 	</div>
 	<p class="monthLabel">{formatMonthYear(currentMonth)}</p>
 	<div class="calendarLayout">
 		<div class="calendarGrid">
 			<div class="weekHeader">
-				{#each weekDays as day}
+				{#each weekDays as day (day)}
 					<div class="weekDay">{day}</div>
 				{/each}
 			</div>
@@ -199,12 +171,10 @@
 				<div class="panelBody">
 					{#if selectedDateEvents.length > 0}
 						<ul class="eventList">
-							{#each selectedDateEvents as event}
+							{#each selectedDateEvents as event (event.id)}
 								<li class="eventItem">
 									<h4 class="eventTitle">
-										<a href="/women-of-westwoods/wow-connect/events/{event.eventId}">
-											{event.title}
-										</a>
+										<a href={resolveEventHref(event)}>{event.title}</a>
 									</h4>
 									{#if event.allDay}
 										<p class="meta">All day</p>
@@ -212,7 +182,7 @@
 										<p class="meta">
 											<time datetime={event.startDate}>{formatTime(event.start)}</time>
 											{#if event.end}
-												{' – '}
+												 – 
 												<time datetime={event.endDate}>{formatTime(event.end)}</time>
 											{/if}
 										</p>
@@ -239,7 +209,7 @@
 				</div>
 			{:else}
 				<div class="panelEmpty">
-					<p>Select a highlighted date to see WOW events.</p>
+					<p>{calendarSelectHint}</p>
 				</div>
 			{/if}
 		</div>
@@ -299,7 +269,6 @@
 
 	.calendarLayout {
 		display: grid;
-		/* ~100px more for calendar vs 1.4fr/1fr at ~1280px row; panel narrows accordingly */
 		grid-template-columns: minmax(0, 1.95fr) minmax(0, 1fr);
 		gap: 2rem;
 		align-items: start;

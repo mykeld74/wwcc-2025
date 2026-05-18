@@ -1,7 +1,7 @@
 import { env } from '$env/dynamic/private';
-import type { WowConnectUiEvent, WowEventDetailPayload } from '$lib/wowConnectCalendarTypes';
+import type { CalendarEventDetailPayload, CalendarUiEvent } from '$lib/calendarEventTypes';
 
-export type { WowConnectUiEvent, WowEventDetailPayload } from '$lib/wowConnectCalendarTypes';
+export type { CalendarEventDetailPayload, CalendarUiEvent } from '$lib/calendarEventTypes';
 
 const PC_BASE = 'https://api.planningcenteronline.com/calendar/v2';
 const PC_API_VERSION = '2022-07-07';
@@ -60,7 +60,7 @@ function stripSummerConnectTitle(title: string): string {
 function mapRowToUiEvent(
 	row: JsonApiResource,
 	included: Map<string, JsonApiResource>
-): WowConnectUiEvent | null {
+): CalendarUiEvent | null {
 	const attrs = row.attributes;
 	const rel = row.relationships?.event?.data;
 	if (!rel || Array.isArray(rel) || typeof rel.id !== 'string') {
@@ -509,7 +509,7 @@ async function assertWowEventInScope(
  * - `PLANNING_CENTER_WOW_CONNECT_CALENDAR_ID` — optional; restrict to this calendar id only.
  * - `PLANNING_CENTER_WOW_CONNECT_TAG_NAMES` / `PLANNING_CENTER_WOW_CONNECT_TAG_ID` — same for tags.
  */
-export async function fetchWowConnectUiEvents(): Promise<WowConnectUiEvent[]> {
+export async function fetchWowConnectUiEvents(): Promise<CalendarUiEvent[]> {
 	const applicationId = env.PLANNING_CENTER_APPLICATION_ID;
 	const secret = env.PLANNING_CENTER_SECRET;
 
@@ -565,7 +565,7 @@ export async function fetchWowConnectUiEvents(): Promise<WowConnectUiEvent[]> {
 
 	sortInstancesByStart(mergedRows);
 
-	const out: WowConnectUiEvent[] = [];
+	const out: CalendarUiEvent[] = [];
 	for (const row of mergedRows) {
 		const mapped = mapRowToUiEvent(row, mergedIncluded);
 		if (mapped) {
@@ -576,7 +576,7 @@ export async function fetchWowConnectUiEvents(): Promise<WowConnectUiEvent[]> {
 }
 
 /** Full event + next upcoming instance. Returns null if not in WOW scope or not Church Center–published. */
-export async function fetchWowEventDetailForPage(eventId: string): Promise<WowEventDetailPayload | null> {
+export async function fetchWowEventDetailForPage(eventId: string): Promise<CalendarEventDetailPayload | null> {
 	const applicationId = env.PLANNING_CENTER_APPLICATION_ID;
 	const secret = env.PLANNING_CENTER_SECRET;
 
@@ -630,7 +630,7 @@ export async function fetchWowEventDetailForPage(eventId: string): Promise<WowEv
 		};
 	};
 
-	let nextInstance: WowEventDetailPayload['instance'] = null;
+	let nextInstance: CalendarEventDetailPayload['instance'] = null;
 
 	if (instDoc) {
 		const rows = dataRows(instDoc) as InstRow[];
