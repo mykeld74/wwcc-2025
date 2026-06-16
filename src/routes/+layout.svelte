@@ -49,22 +49,23 @@
 </svelte:head>
 
 {#if isReady}
-	<header>
-		<Nav />
-		<ThemeToggle />
-	</header>
+	<div class="siteShell">
+		<header>
+			<Nav />
+			<ThemeToggle />
+		</header>
 
-	{#key data.pathname}
-		<div
-			in:fade={{ duration: 150, delay: 155 }}
-			out:fade={{ duration: 150 }}
-			class={`contentWrapper ${title || 'home'}`}
-		>
-			{@render children?.()}
-		</div>
-	{/key}
+		{#key data.pathname}
+			<main
+				in:fade={{ duration: 150, delay: 155 }}
+				out:fade={{ duration: 150 }}
+				class={`pageGrid ${title || 'home'}`}
+			>
+				{@render children?.()}
+			</main>
+		{/key}
 
-	<footer>
+		<footer>
 		<div class="mainFooter">
 			<div class="footerLogo">
 				<Image source="wwLogo" altTag="Westwoods Community Church Logo" />
@@ -115,7 +116,9 @@
 				<p>7700 W. Woodard Drive | Lakewood | CO | 80227 | 303.279.1616</p>
 			</div>
 		</div>
-	</footer>
+		</footer>
+	</div>
+
 	<dialog id="serviceTimesModal" class="serviceTimesModal" popover>
 		<ServiceTimes />
 	</dialog>
@@ -125,6 +128,13 @@
 {/if}
 
 <style>
+	.siteShell {
+		min-height: 100dvh;
+		display: grid;
+		grid-template-rows: auto 1fr auto;
+		width: 100%;
+	}
+
 	header {
 		display: grid;
 		grid-template-columns: 60px 1fr 60px;
@@ -141,8 +151,9 @@
 			height: 60px;
 		}
 	}
-	.contentWrapper {
+	.pageGrid {
 		width: 100%;
+		min-height: 0;
 		overflow-x: hidden;
 		display: grid;
 		grid-template-columns:

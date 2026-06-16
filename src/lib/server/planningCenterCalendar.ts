@@ -540,7 +540,80 @@ export async function fetchWowConnectUiEvents(): Promise<CalendarUiEvent[]> {
 		return [];
 	}
 
-	const eventIds = [...eventIdSet];
+	return mapUiEventsForEventIds([...eventIdSet], applicationId, secret);
+}
+
+const INSTANCE_LIST_FIELDS =
+	'name,description,summary,starts_at,ends_at,location,' +
+	'published_starts_at,published_ends_at,church_center_url,all_day_event,image_url';
+
+const EVENT_LIST_FIELDS =
+	'name,description,summary,kind,event_type,visible_in_church_center,featured,' +
+	'registration_url,registration_link,public_url,image_url,location';
+
+async function fetchFutureUiEventsFromInstances(
+	applicationId: string,
+	secret: string
+): Promise<CalendarUiEvent[]> {
+	const mergedIncluded = new Map<string, JsonApiResource>();
+	const mergedRows: JsonApiResource[] = [];
+	const seenInstanceIds = new Set<string>();
+	let offset = 0;
+	const perPage = 100;
+
+	while (true) {
+		const params = new URLSearchParams({
+			filter: 'future',
+			order: 'starts_at',
+			per_page: String(perPage),
+			offset: String(offset),
+			include: 'event',
+			'fields[event_instances]': INSTANCE_LIST_FIELDS,
+			'fields[events]': EVENT_LIST_FIELDS
+		});
+
+		const doc = await fetchJson(`${PC_BASE}/event_instances?${params}`, applicationId, secret);
+		if (!doc) {
+			break;
+		}
+
+		mergeIncluded(mergedIncluded, doc);
+
+		const rows = dataRows(doc);
+		for (const row of rows) {
+			if (row.type !== 'EventInstance') continue;
+			if (seenInstanceIds.has(row.id)) continue;
+			seenInstanceIds.add(row.id);
+			mergedRows.push(row);
+		}
+
+		if (rows.length < perPage) {
+			break;
+		}
+		offset += perPage;
+	}
+
+	sortInstancesByStart(mergedRows);
+
+	const out: CalendarUiEvent[] = [];
+	for (const row of mergedRows) {
+		const mapped = mapRowToUiEvent(row, mergedIncluded);
+		if (mapped) {
+			out.push(mapped);
+		}
+	}
+	return out;
+}
+
+async function mapUiEventsForEventIds(
+	eventIds: string[],
+	applicationId: string,
+	secret: string
+): Promise<CalendarUiEvent[]> {
+	if (eventIds.length === 0) {
+		return [];
+	}
+
 	const mergedIncluded = new Map<string, JsonApiResource>();
 	const mergedRows: JsonApiResource[] = [];
 	const seenInstanceIds = new Set<string>();
@@ -575,18 +648,27 @@ export async function fetchWowConnectUiEvents(): Promise<CalendarUiEvent[]> {
 	return out;
 }
 
-/** Full event + next upcoming instance. Returns null if not in WOW scope or not Church Center–published. */
-export async function fetchWowEventDetailForPage(eventId: string): Promise<CalendarEventDetailPayload | null> {
+/** All Church Center–visible future event instances. */
+export async function fetchAllCalendarUiEvents(): Promise<CalendarUiEvent[]> {
 	const applicationId = env.PLANNING_CENTER_APPLICATION_ID;
 	const secret = env.PLANNING_CENTER_SECRET;
 
 	if (!applicationId || !secret) {
-		return null;
+		console.warn('Planning Center: PLANNING_CENTER_APPLICATION_ID or PLANNING_CENTER_SECRET missing');
+		return [];
 	}
 
-	const { calendarIds, tagIds } = await loadWowScopeIds(applicationId, secret);
-	const inScope = await assertWowEventInScope(eventId, applicationId, secret, calendarIds, tagIds);
-	if (!inScope) {
+	return fetchFutureUiEventsFromInstances(applicationId, secret);
+}
+
+/** Full event + next upcoming instance. Returns null if not Church Center–published. */
+export async function fetchCalendarEventDetailForPage(
+	eventId: string
+): Promise<CalendarEventDetailPayload | null> {
+	const applicationId = env.PLANNING_CENTER_APPLICATION_ID;
+	const secret = env.PLANNING_CENTER_SECRET;
+
+	if (!applicationId || !secret) {
 		return null;
 	}
 
@@ -677,4 +759,22 @@ export async function fetchWowEventDetailForPage(eventId: string): Promise<Calen
 		},
 		instance: nextInstance
 	};
+}
+
+/** Full event + next upcoming instance. Returns null if not in WOW scope or not Church Center–published. */
+export async function fetchWowEventDetailForPage(eventId: string): Promise<CalendarEventDetailPayload | null> {
+	const applicationId = env.PLANNING_CENTER_APPLICATION_ID;
+	const secret = env.PLANNING_CENTER_SECRET;
+
+	if (!applicationId || !secret) {
+		return null;
+	}
+
+	const { calendarIds, tagIds } = await loadWowScopeIds(applicationId, secret);
+	const inScope = await assertWowEventInScope(eventId, applicationId, secret, calendarIds, tagIds);
+	if (!inScope) {
+		return null;
+	}
+
+	return fetchCalendarEventDetailForPage(eventId);
 }

@@ -55,7 +55,7 @@
 			<button type="button" class="navBtn" onclick={goToToday}>Today</button>
 			<button type="button" class="navBtn" onclick={nextMonth} aria-label="Next month">→</button>
 		</div>
-		</div>
+	</div>
 	<p class="monthLabel">{formatMonthYear(currentMonth)}</p>
 
 	{#if monthEvents.length > 0}

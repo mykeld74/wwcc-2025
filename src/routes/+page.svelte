@@ -36,16 +36,18 @@
 	};
 
 	let isReady = $state(false);
-	// let showAnnouncement = $state(true);
+	let showAnnouncement = $state(false);
 
 	onMount(() => {
 		isReady = true;
-		// if (showAnnouncement) {
-		// 	const dialog = document.getElementById('announcementModal');
-		// 	if (dialog) {
-		// 		dialog.showPopover?.();
-		// 	}
-		// }
+		const announcementEnd = new Date('2026-07-06');
+		showAnnouncement = new Date() < announcementEnd;
+		if (showAnnouncement) {
+			const dialog = document.getElementById('announcementModal');
+			if (dialog) {
+				dialog.showPopover?.();
+			}
+		}
 	});
 </script>
 
@@ -128,14 +130,13 @@
 	</a>
 </div>
 
-<!-- <dialog id="announcementModal" class="announcementModal" popover>
+<dialog id="announcementModal" class="announcementModal" popover>
 	<div class="modalContent">
-		<h1>Important Announcements</h1>
-		<h2>There will be no services on Sunday, December 28th.</h2>
+		<h1 class="underline">Service Update</h1>
+		<h2>There will be only one service on Sunday, July 5th, at 10:30am.</h2>
 		<p>
-			Sunday, December 28th we will have no morning worship services, but we will be back to our
-			normal 2 services on Sunday, January 4th. We hope you'll join us as we explore what it means
-			to be a Christian.
+			We look forward to worshiping with you. Our regular two-service schedule will resume the
+			following Sunday.
 		</p>
 
 		<div class="modalActions">
@@ -151,7 +152,7 @@
 			>
 		</div>
 	</div>
-</dialog> -->
+</dialog>
 
 <style>
 	@property --backgroundSize {

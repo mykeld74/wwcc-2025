@@ -182,7 +182,7 @@
 										<p class="meta">
 											<time datetime={event.startDate}>{formatTime(event.start)}</time>
 											{#if event.end}
-												 – 
+												–
 												<time datetime={event.endDate}>{formatTime(event.end)}</time>
 											{/if}
 										</p>

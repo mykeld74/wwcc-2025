@@ -6,7 +6,7 @@
 
 <CalendarEventDetail
 	detail={data.detail}
-	backHref="/women-of-westwoods/wow-connect"
-	backLabel="← Back to WOW Connect"
-	titleSuffix="WOW Connect"
+	backHref="/events"
+	backLabel="← Back to Events"
+	titleSuffix="Westwoods Events"
 />
