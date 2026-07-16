@@ -5,6 +5,6 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	plugins: [sentrySvelteKit({
         org: "msd-web-pros",
-        project: "javascript-sveltekit"
+        project: "westwoodscc"
     }), sveltekit()]
 });

@@ -45,7 +45,7 @@ Feel free to delete this file and the entire sentry route.
     </h1>
 
     <p class="description">
-      Click the button below, and view the sample error on the Sentry <a target="_blank" href="https://msd-web-pros.sentry.io/issues/?project=4511745774387200">Issues Page</a>. 
+      Click the button below, and view the sample error on the Sentry <a target="_blank" href="https://msd-web-pros.sentry.io/issues/?project=westwoodscc">Issues Page</a>. 
       For more details about setting up Sentry, <a target="_blank" href="https://docs.sentry.io/platforms/javascript/guides/sveltekit/">read our docs</a>.
     </p>
 
