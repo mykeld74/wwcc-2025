@@ -151,7 +151,7 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 18px;
 	background: var(--hdr-gradient);
-	min-height: 100vh;
+	min-height: 100dvh;
 	color: var(--textColor);
 	scrollbar-gutter: stable;
 	transition:

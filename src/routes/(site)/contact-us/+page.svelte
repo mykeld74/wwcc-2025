@@ -1,7 +1,12 @@
 <script lang="ts">
-	import IMask from 'imask';
-	import { fade } from 'svelte/transition';
-	const maskConfig = { mask: '(000) 000-0000' };
+	import FieldError from '$components/forms/FieldError.svelte';
+	import PhoneInput from '$components/forms/PhoneInput.svelte';
+	import Turnstile from '$components/forms/Turnstile.svelte';
+	import {
+		validateEmail,
+		validateMinLength,
+		validateRequired
+	} from '$lib/formValidation';
 
 	let formData = $state({
 		name: '',
@@ -16,7 +21,6 @@
 		error: null as string | null
 	});
 
-	let formIsValid = $state(false);
 	let errors = $state({
 		name: '',
 		email: '',
@@ -24,40 +28,48 @@
 		message: ''
 	});
 
+	let phoneInput = $state<{ validate: () => boolean } | null>(null);
+
+	function clearError(field: keyof typeof errors) {
+		if (errors[field]) {
+			errors[field] = '';
+		}
+	}
+
+	function validateName() {
+		errors.name = validateRequired(formData.name, 'your name');
+		return !errors.name;
+	}
+
+	function validateEmailField() {
+		errors.email = validateEmail(formData.email);
+		return !errors.email;
+	}
+
+	function validateMessage() {
+		errors.message = validateMinLength(
+			formData.message,
+			3,
+			'Please provide a message'
+		);
+		return !errors.message;
+	}
+
+	function validatePhoneField() {
+		return phoneInput?.validate() ?? false;
+	}
+
 	async function handleSubmit(e: SubmitEvent) {
-		const emailTest = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,6}$/;
-
-		if (formData.name.length < 2) {
-			formIsValid = false;
-			errors.name = 'Please enter your name.';
-		} else {
-			errors.name = '';
-		}
-
-		if (emailTest.test(formData.email) === false) {
-			formIsValid = false;
-			errors.email = 'Please enter a valid email address.';
-		} else {
-			errors.email = '';
-		}
-
-		if (formData.message.length < 3) {
-			formIsValid = false;
-			errors.message = 'Please tell us how we can help you.';
-		} else {
-			errors.message = '';
-		}
-
-		if (formData.phone.length < 10) {
-			formIsValid = false;
-			errors.phone = 'Please enter a valid phone number.';
-		} else {
-			errors.phone = '';
-		}
-
 		e.preventDefault();
+		const form = e.currentTarget as HTMLFormElement;
+		const turnstileToken = new FormData(form).get('cf-turnstile-response');
 
-		if (!formIsValid) {
+		const nameValid = validateName();
+		const emailValid = validateEmailField();
+		const messageValid = validateMessage();
+		const phoneValid = validatePhoneField();
+
+		if (!nameValid || !emailValid || !messageValid || !phoneValid) {
 			return;
 		}
 
@@ -67,7 +79,10 @@
 		try {
 			const response = await fetch('/contact-us', {
 				method: 'POST',
-				body: JSON.stringify(formData),
+				body: JSON.stringify({
+					...formData,
+					turnstileToken
+				}),
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -80,17 +95,14 @@
 				formData = { name: '', email: '', phone: '', message: '' };
 			} else {
 				status.error = result.error || 'Failed to send message';
+				window.turnstile?.reset();
 			}
 		} catch (error) {
 			status.error = 'Failed to send message';
+			window.turnstile?.reset();
 		} finally {
 			status.sending = false;
 		}
-	}
-
-	function handleInput(field: keyof typeof formData) {
-		errors[field] = '';
-		formIsValid = true;
 	}
 </script>
 
@@ -115,19 +127,20 @@
 			<p>Your message has been sent. We'll be in touch soon.</p>
 		</div>
 	{:else}
-		<form class="contactForm" onsubmit={handleSubmit}>
+		<form class="contactForm" novalidate onsubmit={handleSubmit}>
 			<div class="formGroup">
 				<label for="name">Name</label>
 				<input
 					type="text"
 					id="name"
 					bind:value={formData.name}
-					oninput={() => handleInput('name')}
+					onblur={validateName}
+					oninput={() => clearError('name')}
 					required
+					aria-invalid={errors.name ? 'true' : undefined}
+					aria-describedby={errors.name ? 'name-error' : undefined}
 				/>
-				{#if errors.name}
-					<div class="errorMessage" transition:fade>{errors.name}</div>
-				{/if}
+				<FieldError id="name-error" message={errors.name} />
 			</div>
 
 			<div class="formGroup">
@@ -136,27 +149,24 @@
 					type="email"
 					id="email"
 					bind:value={formData.email}
-					oninput={() => handleInput('email')}
+					onblur={validateEmailField}
+					oninput={() => clearError('email')}
 					required
+					aria-invalid={errors.email ? 'true' : undefined}
+					aria-describedby={errors.email ? 'email-error' : undefined}
 				/>
-				{#if errors.email}
-					<div class="errorMessage" transition:fade>{errors.email}</div>
-				{/if}
+				<FieldError id="email-error" message={errors.email} />
 			</div>
 
 			<div class="formGroup">
 				<label for="phone">Phone</label>
-				<input
-					use:IMask={maskConfig}
-					type="tel"
+				<PhoneInput
 					id="phone"
-					bind:value={formData.phone}
-					oninput={() => handleInput('phone')}
 					required
+					bind:this={phoneInput}
+					bind:value={formData.phone}
+					oninput={() => clearError('phone')}
 				/>
-				{#if errors.phone}
-					<div class="errorMessage" transition:fade>{errors.phone}</div>
-				{/if}
 			</div>
 
 			<div class="formGroup">
@@ -164,22 +174,23 @@
 				<textarea
 					id="message"
 					bind:value={formData.message}
-					oninput={() => handleInput('message')}
+					onblur={validateMessage}
+					oninput={() => clearError('message')}
 					rows="6"
 					required
+					aria-invalid={errors.message ? 'true' : undefined}
+					aria-describedby={errors.message ? 'message-error' : undefined}
 				></textarea>
-				{#if errors.message}
-					<div class="errorMessage" transition:fade>{errors.message}</div>
-				{/if}
+				<FieldError id="message-error" message={errors.message} />
 			</div>
+
+			<Turnstile />
 
 			<button class="submitButton" type="submit" disabled={status.sending}>
 				{status.sending ? 'Sending...' : 'Send Message'}
 			</button>
 
-			{#if status.error}
-				<div class="errorMessage" transition:fade>{status.error}</div>
-			{/if}
+			<FieldError message={status.error ?? ''} />
 		</form>
 	{/if}
 </div>
@@ -274,16 +285,6 @@
 		color: var(--textColor);
 		cursor: not-allowed;
 		transform: none;
-	}
-
-	.errorMessage {
-		color: #d32f2f;
-		background: rgba(211, 47, 47, 0.1);
-		padding: 0.75rem;
-		border-radius: 0.5rem;
-		margin-top: 0.5rem;
-		border: 1px solid #f44336;
-		font-size: 0.9rem;
 	}
 
 	.successMessage {
