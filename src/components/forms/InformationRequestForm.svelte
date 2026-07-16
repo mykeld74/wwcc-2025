@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import FieldError from './FieldError.svelte';
+	import PhoneInput from './PhoneInput.svelte';
+	import { validateEmail, validateRequired } from '$lib/formValidation';
 
 	interface TypeOption {
 		id: number;
@@ -28,17 +31,64 @@
 	let {
 		types,
 		form = null,
-		action = '/information-request',
+		action = '/go?/informationRequest',
 		idPrefix = 'info',
 		compact = false,
 		onsuccess
 	}: Props = $props();
 
-	let localForm = $state<FormState | null>(form);
+	let localForm = $state<FormState | null>(null);
+	let requestType = $state('');
+	let name = $state('');
+	let email = $state('');
+	let phone = $state('');
+	let message = $state('');
+	let fieldErrors = $state({
+		requestType: '',
+		name: '',
+		email: ''
+	});
+	let phoneInput = $state<{ validate: () => boolean } | null>(null);
 
 	$effect(() => {
 		localForm = form;
+		requestType = form?.requestType ?? '';
+		name = form?.name ?? '';
+		email = form?.email ?? '';
+		phone = form?.phone ?? '';
+		if (!form?.success) {
+			message = form?.message ?? '';
+		}
 	});
+
+	function clearError(field: keyof typeof fieldErrors) {
+		if (fieldErrors[field]) {
+			fieldErrors[field] = '';
+		}
+	}
+
+	function validateRequestType() {
+		fieldErrors.requestType = validateRequired(requestType, 'a request type');
+		return !fieldErrors.requestType;
+	}
+
+	function validateName() {
+		fieldErrors.name = validateRequired(name, 'your name');
+		return !fieldErrors.name;
+	}
+
+	function validateEmailField() {
+		fieldErrors.email = validateEmail(email);
+		return !fieldErrors.email;
+	}
+
+	function validateAll() {
+		const requestTypeValid = validateRequestType();
+		const nameValid = validateName();
+		const emailValid = validateEmailField();
+		const phoneValid = phoneInput?.validate() ?? true;
+		return requestTypeValid && nameValid && emailValid && phoneValid;
+	}
 </script>
 
 {#if localForm?.success}
@@ -52,7 +102,13 @@
 		{action}
 		class="requestForm"
 		class:compact
-		use:enhance={() => {
+		novalidate
+		use:enhance={({ cancel }) => {
+			if (!validateAll()) {
+				cancel();
+				return;
+			}
+
 			return async ({ result }) => {
 				if (result.type === 'success') {
 					localForm = (result.data as FormState) ?? { success: true };
@@ -64,7 +120,7 @@
 		}}
 	>
 		{#if localForm?.error}
-			<div class="errorMessage">{localForm.error}</div>
+			<FieldError message={localForm.error} />
 		{/if}
 
 		<div class="formGroup">
@@ -80,7 +136,11 @@
 				maxlength="255"
 				placeholder="Select or type a topic…"
 				autocomplete="off"
-				value={localForm?.requestType ?? ''}
+				bind:value={requestType}
+				onblur={validateRequestType}
+				oninput={() => clearError('requestType')}
+				aria-invalid={fieldErrors.requestType ? 'true' : undefined}
+				aria-describedby={fieldErrors.requestType ? `${idPrefix}-requestType-error` : undefined}
 			/>
 			<datalist id="{idPrefix}-requestTypeOptions">
 				{#each types as type (type.id)}
@@ -88,6 +148,7 @@
 				{/each}
 			</datalist>
 			<p class="fieldHint">Choose from the list or type your own if it isn’t listed.</p>
+			<FieldError id="{idPrefix}-requestType-error" message={fieldErrors.requestType} />
 		</div>
 
 		<div class="formGroup">
@@ -97,8 +158,13 @@
 				id="{idPrefix}-name"
 				name="name"
 				required
-				value={localForm?.name ?? ''}
+				bind:value={name}
+				onblur={validateName}
+				oninput={() => clearError('name')}
+				aria-invalid={fieldErrors.name ? 'true' : undefined}
+				aria-describedby={fieldErrors.name ? `${idPrefix}-name-error` : undefined}
 			/>
+			<FieldError id="{idPrefix}-name-error" message={fieldErrors.name} />
 		</div>
 
 		<div class="formGroup">
@@ -108,13 +174,18 @@
 				id="{idPrefix}-email"
 				name="email"
 				required
-				value={localForm?.email ?? ''}
+				bind:value={email}
+				onblur={validateEmailField}
+				oninput={() => clearError('email')}
+				aria-invalid={fieldErrors.email ? 'true' : undefined}
+				aria-describedby={fieldErrors.email ? `${idPrefix}-email-error` : undefined}
 			/>
+			<FieldError id="{idPrefix}-email-error" message={fieldErrors.email} />
 		</div>
 
 		<div class="formGroup">
 			<label for="{idPrefix}-phone">Phone <span class="optional">(optional)</span></label>
-			<input type="tel" id="{idPrefix}-phone" name="phone" value={localForm?.phone ?? ''} />
+			<PhoneInput id="{idPrefix}-phone" bind:this={phoneInput} bind:value={phone} />
 		</div>
 
 		<div class="formGroup">
@@ -124,7 +195,7 @@
 				name="message"
 				rows="5"
 				maxlength="2000"
-				value={localForm?.message ?? ''}
+				bind:value={message}
 			></textarea>
 		</div>
 
@@ -205,16 +276,6 @@
 
 	.submitButton:hover {
 		background: var(--accentColor);
-	}
-
-	.errorMessage {
-		color: #d32f2f;
-		background: rgba(211, 47, 47, 0.1);
-		padding: 0.75rem;
-		border-radius: 0.5rem;
-		margin-bottom: 1.25rem;
-		border: 1px solid #f44336;
-		font-size: 0.9rem;
 	}
 
 	.successMessage {

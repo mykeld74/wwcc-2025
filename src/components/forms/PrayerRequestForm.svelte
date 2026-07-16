@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import FieldError from './FieldError.svelte';
+	import { validateEmail, validateRequired } from '$lib/formValidation';
 
 	interface FormState {
 		success?: boolean;
@@ -27,11 +29,45 @@
 		onsuccess
 	}: Props = $props();
 
-	let localForm = $state<FormState | null>(form);
+	let localForm = $state<FormState | null>(null);
+	let request = $state('');
+	let name = $state('');
+	let email = $state('');
+	let isStaffOnly = $state(false);
+	let fieldErrors = $state({
+		request: '',
+		email: ''
+	});
 
 	$effect(() => {
 		localForm = form;
+		request = form?.request ?? '';
+		name = form?.name ?? '';
+		email = form?.email ?? '';
+		isStaffOnly = form?.isStaffOnly ?? false;
 	});
+
+	function clearError(field: keyof typeof fieldErrors) {
+		if (fieldErrors[field]) {
+			fieldErrors[field] = '';
+		}
+	}
+
+	function validateRequest() {
+		fieldErrors.request = validateRequired(request, 'a prayer request');
+		return !fieldErrors.request;
+	}
+
+	function validateEmailField() {
+		fieldErrors.email = validateEmail(email, { required: false });
+		return !fieldErrors.email;
+	}
+
+	function validateAll() {
+		const requestValid = validateRequest();
+		const emailValid = validateEmailField();
+		return requestValid && emailValid;
+	}
 </script>
 
 {#if localForm?.success}
@@ -45,7 +81,13 @@
 		{action}
 		class="requestForm"
 		class:compact
-		use:enhance={() => {
+		novalidate
+		use:enhance={({ cancel }) => {
+			if (!validateAll()) {
+				cancel();
+				return;
+			}
+
 			return async ({ result }) => {
 				if (result.type === 'success') {
 					localForm = (result.data as FormState) ?? { success: true };
@@ -57,7 +99,7 @@
 		}}
 	>
 		{#if localForm?.error}
-			<div class="errorMessage">{localForm.error}</div>
+			<FieldError message={localForm.error} />
 		{/if}
 
 		<div class="formGroup">
@@ -70,27 +112,37 @@
 				required
 				rows="5"
 				maxlength="2000"
-				value={localForm?.request ?? ''}
+				bind:value={request}
+				onblur={validateRequest}
+				oninput={() => clearError('request')}
+				aria-invalid={fieldErrors.request ? 'true' : undefined}
+				aria-describedby={fieldErrors.request ? `${idPrefix}-request-error` : undefined}
 			></textarea>
+			<FieldError id="{idPrefix}-request-error" message={fieldErrors.request} />
 		</div>
 
 		<div class="formGroup">
 			<label for="{idPrefix}-name">Name <span class="optional">(optional)</span></label>
-			<input type="text" id="{idPrefix}-name" name="name" value={localForm?.name ?? ''} />
+			<input type="text" id="{idPrefix}-name" name="name" bind:value={name} />
 		</div>
 
 		<div class="formGroup">
 			<label for="{idPrefix}-email">Email <span class="optional">(optional)</span></label>
-			<input type="email" id="{idPrefix}-email" name="email" value={localForm?.email ?? ''} />
+			<input
+				type="email"
+				id="{idPrefix}-email"
+				name="email"
+				bind:value={email}
+				onblur={validateEmailField}
+				oninput={() => clearError('email')}
+				aria-invalid={fieldErrors.email ? 'true' : undefined}
+				aria-describedby={fieldErrors.email ? `${idPrefix}-email-error` : undefined}
+			/>
+			<FieldError id="{idPrefix}-email-error" message={fieldErrors.email} />
 		</div>
 
 		<div class="formGroup checkboxGroup">
-			<input
-				type="checkbox"
-				id="{idPrefix}-isStaffOnly"
-				name="isStaffOnly"
-				checked={localForm?.isStaffOnly ?? false}
-			/>
+			<input type="checkbox" id="{idPrefix}-isStaffOnly" name="isStaffOnly" bind:checked={isStaffOnly} />
 			<label for="{idPrefix}-isStaffOnly">For Staff Only</label>
 		</div>
 
@@ -181,16 +233,6 @@
 
 	.submitButton:hover {
 		background: var(--accentColor);
-	}
-
-	.errorMessage {
-		color: #d32f2f;
-		background: rgba(211, 47, 47, 0.1);
-		padding: 0.75rem;
-		border-radius: 0.5rem;
-		margin-bottom: 1.25rem;
-		border: 1px solid #f44336;
-		font-size: 0.9rem;
 	}
 
 	.successMessage {

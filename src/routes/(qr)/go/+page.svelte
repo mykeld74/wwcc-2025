@@ -3,23 +3,27 @@
 	import FormModal from '$components/forms/FormModal.svelte';
 	import PrayerRequestForm from '$components/forms/PrayerRequestForm.svelte';
 	import InformationRequestForm from '$components/forms/InformationRequestForm.svelte';
-	import ContactInformationForm from '$components/forms/ContactInformationForm.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 
-	type ModalId = 'prayer' | 'info' | 'contact' | null;
+	type ModalId = 'prayer' | 'info' | null;
 
 	let activeModal = $state<ModalId>(null);
 	let prayerKey = $state(0);
 	let infoKey = $state(0);
-	let contactKey = $state(0);
 
-	const givingUrl = $derived(
-		`https://westwoods.churchcenter.com/giving?open-in-church-center-modal=true&theme=${getTheme()}`
+	const theme = $derived(getTheme());
+
+	const profileUrl = $derived(
+		`https://westwoods.churchcenter.com/me/profile-and-household?theme=${theme}`
 	);
 
-	const actions = [
+	const givingUrl = $derived(
+		`https://westwoods.churchcenter.com/giving?open-in-church-center-modal=true&theme=${theme}`
+	);
+
+	const modalActions = [
 		{
 			id: 'prayer' as const,
 			label: 'Submit a Prayer Request',
@@ -28,19 +32,13 @@
 		{
 			id: 'info' as const,
 			label: 'Request Information',
-			description: 'Ask about Connect Lunch, Family Promise, and more'
-		},
-		{
-			id: 'contact' as const,
-			label: 'Update Personal Info',
-			description: 'Add or update your contact details'
+			description: 'Ask about Connect Lunch, Partnership, Family Promise, and more'
 		}
 	];
 
 	function openModal(id: ModalId) {
 		if (id === 'prayer') prayerKey += 1;
 		if (id === 'info') infoKey += 1;
-		if (id === 'contact') contactKey += 1;
 		activeModal = id;
 	}
 
@@ -62,7 +60,7 @@
 	<p class="intro">How can we help you today?</p>
 
 	<nav class="actionList" aria-label="Quick actions">
-		{#each actions as action, index (action.id)}
+		{#each modalActions as action, index (action.id)}
 			<button
 				type="button"
 				class="actionLink"
@@ -76,9 +74,18 @@
 
 		<a
 			class="actionLink"
+			href={profileUrl}
+			style="--delay: {modalActions.length * 60}ms"
+		>
+			<span class="actionLabel">Update Personal Info</span>
+			<span class="actionDescription">Add or update your contact details</span>
+		</a>
+
+		<a
+			class="actionLink"
 			href={givingUrl}
 			data-open-in-church-center-modal="true"
-			style="--delay: {actions.length * 60}ms"
+			style="--delay: {(modalActions.length + 1) * 60}ms"
 		>
 			<span class="actionLabel">Give</span>
 			<span class="actionDescription">Support the ministry of Westwoods</span>
@@ -95,12 +102,6 @@
 <FormModal open={activeModal === 'info'} title="Information Request" onClose={closeModal}>
 	{#key infoKey}
 		<InformationRequestForm types={data.types} compact idPrefix="modal-info" />
-	{/key}
-</FormModal>
-
-<FormModal open={activeModal === 'contact'} title="Contact Information" onClose={closeModal}>
-	{#key contactKey}
-		<ContactInformationForm compact idPrefix="modal-contact" />
 	{/key}
 </FormModal>
 

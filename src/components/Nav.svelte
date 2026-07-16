@@ -107,8 +107,6 @@
 			label: 'Have a Question',
 			links: [
 				{ label: 'Contact Us', href: '/contact-us', icon: 'icon' },
-				{ label: 'Information Request', href: '/information-request', icon: 'icon' },
-				{ label: 'Contact Information', href: '/contact-information', icon: 'icon' },
 				{ label: 'FAQs', href: '/faq', icon: 'icon' }
 			]
 		},
