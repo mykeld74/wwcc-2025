@@ -56,9 +56,6 @@
 </svelte:head>
 
 <main class="landing">
-	<h1 class="brandTitle">Westwoods</h1>
-	<p class="intro">How can we help you today?</p>
-
 	<nav class="actionList" aria-label="Quick actions">
 		{#each modalActions as action, index (action.id)}
 			<button
@@ -112,23 +109,6 @@
 		align-content: start;
 		gap: 1.25rem;
 		padding-bottom: 1rem;
-	}
-
-	.brandTitle {
-		margin: 0;
-		text-align: center;
-		font-size: clamp(2rem, 8vw, 2.75rem);
-		font-weight: 700;
-		color: var(--titleColor);
-		letter-spacing: -0.02em;
-	}
-
-	.intro {
-		margin: 0;
-		text-align: center;
-		font-size: clamp(1.1rem, 4vw, 1.35rem);
-		color: var(--textColor);
-		text-wrap: balance;
 	}
 
 	.actionList {
