@@ -75,6 +75,7 @@
 		<a
 			class="actionLink"
 			href={profileUrl}
+			target="_blank"
 			style="--delay: {modalActions.length * 60}ms"
 		>
 			<span class="actionLabel">Update Personal Info</span>
