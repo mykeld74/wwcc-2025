@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import FieldError from './FieldError.svelte';
 	import PhoneInput from './PhoneInput.svelte';
+	import Turnstile from './Turnstile.svelte';
 	import { validateEmail, validateRequired } from '$lib/formValidation';
 
 	interface TypeOption {
@@ -115,6 +116,7 @@
 					onsuccess?.();
 				} else if (result.type === 'failure') {
 					localForm = (result.data as FormState) ?? { error: 'Something went wrong' };
+					window.turnstile?.reset();
 				}
 			};
 		}}
@@ -198,6 +200,8 @@
 				bind:value={message}
 			></textarea>
 		</div>
+
+		<Turnstile />
 
 		<button type="submit" class="submitButton">Submit Request</button>
 	</form>

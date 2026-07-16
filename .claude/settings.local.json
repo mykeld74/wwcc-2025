@@ -18,7 +18,10 @@
       "Bash(done)",
       "Bash(ls \"\\(site\\)/\")",
       "Bash(ls -la \"/Users/MichaelD/Developer/wwcc-2025/src/routes/\\(site\\)/.well-known/appspecific/com.chrome.devtools.json/\")",
-      "Bash(npx vite:*)"
+      "Bash(npx vite:*)",
+      "Bash(npx prettier *)",
+      "Bash(npx eslint *)",
+      "Bash(pnpm build *)"
     ]
   }
 }

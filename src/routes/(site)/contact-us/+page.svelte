@@ -1,6 +1,7 @@
 <script lang="ts">
 	import FieldError from '$components/forms/FieldError.svelte';
 	import PhoneInput from '$components/forms/PhoneInput.svelte';
+	import Turnstile from '$components/forms/Turnstile.svelte';
 	import {
 		validateEmail,
 		validateMinLength,
@@ -60,6 +61,8 @@
 
 	async function handleSubmit(e: SubmitEvent) {
 		e.preventDefault();
+		const form = e.currentTarget as HTMLFormElement;
+		const turnstileToken = new FormData(form).get('cf-turnstile-response');
 
 		const nameValid = validateName();
 		const emailValid = validateEmailField();
@@ -76,7 +79,10 @@
 		try {
 			const response = await fetch('/contact-us', {
 				method: 'POST',
-				body: JSON.stringify(formData),
+				body: JSON.stringify({
+					...formData,
+					turnstileToken
+				}),
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -89,9 +95,11 @@
 				formData = { name: '', email: '', phone: '', message: '' };
 			} else {
 				status.error = result.error || 'Failed to send message';
+				window.turnstile?.reset();
 			}
 		} catch (error) {
 			status.error = 'Failed to send message';
+			window.turnstile?.reset();
 		} finally {
 			status.sending = false;
 		}
@@ -175,6 +183,8 @@
 				></textarea>
 				<FieldError id="message-error" message={errors.message} />
 			</div>
+
+			<Turnstile />
 
 			<button class="submitButton" type="submit" disabled={status.sending}>
 				{status.sending ? 'Sending...' : 'Send Message'}

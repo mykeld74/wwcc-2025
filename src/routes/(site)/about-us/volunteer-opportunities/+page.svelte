@@ -6,6 +6,7 @@
 	import { Card } from '$components';
 	import FieldError from '$components/forms/FieldError.svelte';
 	import PhoneInput from '$components/forms/PhoneInput.svelte';
+	import Turnstile from '$components/forms/Turnstile.svelte';
 	import { validateEmail, validateRequired } from '$lib/formValidation';
 
 	let Team = $state('');
@@ -81,6 +82,7 @@
 			} else {
 				status.success = false;
 				status.message = 'There was an error sending your message. Please try again.';
+				window.turnstile?.reset();
 				setTimeout(() => {
 					status.message = '';
 				}, 2500);
@@ -112,7 +114,7 @@
 	<h1 class="pageTitle">Volunteer Opportunities</h1>
 	<div class="volunteerOpportunitiesContainer">
 		<div class="volunteerOpportunitiesWrapper">
-			{#each Opportunities as opportunity}
+			{#each Opportunities as opportunity (opportunity.id)}
 				<Card cardContent={opportunity} />
 			{/each}
 		</div>
@@ -199,6 +201,8 @@
 				/>
 				<input type="hidden" name="sendTo" value={Team} />
 				<input type="hidden" name="department" value={Title} />
+
+				<Turnstile />
 
 				<button type="submit" class="submitButton" disabled={status.submitting}>
 					{status.submitting ? 'Sending...' : 'Send Message'}

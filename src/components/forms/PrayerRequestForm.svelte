@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import FieldError from './FieldError.svelte';
+	import Turnstile from './Turnstile.svelte';
 	import { validateEmail, validateRequired } from '$lib/formValidation';
 
 	interface FormState {
@@ -94,6 +95,7 @@
 					onsuccess?.();
 				} else if (result.type === 'failure') {
 					localForm = (result.data as FormState) ?? { error: 'Something went wrong' };
+					window.turnstile?.reset();
 				}
 			};
 		}}
@@ -145,6 +147,8 @@
 			<input type="checkbox" id="{idPrefix}-isStaffOnly" name="isStaffOnly" bind:checked={isStaffOnly} />
 			<label for="{idPrefix}-isStaffOnly">For Staff Only</label>
 		</div>
+
+		<Turnstile />
 
 		<button type="submit" class="submitButton">Submit Prayer Request</button>
 	</form>

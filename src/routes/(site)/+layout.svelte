@@ -33,6 +33,8 @@
 		href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Sedgwick+Ave&display=swap"
 		rel="stylesheet"
 	/>
+	<link rel="preconnect" href="https://challenges.cloudflare.com" />
+	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 	<script src="https://js.churchcenter.com/modal/v1"></script>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->

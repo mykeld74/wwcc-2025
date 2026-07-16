@@ -1,4 +1,18 @@
 declare global {
+	interface Window {
+		turnstile?: {
+			render: (
+				container: HTMLElement,
+				options: {
+					sitekey: string;
+					theme?: 'auto' | 'light' | 'dark';
+				}
+			) => string;
+			reset: () => void;
+			remove: (widgetId: string) => void;
+		};
+	}
+
 	namespace App {
 		interface Locals {
 			session: {

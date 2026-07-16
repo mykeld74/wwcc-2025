@@ -2,6 +2,7 @@ import { fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { informationRequests, informationRequestTypes } from '$lib/server/db/schema';
 import { ensureInformationRequestTypes } from '$lib/server/db/seedInformationRequestTypes';
+import { verifyTurnstile } from '$lib/server/turnstile';
 import { asc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -21,7 +22,7 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-	informationRequest: async ({ request }) => {
+	informationRequest: async ({ request, getClientAddress }) => {
 		const data = await request.formData();
 		const requestType = (data.get('requestType') as string)?.trim() ?? '';
 		const name = (data.get('name') as string)?.trim() ?? '';
@@ -36,6 +37,14 @@ export const actions: Actions = {
 			phone,
 			message
 		};
+		const turnstile = await verifyTurnstile(
+			data.get('cf-turnstile-response'),
+			getClientAddress()
+		);
+
+		if (!turnstile.success) {
+			return fail(400, { error: turnstile.error, ...formValues });
+		}
 
 		if (!requestType) {
 			return fail(400, {

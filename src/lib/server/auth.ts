@@ -21,7 +21,11 @@ export const auth = betterAuth({
 		usePlural: true
 	}),
 	emailAndPassword: {
-		enabled: true
+		enabled: true,
+		// No public sign-up UI exists; accounts are created by admins
+		// (seed script / admin plugin). Without this flag, anyone could
+		// self-register via POST /api/auth/sign-up/email.
+		disableSignUp: true
 	},
 	plugins: [
 		admin({

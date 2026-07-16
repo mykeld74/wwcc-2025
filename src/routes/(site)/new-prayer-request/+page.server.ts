@@ -1,15 +1,30 @@
 import { fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db/index.js';
 import { prayerRequests } from '$lib/server/db/schema.js';
+import { verifyTurnstile } from '$lib/server/turnstile';
 import type { Actions } from './$types';
 
 export const actions: Actions = {
-	default: async ({ request }) => {
+	default: async ({ request, getClientAddress }) => {
 		const data = await request.formData();
 		const prayerRequest = data.get('request') as string;
 		const name = data.get('name') as string;
 		const email = data.get('email') as string;
 		const isStaffOnly = data.get('isStaffOnly') === 'on';
+		const turnstile = await verifyTurnstile(
+			data.get('cf-turnstile-response'),
+			getClientAddress()
+		);
+
+		if (!turnstile.success) {
+			return fail(400, {
+				error: turnstile.error,
+				name,
+				email,
+				isStaffOnly,
+				request: prayerRequest
+			});
+		}
 
 		// Basic validation
 		if (!prayerRequest || prayerRequest.trim().length === 0) {
