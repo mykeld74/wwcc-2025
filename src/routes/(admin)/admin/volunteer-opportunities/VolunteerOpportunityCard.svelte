@@ -13,7 +13,13 @@
 		submittedAt: string | Date;
 	};
 
-	let { opportunity, isAdmin, formatDate, compact = false, statusEnhance } = $props<{
+	let {
+		opportunity,
+		isAdmin,
+		formatDate,
+		compact = false,
+		statusEnhance
+	} = $props<{
 		opportunity: Opportunity;
 		isAdmin: boolean;
 		formatDate: (date: string | Date) => string;
@@ -22,7 +28,7 @@
 	}>();
 </script>
 
-<article class="opportunityCard" class:compact={compact} class:addressed={opportunity.addressed}>
+<article class="opportunityCard" class:compact class:addressed={opportunity.addressed}>
 	<div class="statusStrip" class:addressed={opportunity.addressed} aria-hidden="true"></div>
 	<div class="cardHeader">
 		<div>
@@ -96,13 +102,7 @@
 <style>
 	.opportunityCard {
 		min-width: 0;
-		background:
-			radial-gradient(
-				150% 115% at 100% 0%,
-				var(--cardStatusGlow, var(--cardPendingGlow, rgba(0, 224, 255, 0.24))),
-				transparent 55%
-			),
-			linear-gradient(145deg, var(--cardSurfaceTop, #1e243b), var(--cardSurfaceBottom, #111727));
+
 		border: 1px solid var(--cardEdge, rgba(148, 163, 184, 0.28));
 		border-radius: 1.15rem;
 		box-shadow:

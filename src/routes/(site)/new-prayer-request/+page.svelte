@@ -1,146 +1,217 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 
-	export let form: ActionData;
-
-	// Reactive state to clear form on success
-	$: if (form?.success) {
-		clearForm();
-	}
-
-	function clearForm() {
-		const formElement = document.querySelector('form');
-		if (formElement) {
-			formElement.reset();
-		}
-	}
+	let { form }: { form: ActionData } = $props();
 </script>
 
-<div class="contentWrapper">
+<svelte:head>
+	<meta
+		name="description"
+		content="Submit a prayer request to Westwoods Community Church. Our team is here to pray with you."
+	/>
+</svelte:head>
+
+<div class="titleContainer">
 	<h1 class="pageTitle">Submit a Prayer Request</h1>
+	<p class="heroSubtitle">
+		Share your prayer request below. Our team will lift it up in prayer.
+	</p>
+</div>
 
+<div class="prayerContainer">
 	{#if form?.success}
-		<p class="success-message">{form.message}</p>
+		<div class="successMessage">
+			<h2>Thank you!</h2>
+			<p>{form.message}</p>
+		</div>
+	{:else}
+		<form
+			method="POST"
+			class="prayerForm"
+			use:enhance={() => {
+				return async ({ update }) => {
+					await update({ reset: true });
+				};
+			}}
+		>
+			{#if form?.error}
+				<div class="errorMessage">{form.error}</div>
+			{/if}
+
+			<div class="formGroup">
+				<label for="request">Prayer Request <span class="required">(required)</span></label>
+				<textarea
+					id="request"
+					name="request"
+					required
+					rows="6"
+					maxlength="2000"
+					value={form?.request ?? ''}
+				></textarea>
+			</div>
+
+			<div class="formGroup">
+				<label for="name">Name <span class="optional">(optional)</span></label>
+				<input type="text" id="name" name="name" value={form?.name ?? ''} />
+			</div>
+
+			<div class="formGroup">
+				<label for="email">Email <span class="optional">(optional)</span></label>
+				<input type="email" id="email" name="email" value={form?.email ?? ''} />
+			</div>
+
+			<div class="formGroup checkboxGroup">
+				<input
+					type="checkbox"
+					id="isStaffOnly"
+					name="isStaffOnly"
+					checked={form?.isStaffOnly ?? false}
+				/>
+				<label for="isStaffOnly">For Staff Only</label>
+			</div>
+
+			<button type="submit" class="submitButton">Submit Prayer Request</button>
+		</form>
 	{/if}
-
-	{#if form?.error}
-		<p class="error-message">{form.error}</p>
-	{/if}
-
-	<form method="POST" class="prayer-form">
-		<div class="form-group">
-			<label for="request">Prayer Request (required)</label>
-			<textarea id="request" name="request" required rows="6" maxlength="2000">{form?.request ?? ''}</textarea>
-		</div>
-
-		<div class="form-group">
-			<label for="name">Name (optional)</label>
-			<input type="text" id="name" name="name" value={form?.name ?? ''} />
-		</div>
-
-		<div class="form-group">
-			<label for="email">Email (optional)</label>
-			<input type="email" id="email" name="email" value={form?.email ?? ''} />
-		</div>
-
-		<div class="form-group checkbox-group">
-			<input type="checkbox" id="isStaffOnly" name="isStaffOnly" checked={form?.isStaffOnly ?? false} />
-			<label for="isStaffOnly">For Staff Only</label>
-		</div>
-
-		<button type="submit" class="submit-button">Submit Prayer Request</button>
-	</form>
 </div>
 
 <style>
-	.contentWrapper {
-		max-width: 600px;
-		margin: 2rem auto;
-		padding: 2rem;
-		background: #f9f9f9;
-		border-radius: 8px;
-		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-	}
-
-	.pageTitle {
+	.titleContainer {
 		text-align: center;
-		margin-bottom: 2rem;
-		color: #333;
+		margin-bottom: 3rem;
+		grid-area: hero / content;
 	}
 
-	.prayer-form {
-		display: flex;
-		flex-direction: column;
-		gap: 1.5rem;
+	.heroSubtitle {
+		font-size: clamp(1.25rem, 2.5vw, 2rem);
+		margin: 0 0 2rem;
+		color: var(--textColor);
+		text-wrap: balance;
 	}
 
-	.form-group {
-		display: flex;
-		flex-direction: column;
+	.prayerContainer {
+		width: calc(100% - 3rem);
+		max-width: 600px;
+		margin: 0 auto 11rem;
+		padding: 0 1rem;
+		grid-area: content / content;
 	}
 
-	label {
+	.prayerForm {
+		background: var(--cardBackground);
+		padding: 2rem;
+		border-radius: 0.5rem;
+		box-shadow: 0 4px 20px var(--overlayColor);
+		border: 1px solid var(--cardBorder);
+	}
+
+	.formGroup {
+		margin-bottom: 1.5rem;
+	}
+
+	.formGroup label {
+		display: block;
 		margin-bottom: 0.5rem;
 		font-weight: 600;
-		color: #555;
-	}
-
-	input,
-	textarea {
-		padding: 0.75rem;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-		font-size: 1rem;
-		transition: border-color 0.2s;
-	}
-
-	input:focus,
-	textarea:focus {
-		border-color: #007bff;
-		outline: none;
-	}
-
-	.checkbox-group {
-		flex-direction: row;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.checkbox-group input {
-		width: auto;
-	}
-
-	.submit-button {
-		padding: 1rem;
-		border: none;
-		border-radius: 4px;
-		background-color: #007bff;
-		color: white;
+		color: var(--textColor);
 		font-size: 1.1rem;
-		font-weight: 600;
+	}
+
+	.required,
+	.optional {
+		font-weight: 400;
+		font-size: 0.9rem;
+		opacity: 0.7;
+	}
+
+	.formGroup input,
+	.formGroup textarea {
+		width: 100%;
+		padding: 0.75rem 1rem;
+		border: 1px solid var(--cardBorder);
+		border-radius: 0.5rem;
+		font-size: 1rem;
+		font-family: inherit;
+		background: var(--backgroundColor);
+		color: var(--textColor);
+		transition: border-color 0.3s ease;
+	}
+
+	.formGroup input:focus,
+	.formGroup textarea:focus {
+		outline: none;
+		border-color: var(--primaryColor);
+	}
+
+	.formGroup textarea {
+		resize: vertical;
+		min-height: 120px;
+	}
+
+	.checkboxGroup {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.checkboxGroup input {
+		width: auto;
+		accent-color: var(--primaryColor);
+	}
+
+	.checkboxGroup label {
+		margin-bottom: 0;
+	}
+
+	.submitButton {
+		width: 100%;
+		padding: 1rem 2rem;
+		border-radius: 0.5rem;
+		background: var(--titleColor);
+		color: var(--backgroundColor);
+		border: none;
 		cursor: pointer;
-		transition: background-color 0.2s;
+		font-size: 1.25rem;
+		font-weight: 600;
+		transition: all 0.3s ease-in-out;
+		margin-top: 1rem;
 	}
 
-	.submit-button:hover {
-		background-color: #0056b3;
+	.submitButton:hover {
+		background: var(--accentColor);
+		transform: scale(1.02);
 	}
 
-	.success-message {
-		background-color: #d4edda;
-		color: #155724;
-		padding: 1rem;
-		border: 1px solid #c3e6cb;
-		border-radius: 4px;
+	.errorMessage {
+		color: #d32f2f;
+		background: rgba(211, 47, 47, 0.1);
+		padding: 0.75rem;
+		border-radius: 0.5rem;
 		margin-bottom: 1.5rem;
+		border: 1px solid #f44336;
+		font-size: 0.9rem;
 	}
 
-	.error-message {
-		background-color: #f8d7da;
-		color: #721c24;
-		padding: 1rem;
-		border: 1px solid #f5c6cb;
-		border-radius: 4px;
-		margin-bottom: 1.5rem;
+	.successMessage {
+		background: var(--cardBackground);
+		padding: 2rem;
+		border-radius: 0.5rem;
+		text-align: center;
+		border: 1px solid var(--primaryColor);
+		box-shadow: 0 4px 20px var(--overlayColor);
+	}
+
+	.successMessage h2 {
+		color: var(--titleColor);
+		margin-bottom: 1rem;
+		font-size: 1.5rem;
+	}
+
+	.successMessage p {
+		color: var(--textColor);
+		font-size: 1.1rem;
+		margin: 0;
 	}
 </style>
