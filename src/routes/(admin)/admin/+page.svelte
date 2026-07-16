@@ -31,7 +31,7 @@
 <div class="dashboard">
 	<header class="pageHeader">
 		<h1>Dashboard</h1>
-		<p>Quick snapshot of volunteer and prayer request activity.</p>
+		<p>Quick snapshot of volunteer, prayer, information, and contact activity.</p>
 	</header>
 
 	<div class="statsGrid">
@@ -51,6 +51,24 @@
 			</div>
 			<p class="statNumber">{data.stats.prayerTotal}</p>
 			<p class="statDetail">View and manage submitted requests</p>
+		</a>
+
+		<a href="/admin/information-requests" class="statCard">
+			<div class="cardTop">
+				<h3>Info Requests</h3>
+				<span class="cardBadge">Follow-up</span>
+			</div>
+			<p class="statNumber">{data.stats.infoTotal}</p>
+			<p class="statDetail">{data.stats.infoPending} pending</p>
+		</a>
+
+		<a href="/admin/contact-information" class="statCard">
+			<div class="cardTop">
+				<h3>Contact Info</h3>
+				<span class="cardBadge">Records</span>
+			</div>
+			<p class="statNumber">{data.stats.contactTotal}</p>
+			<p class="statDetail">{data.stats.contactPending} pending</p>
 		</a>
 	</div>
 
@@ -76,6 +94,14 @@
 				<li>
 					<span class="metricLabel">Volunteers pending over 7 days</span>
 					<strong>{data.stats.volunteerPendingOver7Days}</strong>
+				</li>
+				<li>
+					<span class="metricLabel">Information requests pending</span>
+					<strong>{data.stats.infoPending}</strong>
+				</li>
+				<li>
+					<span class="metricLabel">Contact updates pending</span>
+					<strong>{data.stats.contactPending}</strong>
 				</li>
 			</ul>
 		</section>
@@ -114,7 +140,7 @@
 		<section class="panel">
 			<div class="panelHeader">
 				<h2>Recent Activity</h2>
-				<span>Latest prayer + volunteer submissions</span>
+				<span>Latest submissions across forms</span>
 			</div>
 			{#if data.recentActivity.length === 0}
 				<p class="emptyText">No activity yet.</p>
@@ -124,7 +150,16 @@
 						<li>
 							<div>
 								<p class="activityTitle">
-									{item.kind === 'prayer' ? 'Prayer Request' : 'Volunteer Request'} - {item.name}
+									{#if item.kind === 'prayer'}
+										Prayer Request
+									{:else if item.kind === 'volunteer'}
+										Volunteer Request
+									{:else if item.kind === 'info'}
+										Info Request
+									{:else}
+										Contact Info
+									{/if}
+									- {item.name}
 								</p>
 								<p class="activityMeta">{formatDate(item.submittedAt)} - {item.status}</p>
 							</div>
@@ -143,8 +178,8 @@
 			<div class="actionGrid">
 				<a href="/admin/volunteer-opportunities" class="quickAction">Review volunteer queue</a>
 				<a href="/admin/prayer-requests" class="quickAction">Open prayer requests</a>
-				<a href="/admin/prayer-requests" class="quickAction">Review staff-only requests</a>
-				<a href="/admin" class="quickAction">Refresh dashboard metrics</a>
+				<a href="/admin/information-requests" class="quickAction">Review info requests</a>
+				<a href="/admin/contact-information" class="quickAction">Review contact updates</a>
 			</div>
 		</section>
 	</div>

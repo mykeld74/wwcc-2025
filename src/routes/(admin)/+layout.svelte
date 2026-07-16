@@ -23,6 +23,16 @@
 			label: 'Prayer Requests',
 			href: '/admin/prayer-requests',
 			icon: 'prayer'
+		},
+		{
+			label: 'Info Requests',
+			href: '/admin/information-requests',
+			icon: 'info'
+		},
+		{
+			label: 'Contact Info',
+			href: '/admin/contact-information',
+			icon: 'contact'
 		}
 	];
 
@@ -92,6 +102,17 @@
 			<circle cx="17" cy="9" r="2.5"></circle>
 			<path d="M4.5 18.5C4.8 15.9 6.9 14 9.5 14H10.4C13 14 15.1 15.9 15.4 18.5"></path>
 			<path d="M14 18.5C14.2 16.9 15.6 15.7 17.2 15.7H17.8C19.4 15.7 20.8 16.9 21 18.5"></path>
+		</svg>
+	{:else if iconName === 'info'}
+		<svg viewBox="0 0 24 24" aria-hidden="true">
+			<circle cx="12" cy="12" r="9"></circle>
+			<path d="M12 10.5v6"></path>
+			<circle cx="12" cy="7.5" r="1"></circle>
+		</svg>
+	{:else if iconName === 'contact'}
+		<svg viewBox="0 0 24 24" aria-hidden="true">
+			<rect x="4" y="3.5" width="16" height="17" rx="2"></rect>
+			<path d="M8 8h8M8 12h8M8 16h5"></path>
 		</svg>
 	{:else}
 		<svg viewBox="0 0 24 24" aria-hidden="true">

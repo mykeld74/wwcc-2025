@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PrayerRequestForm from '$components/forms/PrayerRequestForm.svelte';
+	import ContactInformationForm from '$components/forms/ContactInformationForm.svelte';
 	import type { ActionData } from './$types';
 
 	let { form }: { form: ActionData } = $props();
@@ -8,19 +8,19 @@
 <svelte:head>
 	<meta
 		name="description"
-		content="Submit a prayer request to Westwoods Community Church. Our team is here to pray with you."
+		content="Add or update your contact information with Westwoods Community Church."
 	/>
 </svelte:head>
 
 <div class="titleContainer">
-	<h1 class="pageTitle">Submit a Prayer Request</h1>
+	<h1 class="pageTitle">Contact Information</h1>
 	<p class="heroSubtitle">
-		Share your prayer request below. Our team will lift it up in prayer.
+		Add yourself as a new contact or update the information we already have on file.
 	</p>
 </div>
 
-<div class="prayerContainer">
-	<PrayerRequestForm {form} idPrefix="page-prayer" />
+<div class="formContainer">
+	<ContactInformationForm {form} idPrefix="page-contact" />
 </div>
 
 <style>
@@ -37,7 +37,7 @@
 		text-wrap: balance;
 	}
 
-	.prayerContainer {
+	.formContainer {
 		width: calc(100% - 3rem);
 		max-width: 600px;
 		margin: 0 auto 11rem;

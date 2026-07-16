@@ -1,5 +1,10 @@
 import { db } from '$lib/server/db';
-import { prayerRequests, volunteerOpportunities } from '$lib/server/db/schema';
+import {
+	prayerRequests,
+	volunteerOpportunities,
+	informationRequests,
+	contactInformationRequests
+} from '$lib/server/db/schema';
 import { and, desc, eq, count, gte, lt } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
@@ -32,8 +37,14 @@ export const load: PageServerLoad = async () => {
 		[prayerPreviousWeek],
 		[volunteerCurrentWeek],
 		[volunteerPreviousWeek],
+		[infoTotal],
+		[infoPending],
+		[contactTotal],
+		[contactPending],
 		recentPrayerRequests,
-		recentVolunteerRequests
+		recentVolunteerRequests,
+		recentInfoRequests,
+		recentContactRequests
 	] = await Promise.all([
 		db.select({ count: count() }).from(volunteerOpportunities),
 		db
@@ -93,6 +104,16 @@ export const load: PageServerLoad = async () => {
 					lt(volunteerOpportunities.submittedAt, sevenDaysAgo)
 				)
 			),
+		db.select({ count: count() }).from(informationRequests),
+		db
+			.select({ count: count() })
+			.from(informationRequests)
+			.where(eq(informationRequests.addressed, false)),
+		db.select({ count: count() }).from(contactInformationRequests),
+		db
+			.select({ count: count() })
+			.from(contactInformationRequests)
+			.where(eq(contactInformationRequests.addressed, false)),
 		db
 			.select({
 				id: prayerRequests.id,
@@ -112,6 +133,28 @@ export const load: PageServerLoad = async () => {
 			})
 			.from(volunteerOpportunities)
 			.orderBy(desc(volunteerOpportunities.submittedAt))
+			.limit(5),
+		db
+			.select({
+				id: informationRequests.id,
+				type: informationRequests.addressed,
+				name: informationRequests.name,
+				label: informationRequests.requestTypeLabel,
+				submittedAt: informationRequests.submittedAt
+			})
+			.from(informationRequests)
+			.orderBy(desc(informationRequests.submittedAt))
+			.limit(5),
+		db
+			.select({
+				id: contactInformationRequests.id,
+				type: contactInformationRequests.addressed,
+				name: contactInformationRequests.name,
+				label: contactInformationRequests.submissionType,
+				submittedAt: contactInformationRequests.submittedAt
+			})
+			.from(contactInformationRequests)
+			.orderBy(desc(contactInformationRequests.submittedAt))
 			.limit(5)
 	]);
 
@@ -131,6 +174,24 @@ export const load: PageServerLoad = async () => {
 			submittedAt: item.submittedAt,
 			status: item.type ? 'Addressed' : 'Pending',
 			href: '/admin/volunteer-opportunities'
+		})),
+		...recentInfoRequests.map((item) => ({
+			id: item.id,
+			kind: 'info' as const,
+			name: item.name || 'Anonymous',
+			submittedAt: item.submittedAt,
+			status: item.type ? `Addressed · ${item.label}` : `Pending · ${item.label}`,
+			href: '/admin/information-requests'
+		})),
+		...recentContactRequests.map((item) => ({
+			id: item.id,
+			kind: 'contact' as const,
+			name: item.name || 'Anonymous',
+			submittedAt: item.submittedAt,
+			status: item.type
+				? `Addressed · ${item.label === 'update' ? 'Update' : 'New'}`
+				: `Pending · ${item.label === 'update' ? 'Update' : 'New'}`,
+			href: '/admin/contact-information'
 		}))
 	]
 		.sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime())
@@ -148,7 +209,11 @@ export const load: PageServerLoad = async () => {
 			prayerCurrentWeek: prayerCurrentWeek.count,
 			prayerPreviousWeek: prayerPreviousWeek.count,
 			volunteerCurrentWeek: volunteerCurrentWeek.count,
-			volunteerPreviousWeek: volunteerPreviousWeek.count
+			volunteerPreviousWeek: volunteerPreviousWeek.count,
+			infoTotal: infoTotal.count,
+			infoPending: infoPending.count,
+			contactTotal: contactTotal.count,
+			contactPending: contactPending.count
 		},
 		recentActivity
 	};

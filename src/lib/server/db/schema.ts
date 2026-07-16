@@ -82,3 +82,43 @@ export const volunteerOpportunities = pgTable('volunteer_opportunities', {
 	submittedAt: timestamp('submitted_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });
+
+export const informationRequestTypes = pgTable('information_request_types', {
+	id: serial('id').primaryKey(),
+	label: varchar('label', { length: 255 }).notNull().unique(),
+	isActive: boolean('is_active').default(true).notNull(),
+	sortOrder: integer('sort_order').default(0).notNull(),
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
+});
+
+export const informationRequests = pgTable('information_requests', {
+	id: serial('id').primaryKey(),
+	requestTypeId: integer('request_type_id').references(() => informationRequestTypes.id, {
+		onDelete: 'set null'
+	}),
+	requestTypeLabel: varchar('request_type_label', { length: 255 }).notNull(),
+	name: varchar('name', { length: 255 }).notNull(),
+	email: varchar('email', { length: 255 }).notNull(),
+	phone: varchar('phone', { length: 20 }),
+	message: text('message').notNull(),
+	addressed: boolean('addressed').default(false).notNull(),
+	submittedAt: timestamp('submitted_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
+});
+
+export const contactInformationRequests = pgTable('contact_information_requests', {
+	id: serial('id').primaryKey(),
+	submissionType: varchar('submission_type', { length: 20 }).notNull(),
+	name: varchar('name', { length: 255 }).notNull(),
+	email: varchar('email', { length: 255 }).notNull(),
+	phone: varchar('phone', { length: 20 }),
+	street: varchar('street', { length: 255 }),
+	city: varchar('city', { length: 100 }),
+	state: varchar('state', { length: 50 }),
+	zip: varchar('zip', { length: 20 }),
+	notes: text('notes'),
+	addressed: boolean('addressed').default(false).notNull(),
+	submittedAt: timestamp('submitted_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
+});
