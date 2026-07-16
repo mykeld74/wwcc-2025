@@ -3,38 +3,68 @@
 	import { fade } from 'svelte/transition';
 	import Opportunities from '$data/volunteerOpportunies.js';
 	import { enhance } from '$app/forms';
-	import IMask from 'imask';
 	import { Card } from '$components';
-	const maskConfig = { mask: '(000) 000-0000' };
-	let Team = '';
-	let Title = '';
-	let isPopoverOpen = false;
+	import FieldError from '$components/forms/FieldError.svelte';
+	import PhoneInput from '$components/forms/PhoneInput.svelte';
+	import Turnstile from '$components/forms/Turnstile.svelte';
+	import { validateEmail, validateRequired } from '$lib/formValidation';
 
-	let formData = {
+	let Team = $state('');
+	let Title = $state('');
+	let isPopoverOpen = $state(false);
+	let phoneInput = $state(null);
+
+	let formData = $state({
 		name: '',
 		email: '',
 		phone: '',
-		team: `Please contact me about volunteering for ${Title}.`,
+		team: '',
 		sendTo: '',
-		department: Title,
+		department: '',
 		message: ''
-	};
+	});
 
-	let status = {
+	let fieldErrors = $state({
+		name: '',
+		email: ''
+	});
+
+	let status = $state({
 		submitting: false,
 		message: '',
 		success: false
-	};
+	});
+
+	function clearError(field) {
+		if (fieldErrors[field]) {
+			fieldErrors[field] = '';
+		}
+	}
+
+	function validateName() {
+		fieldErrors.name = validateRequired(formData.name, 'your name');
+		return !fieldErrors.name;
+	}
+
+	function validateEmailField() {
+		fieldErrors.email = validateEmail(formData.email);
+		return !fieldErrors.email;
+	}
+
+	function validateAll() {
+		const nameValid = validateName();
+		const emailValid = validateEmailField();
+		const phoneValid = phoneInput?.validate() ?? false;
+		return nameValid && emailValid && phoneValid;
+	}
 
 	function handleSubmit() {
-		status.submitting = true;
 		return async ({ result }) => {
 			status.submitting = false;
 			if (result.type === 'success') {
 				status.success = true;
 				status.message =
 					'Thank you! Your message has been sent successfully. We will contact you soon.';
-				// Reset form on success
 				formData = {
 					name: '',
 					email: '',
@@ -52,6 +82,7 @@
 			} else {
 				status.success = false;
 				status.message = 'There was an error sending your message. Please try again.';
+				window.turnstile?.reset();
 				setTimeout(() => {
 					status.message = '';
 				}, 2500);
@@ -83,7 +114,7 @@
 	<h1 class="pageTitle">Volunteer Opportunities</h1>
 	<div class="volunteerOpportunitiesContainer">
 		<div class="volunteerOpportunitiesWrapper">
-			{#each Opportunities as opportunity}
+			{#each Opportunities as opportunity (opportunity.id)}
 				<Card cardContent={opportunity} />
 			{/each}
 		</div>
@@ -108,27 +139,54 @@
 				{status.message}
 			</div>
 		{:else}
-			<form method="POST" use:enhance={handleSubmit}>
+			<form
+				method="POST"
+				novalidate
+				use:enhance={({ cancel }) => {
+					if (!validateAll()) {
+						cancel();
+						return;
+					}
+
+					status.submitting = true;
+					return handleSubmit();
+				}}
+			>
 				<div class="formGroup">
 					<label for="name">Name</label>
-					<input type="text" id="name" name="name" bind:value={formData.name} required />
+					<input
+						type="text"
+						id="name"
+						name="name"
+						bind:value={formData.name}
+						required
+						onblur={validateName}
+						oninput={() => clearError('name')}
+						aria-invalid={fieldErrors.name ? 'true' : undefined}
+						aria-describedby={fieldErrors.name ? 'volunteer-name-error' : undefined}
+					/>
+					<FieldError id="volunteer-name-error" message={fieldErrors.name} />
 				</div>
 
 				<div class="formGroup">
 					<label for="email">Email</label>
-					<input type="email" id="email" name="email" bind:value={formData.email} required />
+					<input
+						type="email"
+						id="email"
+						name="email"
+						bind:value={formData.email}
+						required
+						onblur={validateEmailField}
+						oninput={() => clearError('email')}
+						aria-invalid={fieldErrors.email ? 'true' : undefined}
+						aria-describedby={fieldErrors.email ? 'volunteer-email-error' : undefined}
+					/>
+					<FieldError id="volunteer-email-error" message={fieldErrors.email} />
 				</div>
 
 				<div class="formGroup">
 					<label for="phone">Phone</label>
-					<input
-						type="tel"
-						id="phone"
-						name="phone"
-						required
-						use:IMask={maskConfig}
-						bind:value={formData.phone}
-					/>
+					<PhoneInput id="phone" required bind:this={phoneInput} bind:value={formData.phone} />
 				</div>
 
 				<div class="formGroup">
@@ -143,6 +201,8 @@
 				/>
 				<input type="hidden" name="sendTo" value={Team} />
 				<input type="hidden" name="department" value={Title} />
+
+				<Turnstile />
 
 				<button type="submit" class="submitButton" disabled={status.submitting}>
 					{status.submitting ? 'Sending...' : 'Send Message'}

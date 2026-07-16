@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(grep -r \"userId\\\\|user\\\\|auth\\\\|session\\\\|login\" /Users/MichaelD/Developer/wwcc-2025/src --include=*.ts --include=*.js --include=*.svelte)",
+      "Bash(grep -E \"^src$|^package|^svelte|^vite|^tsconfig\")",
+      "Bash(ls /Users/MichaelD/Developer/wwcc-2025/drizzle.config.*)",
+      "WebFetch(domain:better-auth.com)",
+      "Bash(pnpm add:*)",
+      "Bash(openssl rand:*)",
+      "Bash(pnpm db:push)",
+      "Bash(pnpm db:push --force)",
+      "Bash(npx drizzle-kit:*)",
+      "Bash(mkdir -p \"\\(site\\)\")",
+      "Bash(mkdir -p \"\\(admin\\)\")",
+      "Bash(for item:*)",
+      "Bash(do mv:*)",
+      "Bash(done)",
+      "Bash(ls \"\\(site\\)/\")",
+      "Bash(ls -la \"/Users/MichaelD/Developer/wwcc-2025/src/routes/\\(site\\)/.well-known/appspecific/com.chrome.devtools.json/\")",
+      "Bash(npx vite:*)",
+      "Bash(npx prettier *)",
+      "Bash(npx eslint *)",
+      "Bash(pnpm build *)"
+    ]
+  }
+}
