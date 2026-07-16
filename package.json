@@ -39,6 +39,7 @@
 	"dependencies": {
 		"@neondatabase/serverless": "^0.10.4",
 		"@portabletext/svelte": "^2.1.11",
+		"@sentry/sveltekit": "^10.65.0",
 		"better-auth": "^1.5.5",
 		"cloudinary": "^2.5.1",
 		"drizzle-orm": "^0.45.1",
