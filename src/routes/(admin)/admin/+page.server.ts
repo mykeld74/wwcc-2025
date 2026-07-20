@@ -2,9 +2,9 @@ import { db } from '$lib/server/db';
 import {
 	prayerRequests,
 	volunteerOpportunities,
-	informationRequests,
-	contactInformationRequests
+	informationRequests
 } from '$lib/server/db/schema';
+import { formatPersonName } from '$lib/personName';
 import { and, desc, eq, count, gte, lt } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
@@ -39,12 +39,9 @@ export const load: PageServerLoad = async () => {
 		[volunteerPreviousWeek],
 		[infoTotal],
 		[infoPending],
-		[contactTotal],
-		[contactPending],
 		recentPrayerRequests,
 		recentVolunteerRequests,
-		recentInfoRequests,
-		recentContactRequests
+		recentInfoRequests
 	] = await Promise.all([
 		db.select({ count: count() }).from(volunteerOpportunities),
 		db
@@ -109,16 +106,12 @@ export const load: PageServerLoad = async () => {
 			.select({ count: count() })
 			.from(informationRequests)
 			.where(eq(informationRequests.addressed, false)),
-		db.select({ count: count() }).from(contactInformationRequests),
-		db
-			.select({ count: count() })
-			.from(contactInformationRequests)
-			.where(eq(contactInformationRequests.addressed, false)),
 		db
 			.select({
 				id: prayerRequests.id,
 				type: prayerRequests.isStaffOnly,
-				name: prayerRequests.name,
+				firstName: prayerRequests.firstName,
+				lastName: prayerRequests.lastName,
 				submittedAt: prayerRequests.submittedAt
 			})
 			.from(prayerRequests)
@@ -144,17 +137,6 @@ export const load: PageServerLoad = async () => {
 			})
 			.from(informationRequests)
 			.orderBy(desc(informationRequests.submittedAt))
-			.limit(5),
-		db
-			.select({
-				id: contactInformationRequests.id,
-				type: contactInformationRequests.addressed,
-				name: contactInformationRequests.name,
-				label: contactInformationRequests.submissionType,
-				submittedAt: contactInformationRequests.submittedAt
-			})
-			.from(contactInformationRequests)
-			.orderBy(desc(contactInformationRequests.submittedAt))
 			.limit(5)
 	]);
 
@@ -162,7 +144,7 @@ export const load: PageServerLoad = async () => {
 		...recentPrayerRequests.map((item) => ({
 			id: item.id,
 			kind: 'prayer' as const,
-			name: item.name || 'Anonymous',
+			name: formatPersonName(item.firstName, item.lastName),
 			submittedAt: item.submittedAt,
 			status: item.type ? 'Staff Only' : 'Public',
 			href: '/admin/prayer-requests'
@@ -182,16 +164,6 @@ export const load: PageServerLoad = async () => {
 			submittedAt: item.submittedAt,
 			status: item.type ? `Addressed · ${item.label}` : `Pending · ${item.label}`,
 			href: '/admin/information-requests'
-		})),
-		...recentContactRequests.map((item) => ({
-			id: item.id,
-			kind: 'contact' as const,
-			name: item.name || 'Anonymous',
-			submittedAt: item.submittedAt,
-			status: item.type
-				? `Addressed · ${item.label === 'update' ? 'Update' : 'New'}`
-				: `Pending · ${item.label === 'update' ? 'Update' : 'New'}`,
-			href: '/admin/contact-information'
 		}))
 	]
 		.sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime())
@@ -211,9 +183,7 @@ export const load: PageServerLoad = async () => {
 			volunteerCurrentWeek: volunteerCurrentWeek.count,
 			volunteerPreviousWeek: volunteerPreviousWeek.count,
 			infoTotal: infoTotal.count,
-			infoPending: infoPending.count,
-			contactTotal: contactTotal.count,
-			contactPending: contactPending.count
+			infoPending: infoPending.count
 		},
 		recentActivity
 	};

@@ -9,7 +9,8 @@
 		message?: string;
 		error?: string;
 		request?: string;
-		name?: string;
+		firstName?: string;
+		lastName?: string;
 		email?: string;
 		isStaffOnly?: boolean;
 	}
@@ -32,7 +33,8 @@
 
 	let localForm = $state<FormState | null>(null);
 	let request = $state('');
-	let name = $state('');
+	let firstName = $state('');
+	let lastName = $state('');
 	let email = $state('');
 	let isStaffOnly = $state(false);
 	let fieldErrors = $state({
@@ -43,7 +45,8 @@
 	$effect(() => {
 		localForm = form;
 		request = form?.request ?? '';
-		name = form?.name ?? '';
+		firstName = form?.firstName ?? '';
+		lastName = form?.lastName ?? '';
 		email = form?.email ?? '';
 		isStaffOnly = form?.isStaffOnly ?? false;
 	});
@@ -123,9 +126,20 @@
 			<FieldError id="{idPrefix}-request-error" message={fieldErrors.request} />
 		</div>
 
-		<div class="formGroup">
-			<label for="{idPrefix}-name">Name <span class="optional">(optional)</span></label>
-			<input type="text" id="{idPrefix}-name" name="name" bind:value={name} />
+		<div class="nameRow">
+			<div class="formGroup">
+				<label for="{idPrefix}-firstName"
+					>First Name <span class="optional">(optional)</span></label
+				>
+				<input type="text" id="{idPrefix}-firstName" name="firstName" bind:value={firstName} />
+			</div>
+
+			<div class="formGroup">
+				<label for="{idPrefix}-lastName"
+					>Last Name <span class="optional">(optional)</span></label
+				>
+				<input type="text" id="{idPrefix}-lastName" name="lastName" bind:value={lastName} />
+			</div>
 		</div>
 
 		<div class="formGroup">
@@ -144,7 +158,12 @@
 		</div>
 
 		<div class="formGroup checkboxGroup">
-			<input type="checkbox" id="{idPrefix}-isStaffOnly" name="isStaffOnly" bind:checked={isStaffOnly} />
+			<input
+				type="checkbox"
+				id="{idPrefix}-isStaffOnly"
+				name="isStaffOnly"
+				bind:checked={isStaffOnly}
+			/>
 			<label for="{idPrefix}-isStaffOnly">For Staff Only</label>
 		</div>
 
@@ -168,6 +187,12 @@
 		background: transparent;
 		border: none;
 		box-shadow: none;
+	}
+
+	.nameRow {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
 	}
 
 	.formGroup {
@@ -252,5 +277,12 @@
 	.successMessage p {
 		margin: 0;
 		color: var(--textColor);
+	}
+
+	@media (max-width: 520px) {
+		.nameRow {
+			grid-template-columns: 1fr;
+			gap: 0;
+		}
 	}
 </style>

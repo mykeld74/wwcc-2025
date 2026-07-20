@@ -8,7 +8,8 @@ export const actions: Actions = {
 	default: async ({ request, getClientAddress }) => {
 		const data = await request.formData();
 		const prayerRequest = data.get('request') as string;
-		const name = data.get('name') as string;
+		const firstName = data.get('firstName') as string;
+		const lastName = data.get('lastName') as string;
 		const email = data.get('email') as string;
 		const isStaffOnly = data.get('isStaffOnly') === 'on';
 		const turnstile = await verifyTurnstile(
@@ -16,57 +17,53 @@ export const actions: Actions = {
 			getClientAddress()
 		);
 
+		const formValues = {
+			firstName,
+			lastName,
+			email,
+			isStaffOnly,
+			request: prayerRequest
+		};
+
 		if (!turnstile.success) {
 			return fail(400, {
 				error: turnstile.error,
-				name,
-				email,
-				isStaffOnly,
-				request: prayerRequest
+				...formValues
 			});
 		}
 
-		// Basic validation
 		if (!prayerRequest || prayerRequest.trim().length === 0) {
 			return fail(400, {
 				error: 'Prayer request is required',
-				name,
-				email,
-				isStaffOnly
+				...formValues,
+				request: undefined
 			});
 		}
 
 		if (prayerRequest.trim().length > 2000) {
 			return fail(400, {
 				error: 'Prayer request must be less than 2000 characters',
-				name,
-				email,
-				isStaffOnly,
-				request: prayerRequest
+				...formValues
 			});
 		}
 
-		// Email validation if provided
 		if (email && email.trim().length > 0) {
 			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 			if (!emailRegex.test(email.trim())) {
 				return fail(400, {
 					error: 'Please enter a valid email address',
-					name,
-					email,
-					isStaffOnly,
-					request: prayerRequest
+					...formValues
 				});
 			}
 		}
 
 		try {
-			// Insert the prayer request into the database
 			await db.insert(prayerRequests).values({
 				request: prayerRequest.trim(),
-				name: name?.trim() || null,
+				firstName: firstName?.trim() || null,
+				lastName: lastName?.trim() || null,
 				email: email?.trim() || null,
-				isStaffOnly: isStaffOnly
+				isStaffOnly
 			});
 
 			return {
@@ -77,10 +74,7 @@ export const actions: Actions = {
 			console.error('Error submitting prayer request:', error);
 			return fail(500, {
 				error: 'There was an error submitting your prayer request. Please try again.',
-				name,
-				email,
-				isStaffOnly,
-				request: prayerRequest
+				...formValues
 			});
 		}
 	}

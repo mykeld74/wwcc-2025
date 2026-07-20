@@ -62,7 +62,8 @@ export const verifications = pgTable('verifications', {
 export const prayerRequests = pgTable('prayer_requests', {
 	id: serial('id').primaryKey(),
 	request: text('request').notNull(),
-	name: varchar('name', { length: 255 }),
+	firstName: varchar('first_name', { length: 255 }),
+	lastName: varchar('last_name', { length: 255 }),
 	email: varchar('email', { length: 255 }),
 	isStaffOnly: boolean('is_staff_only').default(false).notNull(),
 	submittedAt: timestamp('submitted_at').defaultNow().notNull(),
@@ -102,22 +103,6 @@ export const informationRequests = pgTable('information_requests', {
 	email: varchar('email', { length: 255 }).notNull(),
 	phone: varchar('phone', { length: 20 }),
 	message: text('message').notNull(),
-	addressed: boolean('addressed').default(false).notNull(),
-	submittedAt: timestamp('submitted_at').defaultNow().notNull(),
-	updatedAt: timestamp('updated_at').defaultNow().notNull()
-});
-
-export const contactInformationRequests = pgTable('contact_information_requests', {
-	id: serial('id').primaryKey(),
-	submissionType: varchar('submission_type', { length: 20 }).notNull(),
-	name: varchar('name', { length: 255 }).notNull(),
-	email: varchar('email', { length: 255 }).notNull(),
-	phone: varchar('phone', { length: 20 }),
-	street: varchar('street', { length: 255 }),
-	city: varchar('city', { length: 100 }),
-	state: varchar('state', { length: 50 }),
-	zip: varchar('zip', { length: 20 }),
-	notes: text('notes'),
 	addressed: boolean('addressed').default(false).notNull(),
 	submittedAt: timestamp('submitted_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull()

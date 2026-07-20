@@ -1,12 +1,17 @@
 <script>
 	import { enhance } from '$app/forms';
 	import { fly } from 'svelte/transition';
+	import { formatPersonName } from '$lib/personName';
 
 	let { data } = $props();
 	let filter = $state('all');
 	let datePreset = $state('showAll');
 	let startDate = $state('');
 	let endDate = $state('');
+
+	const canBulkUpload = $derived(
+		data.user?.role === 'admin' || data.user?.role === 'staff'
+	);
 
 	const filtered = $derived(
 		data.requests.filter((request) => {
@@ -72,7 +77,12 @@
 
 <div class="page">
 	<div class="pageHeader">
-		<h1>Prayer Requests</h1>
+		<div class="titleBlock">
+			<h1>Prayer Requests</h1>
+			{#if canBulkUpload}
+				<a href="/admin/prayer-requests/bulk" class="bulkLink">Bulk upload</a>
+			{/if}
+		</div>
 		<div class="filters">
 			<button class="filterBtn" class:active={filter === 'all'} onclick={() => (filter = 'all')}>
 				All ({data.requests.length})
@@ -143,11 +153,13 @@
 		</div>
 	{:else}
 		<div class="requestsList">
-			{#each filtered as request}
+			{#each filtered as request (request.id)}
 				<div class="requestCard">
 					<div class="requestHeader">
 						<div class="requestMeta">
-							<span class="requestName">{request.name || 'Anonymous'}</span>
+							<span class="requestName"
+								>{formatPersonName(request.firstName, request.lastName)}</span
+							>
 							{#if request.email}
 								<a href="mailto:{request.email}" class="requestEmail">{request.email}</a>
 							{/if}
@@ -246,6 +258,32 @@
 		margin-bottom: 1.5rem;
 		flex-wrap: wrap;
 		gap: 1rem;
+	}
+
+	.titleBlock {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.bulkLink {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem 0.9rem;
+		border: 1px solid var(--buttonPrimary);
+		border-radius: 0.55rem;
+		background: var(--buttonPrimary);
+		color: var(--buttonPrimaryText);
+		font-size: 0.85rem;
+		font-weight: 600;
+		text-decoration: none;
+		min-height: var(--controlHeight);
+	}
+
+	.bulkLink:hover {
+		opacity: 0.92;
 	}
 
 	.filters {

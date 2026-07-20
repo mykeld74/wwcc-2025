@@ -28,11 +28,6 @@
 			label: 'Info Requests',
 			href: '/admin/information-requests',
 			icon: 'info'
-		},
-		{
-			label: 'Contact Info',
-			href: '/admin/contact-information',
-			icon: 'contact'
 		}
 	];
 
@@ -109,11 +104,6 @@
 			<path d="M12 10.5v6"></path>
 			<circle cx="12" cy="7.5" r="1"></circle>
 		</svg>
-	{:else if iconName === 'contact'}
-		<svg viewBox="0 0 24 24" aria-hidden="true">
-			<rect x="4" y="3.5" width="16" height="17" rx="2"></rect>
-			<path d="M8 8h8M8 12h8M8 16h5"></path>
-		</svg>
 	{:else}
 		<svg viewBox="0 0 24 24" aria-hidden="true">
 			<path d="M9.5 4.5 8 10.2c-.2.8 0 1.6.6 2.2l2.1 2.1c.7.7 1.9.7 2.6 0l2.1-2.1c.6-.6.8-1.5.6-2.2l-1.5-5.7"></path>
@@ -149,7 +139,8 @@
 					<a
 						href={item.href}
 						class="navLink"
-						class:active={page.url.pathname === item.href}
+		class:active={page.url.pathname === item.href ||
+							(item.href !== '/admin' && page.url.pathname.startsWith(item.href))}
 						aria-label={item.label}
 						title={isSidebarCollapsed ? item.label : undefined}
 					>

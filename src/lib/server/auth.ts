@@ -9,8 +9,7 @@ import { db } from './db';
 const statement = {
 	prayerRequest: ['create', 'read', 'update', 'delete', 'list'],
 	volunteerOpportunity: ['create', 'read', 'update', 'delete', 'list'],
-	informationRequest: ['create', 'read', 'update', 'delete', 'list'],
-	contactInformationRequest: ['create', 'read', 'update', 'delete', 'list']
+	informationRequest: ['create', 'read', 'update', 'delete', 'list']
 } as const;
 
 const ac = createAccessControl(statement);
@@ -34,14 +33,12 @@ export const auth = betterAuth({
 				admin: ac.newRole({
 					prayerRequest: ['create', 'read', 'update', 'delete', 'list'],
 					volunteerOpportunity: ['create', 'read', 'update', 'delete', 'list'],
-					informationRequest: ['create', 'read', 'update', 'delete', 'list'],
-					contactInformationRequest: ['create', 'read', 'update', 'delete', 'list']
+					informationRequest: ['create', 'read', 'update', 'delete', 'list']
 				}),
 				staff: ac.newRole({
 					prayerRequest: ['read', 'update', 'list'],
 					volunteerOpportunity: ['read', 'update', 'list'],
-					informationRequest: ['read', 'update', 'list'],
-					contactInformationRequest: ['read', 'update', 'list']
+					informationRequest: ['read', 'update', 'list']
 				}),
 				volunteer: ac.newRole({
 					volunteerOpportunity: ['read', 'list']
