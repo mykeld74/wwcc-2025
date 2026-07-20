@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import { prayerRequests } from '$lib/server/db/schema';
-import { desc, eq } from 'drizzle-orm';
+import { desc, eq, sql } from 'drizzle-orm';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 
@@ -8,7 +8,11 @@ export const load: PageServerLoad = async () => {
 	const requests = await db
 		.select()
 		.from(prayerRequests)
-		.orderBy(desc(prayerRequests.submittedAt));
+		.orderBy(
+			desc(prayerRequests.submittedAt),
+			sql`lower(${prayerRequests.lastName}) ASC NULLS LAST`,
+			sql`lower(${prayerRequests.firstName}) ASC NULLS LAST`
+		);
 
 	return { requests };
 };
