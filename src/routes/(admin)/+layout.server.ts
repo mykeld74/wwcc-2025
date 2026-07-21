@@ -1,11 +1,12 @@
 import { redirect } from '@sveltejs/kit';
+import { isPublicAdminPath } from '$lib/adminPublicPaths';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ locals, url, cookies }) => {
 	const cookieTheme = cookies.get('adminTheme');
 	const adminTheme = cookieTheme === 'dark' || cookieTheme === 'light' ? cookieTheme : undefined;
 
-	if (url.pathname === '/admin/login') {
+	if (isPublicAdminPath(url.pathname)) {
 		return { user: locals.user, adminTheme };
 	}
 

@@ -2,6 +2,7 @@ import './instrumentation.server';
 import { sequence } from '@sveltejs/kit/hooks';
 import * as Sentry from '@sentry/sveltekit';
 import { auth } from '$lib/server/auth';
+import { isPublicAdminPath } from '$lib/adminPublicPaths';
 import { svelteKitHandler } from 'better-auth/svelte-kit';
 import { building } from '$app/environment';
 import { redirect } from '@sveltejs/kit';
@@ -26,7 +27,7 @@ export const handle: Handle = sequence(Sentry.sentryHandle(), async ({ event, re
 	// form actions (POSTs) skip load functions entirely, so a layout guard
 	// alone leaves admin actions callable without authentication.
 	const { pathname } = event.url;
-	if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+	if (pathname.startsWith('/admin') && !isPublicAdminPath(pathname)) {
 		const role = event.locals.user?.role ?? '';
 		if (!event.locals.user || !ADMIN_ROLES.includes(role)) {
 			if (event.request.method === 'GET' || event.request.method === 'HEAD') {

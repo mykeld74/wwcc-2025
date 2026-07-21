@@ -1,78 +1,71 @@
 <script>
 	import { authClient } from '$lib/auth-client';
 
-	let { data } = $props();
 	let email = $state('');
-	let password = $state('');
-	let error = $state(data.reasonMessage ?? '');
+	let message = $state('');
+	let success = $state(false);
 	let loading = $state(false);
 
-	async function handleLogin(e) {
+	async function handleSubmit(e) {
 		e.preventDefault();
-		error = '';
+		message = '';
 		loading = true;
+
 		try {
-			const { error: authError } = await authClient.signIn.email({
+			const { error: authError } = await authClient.requestPasswordReset({
 				email,
-				password
+				redirectTo: '/admin/reset-password'
 			});
 
 			if (authError) {
-				error = authError.message || 'Invalid email or password';
+				message = authError.message || 'Unable to send reset email. Please try again.';
+				success = false;
 				return;
 			}
 
-			// Force a full reload so the freshly-set auth cookie is definitely included.
-			window.location.assign('/admin');
-			return;
+			success = true;
+			message =
+				'If an account exists for that email, we sent a password reset link. Check your inbox.';
 		} catch (err) {
-			console.error('Admin login failed:', err);
-			error = 'Unable to sign in right now. Please try again.';
+			console.error('Password reset request failed:', err);
+			success = false;
+			message = 'Unable to send reset email right now. Please try again.';
 		} finally {
 			loading = false;
 		}
 	}
 </script>
 
-<div class="loginContainer">
-	<div class="loginCard">
-		<h1>Staff Login</h1>
-		<p class="subtitle">Westwoods Community Church</p>
+<div class="authContainer">
+	<div class="authCard">
+		<h1>Forgot Password</h1>
+		<p class="subtitle">Enter your email and we will send you a reset link.</p>
 
-		{#if error}
-			<div class="errorMessage">{error}</div>
+		{#if message}
+			<div class="message" class:success class:error={!success}>{message}</div>
 		{/if}
 
-		<form onsubmit={handleLogin}>
-			<div class="formGroup">
-				<label for="email">Email</label>
-				<input type="email" id="email" bind:value={email} required autocomplete="email" />
-			</div>
+		{#if !success}
+			<form onsubmit={handleSubmit}>
+				<div class="formGroup">
+					<label for="email">Email</label>
+					<input type="email" id="email" bind:value={email} required autocomplete="email" />
+				</div>
 
-			<div class="formGroup">
-				<label for="password">Password</label>
-				<input
-					type="password"
-					id="password"
-					bind:value={password}
-					required
-					autocomplete="current-password"
-				/>
-			</div>
+				<button type="submit" class="primaryButton" disabled={loading}>
+					{loading ? 'Sending...' : 'Send Reset Link'}
+				</button>
+			</form>
+		{/if}
 
-			<button type="submit" class="loginButton" disabled={loading}>
-				{loading ? 'Signing in...' : 'Sign In'}
-			</button>
-		</form>
-
-		<p class="forgotPassword">
-			<a href="/admin/forgot-password">Forgot your password?</a>
+		<p class="backLink">
+			<a href="/admin/login">Back to sign in</a>
 		</p>
 	</div>
 </div>
 
 <style>
-	.loginContainer {
+	.authContainer {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -81,7 +74,7 @@
 		font-family: 'Open Sans', sans-serif;
 	}
 
-	.loginCard {
+	.authCard {
 		background: #fff;
 		padding: 2.5rem;
 		border-radius: 0.75rem;
@@ -130,7 +123,7 @@
 		border-color: #1a1a2e;
 	}
 
-	.loginButton {
+	.primaryButton {
 		width: 100%;
 		padding: 0.75rem;
 		background: #1a1a2e;
@@ -144,32 +137,38 @@
 		margin-top: 0.5rem;
 	}
 
-	.loginButton:hover:not(:disabled) {
+	.primaryButton:hover:not(:disabled) {
 		background: #2a2a4e;
 	}
 
-	.loginButton:disabled {
+	.primaryButton:disabled {
 		opacity: 0.7;
 		cursor: not-allowed;
 	}
 
-	.errorMessage {
-		background: #fef2f2;
-		color: #dc2626;
+	.message {
 		padding: 0.75rem;
 		border-radius: 0.375rem;
 		margin-bottom: 1rem;
 		font-size: 0.9rem;
 		border: 1px solid #fecaca;
+		background: #fef2f2;
+		color: #dc2626;
 	}
 
-	.forgotPassword {
-		margin: 1.25rem 0 0;
+	.message.success {
+		background: #f0fdf4;
+		color: #16a34a;
+		border-color: #bbf7d0;
+	}
+
+	.backLink {
+		margin: 1.5rem 0 0;
 		text-align: center;
 		font-size: 0.9rem;
 	}
 
-	.forgotPassword a {
+	.backLink a {
 		color: #1a1a2e;
 	}
 </style>
