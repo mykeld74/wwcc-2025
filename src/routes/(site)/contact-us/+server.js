@@ -1,18 +1,7 @@
 import { json } from '@sveltejs/kit';
-import nodemailer from 'nodemailer';
-import { env } from '$env/dynamic/private';
 import { escapeHtml } from '$lib/server/escapeHtml';
+import { sendMail } from '$lib/server/mail';
 import { verifyTurnstile } from '$lib/server/turnstile';
-
-const transporter = nodemailer.createTransport({
-	host: env.MAIL_HOST,
-	port: Number(env.MAIL_PORT),
-	secure: false,
-	auth: {
-		user: env.GOOGLE_EMAIL,
-		pass: env.GOOGLE_EMAIL_PASSWORD
-	}
-});
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -52,8 +41,8 @@ export const POST = async ({ request, getClientAddress }) => {
 	}
 
 	try {
-		await transporter.sendMail({
-			from: `"Westwoods Web Inquiry" <${env.GOOGLE_EMAIL}>`,
+		await sendMail({
+			from: 'Westwoods Web Inquiry <noreply@westwoodscc.org>',
 			to: 'info@westwoodscc.org',
 			replyTo: email,
 			subject: `New Contact Form Submission from ${name}`,

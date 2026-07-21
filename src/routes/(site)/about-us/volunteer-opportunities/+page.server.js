@@ -1,9 +1,8 @@
-import nodemailer from 'nodemailer';
-import { env } from '$env/dynamic/private';
 import { fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { volunteerOpportunities } from '$lib/server/db/schema';
 import { escapeHtml } from '$lib/server/escapeHtml';
+import { sendMail } from '$lib/server/mail';
 import { verifyTurnstile } from '$lib/server/turnstile';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -12,15 +11,6 @@ const getString = (formData, key) => {
 	const value = formData.get(key);
 	return typeof value === 'string' ? value.trim() : '';
 };
-
-// Create reusable transporter object using SMTP transport
-const transporter = nodemailer.createTransport({
-	service: 'gmail',
-	auth: {
-		user: env.GOOGLE_EMAIL,
-		pass: env.GOOGLE_EMAIL_PASSWORD
-	}
-});
 
 export const actions = {
 	default: async ({ request, getClientAddress }) => {
@@ -92,10 +82,10 @@ export const actions = {
 				addressed: false
 			});
 
-			// Email options
-			const mailOptions = {
-				from: `"Westwoods Volunteer Inquiry" <${env.GOOGLE_EMAIL}>`,
-				to: sendTo, // Send to yourself
+			await sendMail({
+				from: 'Westwoods Volunteer Inquiry <noreply@westwoodscc.org>',
+				to: sendTo,
+				replyTo: email,
 				subject: `New volunteer inquiry from ${name}`,
 				text: `
 					Name: ${name}
@@ -133,9 +123,7 @@ export const actions = {
 						}
 					</style>
 				`
-			};
-
-			await transporter.sendMail(mailOptions);
+			});
 
 			return {
 				success: true,
