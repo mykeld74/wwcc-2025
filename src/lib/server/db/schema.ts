@@ -66,6 +66,7 @@ export const prayerRequests = pgTable('prayer_requests', {
 	lastName: varchar('last_name', { length: 255 }),
 	email: varchar('email', { length: 255 }),
 	isStaffOnly: boolean('is_staff_only').default(false).notNull(),
+	isWwKid: boolean('is_ww_kid').default(false).notNull(),
 	submittedAt: timestamp('submitted_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });

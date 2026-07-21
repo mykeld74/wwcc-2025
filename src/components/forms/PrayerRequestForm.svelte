@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import FieldError from './FieldError.svelte';
 	import Turnstile from './Turnstile.svelte';
-	import { validateEmail, validateRequired } from '$lib/formValidation';
+	import { validateRequired } from '$lib/formValidation';
 
 	interface FormState {
 		success?: boolean;
@@ -11,7 +11,6 @@
 		request?: string;
 		firstName?: string;
 		lastName?: string;
-		email?: string;
 		isStaffOnly?: boolean;
 	}
 
@@ -35,11 +34,9 @@
 	let request = $state('');
 	let firstName = $state('');
 	let lastName = $state('');
-	let email = $state('');
 	let isStaffOnly = $state(false);
 	let fieldErrors = $state({
-		request: '',
-		email: ''
+		request: ''
 	});
 
 	$effect(() => {
@@ -47,7 +44,6 @@
 		request = form?.request ?? '';
 		firstName = form?.firstName ?? '';
 		lastName = form?.lastName ?? '';
-		email = form?.email ?? '';
 		isStaffOnly = form?.isStaffOnly ?? false;
 	});
 
@@ -62,15 +58,8 @@
 		return !fieldErrors.request;
 	}
 
-	function validateEmailField() {
-		fieldErrors.email = validateEmail(email, { required: false });
-		return !fieldErrors.email;
-	}
-
 	function validateAll() {
-		const requestValid = validateRequest();
-		const emailValid = validateEmailField();
-		return requestValid && emailValid;
+		return validateRequest();
 	}
 </script>
 
@@ -140,21 +129,6 @@
 				>
 				<input type="text" id="{idPrefix}-lastName" name="lastName" bind:value={lastName} />
 			</div>
-		</div>
-
-		<div class="formGroup">
-			<label for="{idPrefix}-email">Email <span class="optional">(optional)</span></label>
-			<input
-				type="email"
-				id="{idPrefix}-email"
-				name="email"
-				bind:value={email}
-				onblur={validateEmailField}
-				oninput={() => clearError('email')}
-				aria-invalid={fieldErrors.email ? 'true' : undefined}
-				aria-describedby={fieldErrors.email ? `${idPrefix}-email-error` : undefined}
-			/>
-			<FieldError id="{idPrefix}-email-error" message={fieldErrors.email} />
 		</div>
 
 		<div class="formGroup checkboxGroup">

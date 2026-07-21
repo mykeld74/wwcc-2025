@@ -10,7 +10,6 @@ export const actions: Actions = {
 		const prayerRequest = data.get('request') as string;
 		const firstName = data.get('firstName') as string;
 		const lastName = data.get('lastName') as string;
-		const email = data.get('email') as string;
 		const isStaffOnly = data.get('isStaffOnly') === 'on';
 		const turnstile = await verifyTurnstile(
 			data.get('cf-turnstile-response'),
@@ -20,7 +19,6 @@ export const actions: Actions = {
 		const formValues = {
 			firstName,
 			lastName,
-			email,
 			isStaffOnly,
 			request: prayerRequest
 		};
@@ -47,22 +45,11 @@ export const actions: Actions = {
 			});
 		}
 
-		if (email && email.trim().length > 0) {
-			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-			if (!emailRegex.test(email.trim())) {
-				return fail(400, {
-					error: 'Please enter a valid email address',
-					...formValues
-				});
-			}
-		}
-
 		try {
 			await db.insert(prayerRequests).values({
 				request: prayerRequest.trim(),
 				firstName: firstName?.trim() || null,
 				lastName: lastName?.trim() || null,
-				email: email?.trim() || null,
 				isStaffOnly
 			});
 

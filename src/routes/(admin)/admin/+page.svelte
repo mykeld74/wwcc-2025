@@ -154,18 +154,6 @@
 				</ul>
 			{/if}
 		</section>
-
-		<section class="panel">
-			<div class="panelHeader">
-				<h2>Quick Actions</h2>
-				<span>Common admin tasks</span>
-			</div>
-			<div class="actionGrid">
-				<a href="/admin/volunteer-opportunities" class="quickAction">Review volunteer queue</a>
-				<a href="/admin/prayer-requests" class="quickAction">Open prayer requests</a>
-				<a href="/admin/information-requests" class="quickAction">Review info requests</a>
-			</div>
-		</section>
 	</div>
 </div>
 
@@ -300,27 +288,6 @@
 		white-space: nowrap;
 	}
 
-	.actionGrid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.6rem;
-	}
-
-	.quickAction {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.65rem 0.75rem;
-		border: 1px solid var(--panelBorder);
-		border-radius: 0.6rem;
-		text-decoration: none;
-		color: var(--textSecondary);
-		font-size: 0.82rem;
-		font-weight: 600;
-		background: color-mix(in oklch, var(--panelBg), var(--panelAltBg) 35%);
-	}
-
-	.quickAction:hover,
 	.viewLink:hover {
 		border-color: color-mix(in oklch, var(--cardAccent), transparent 65%);
 		color: var(--textPrimary);
@@ -422,10 +389,6 @@
 
 		.statNumber {
 			font-size: 2rem;
-		}
-
-		.actionGrid {
-			grid-template-columns: 1fr;
 		}
 	}
 </style>

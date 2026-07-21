@@ -211,6 +211,12 @@
 		font-family: 'Open Sans', sans-serif;
 	}
 
+	:global(html:has(.adminLayout)),
+	:global(body:has(.adminLayout)) {
+		height: 100%;
+		overflow: hidden;
+	}
+
 	.adminLayout {
 		--adminSidebarBg: #ffffff;
 		--adminSidebarText: #1f2433;
@@ -224,8 +230,10 @@
 		--adminMainText: #1f2433;
 		--adminSidebarWidth: 250px;
 		display: grid;
-		grid-template-columns: var(--adminSidebarWidth) 1fr;
-		height: 100vh;
+		grid-template-columns: var(--adminSidebarWidth) minmax(0, 1fr);
+		grid-template-rows: minmax(0, 1fr);
+		min-height: 100dvh;
+		height: 100dvh;
 		color: var(--adminMainText);
 		transition: grid-template-columns 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 		overflow: hidden;
@@ -254,7 +262,8 @@
 		display: flex;
 		flex-direction: column;
 		padding: 0;
-		height: 100vh;
+		min-height: 0;
+		height: 100%;
 		overflow: hidden;
 		border-right: 1px solid var(--adminSidebarBorder);
 	}
@@ -484,9 +493,13 @@
 
 	.adminMain {
 		background: var(--adminMainBg);
+		min-height: 0;
 		padding: 2rem;
-		height: 100vh;
+		padding-bottom: max(2.5rem, calc(env(safe-area-inset-bottom, 0px) + 1.5rem));
+		overflow-x: hidden;
 		overflow-y: auto;
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
 	}
 
 	:global(.adminLayout[data-theme='dark'] .page),
@@ -501,6 +514,7 @@
 	@media (max-width: 768px) {
 		.adminLayout {
 			grid-template-columns: 1fr;
+			grid-template-rows: minmax(0, 1fr);
 		}
 
 		.adminLayout[data-collapsed='true'] {
@@ -516,6 +530,7 @@
 			flex-direction: row;
 			align-items: center;
 			padding: 0;
+			padding-bottom: env(safe-area-inset-bottom, 0px);
 			height: auto;
 		}
 
@@ -549,7 +564,7 @@
 
 		.adminMain {
 			padding: 1rem;
-			padding-bottom: 4rem;
+			padding-bottom: max(5.5rem, calc(env(safe-area-inset-bottom, 0px) + 4.75rem));
 		}
 	}
 
