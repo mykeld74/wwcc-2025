@@ -32,7 +32,8 @@ export const auth = betterAuth({
 		disableSignUp: true,
 		revokeSessionsOnPasswordReset: true,
 		sendResetPassword: async ({ user, url }) => {
-			void sendMail({
+			await sendMail({
+				from: 'Westwoods Admin <noreply@westwoodscc.org>',
 				to: user.email,
 				subject: 'Reset your Westwoods admin password',
 				text: `Click the link below to reset your password:\n\n${url}\n\nThis link expires in 1 hour. If you did not request a password reset, you can ignore this email.`,
@@ -43,7 +44,7 @@ export const auth = betterAuth({
 							<p>Hi ${escapeHtml(user.name || 'there')},</p>
 							<p>We received a request to reset the password for your Westwoods admin account.</p>
 							<p style="margin: 24px 0;">
-								<a href="${escapeHtml(url)}" style="display: inline-block; background: #1a1a2e; color: #fff; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: 600;">
+								<a href="${url}" style="display: inline-block; background: #1a1a2e; color: #fff; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: 600;">
 									Reset password
 								</a>
 							</p>
@@ -51,8 +52,6 @@ export const auth = betterAuth({
 						</div>
 					</body>
 				`
-			}).catch((error) => {
-				console.error('Failed to send password reset email:', error);
 			});
 		}
 	},
