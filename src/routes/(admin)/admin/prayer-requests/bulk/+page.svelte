@@ -13,9 +13,9 @@
 			id,
 			firstName: '',
 			lastName: '',
-			email: '',
 			request: '',
-			isStaffOnly: false
+			isStaffOnly: false,
+			isWwKid: false
 		};
 	}
 
@@ -151,16 +151,16 @@
 								(row) =>
 									row.firstName.trim() ||
 									row.lastName.trim() ||
-									row.email.trim() ||
 									row.request.trim() ||
-									row.isStaffOnly
+									row.isStaffOnly ||
+									row.isWwKid
 							)
-							.map(({ firstName, lastName, email, request, isStaffOnly }) => ({
+							.map(({ firstName, lastName, request, isStaffOnly, isWwKid }) => ({
 								firstName,
 								lastName,
-								email,
 								request,
 								isStaffOnly,
+								isWwKid,
 								submittedAt: bulkSubmittedAt
 							}))
 					)}
@@ -194,18 +194,20 @@
 									<span>Last name</span>
 									<input type="text" bind:value={row.lastName} />
 								</label>
-								<label>
-									<span>Email</span>
-									<input type="email" bind:value={row.email} />
-								</label>
 								<label class="requestField">
 									<span>Request</span>
 									<textarea rows="2" bind:value={row.request}></textarea>
 								</label>
-								<label class="staffCheck">
-									<input type="checkbox" bind:checked={row.isStaffOnly} />
-									<span>Staff only</span>
-								</label>
+								<div class="checkboxRow">
+									<label class="flagCheck">
+										<input type="checkbox" bind:checked={row.isStaffOnly} />
+										<span>Staff only</span>
+									</label>
+									<label class="flagCheck">
+										<input type="checkbox" bind:checked={row.isWwKid} />
+										<span>WW Kid</span>
+									</label>
+								</div>
 							</div>
 						</article>
 					{/each}
@@ -240,11 +242,11 @@
 				<div class="csvHelp">
 					<p>
 						Required header:
-						<code>firstName,lastName,email,request,isStaffOnly,submittedAt</code>
+						<code>firstName,lastName,request,isStaffOnly,isWwKid,submittedAt</code>
 					</p>
 					<p>
-						<code>request</code> is required. <code>email</code> is optional.
-						<code>isStaffOnly</code> accepts true/false, yes/no, or 1/0.
+						<code>request</code> is required.
+						<code>isStaffOnly</code> and <code>isWwKid</code> accept true/false, yes/no, or 1/0.
 						<code>submittedAt</code> is optional
 						<code>YYYY-MM-DD</code>. Max 200 rows. Blank rows are ignored.
 					</p>
@@ -296,7 +298,6 @@
 		--errorBg: #fef2f2;
 		--errorText: #991b1b;
 		--errorBorder: #fecaca;
-		padding-bottom: 2.5rem;
 	}
 
 	:global(.adminLayout[data-theme='dark']) .page {
@@ -530,17 +531,34 @@
 		grid-column: 1 / -1;
 	}
 
-	.staffCheck {
-		display: flex !important;
+	.checkboxRow {
+		grid-column: 1 / -1;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem 1.5rem;
 		align-items: center;
-		gap: 0.5rem;
-		align-self: end;
-		min-height: var(--controlHeight);
 	}
 
-	.staffCheck input {
-		width: auto;
+	.flagCheck {
+		display: flex !important;
+		align-items: center;
+		gap: 0.65rem;
+		min-height: var(--controlHeight);
+		cursor: pointer;
+	}
+
+	.flagCheck span {
+		font-size: 0.9rem;
+		color: var(--textPrimary);
+	}
+
+	.flagCheck input {
+		width: 1.35rem;
+		height: 1.35rem;
+		margin: 0;
+		flex-shrink: 0;
 		accent-color: var(--buttonPrimary);
+		cursor: pointer;
 	}
 
 	.bulkActions {

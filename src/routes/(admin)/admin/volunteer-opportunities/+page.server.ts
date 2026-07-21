@@ -1,22 +1,18 @@
 import { db } from '$lib/server/db';
 import { volunteerOpportunities } from '$lib/server/db/schema';
-import { desc, eq, ilike, or } from 'drizzle-orm';
+import {
+	getVolunteerVisibilityFilter,
+	volunteerInfoInbox
+} from '$lib/server/volunteerVisibility';
+import { desc, eq } from 'drizzle-orm';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
-
-const infoInbox = 'info@westwoodscc.org';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	const userEmail = locals.user?.email?.trim().toLowerCase();
 	const showAll = url.searchParams.get('showAll') === '1';
 
-	const visibilityFilter =
-		showAll || !userEmail
-			? undefined
-			: or(
-					ilike(volunteerOpportunities.sendTo, `%${infoInbox}%`),
-					ilike(volunteerOpportunities.sendTo, `%${userEmail}%`)
-				);
+	const visibilityFilter = getVolunteerVisibilityFilter(userEmail, showAll);
 
 	const opportunities = await db
 		.select()
@@ -27,7 +23,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	return {
 		opportunities,
 		showAll,
-		infoInbox,
+		infoInbox: volunteerInfoInbox,
 		userEmail: userEmail ?? null
 	};
 };

@@ -3,9 +3,9 @@ export const MAX_BULK_PRAYER_ROWS = 200;
 export const PRAYER_BULK_CSV_HEADERS = [
 	'firstName',
 	'lastName',
-	'email',
 	'request',
 	'isStaffOnly',
+	'isWwKid',
 	'submittedAt'
 ] as const;
 
@@ -14,18 +14,18 @@ export type PrayerBulkCsvHeader = (typeof PRAYER_BULK_CSV_HEADERS)[number];
 export interface PrayerBulkInputRow {
 	firstName?: string | null;
 	lastName?: string | null;
-	email?: string | null;
 	request?: string | null;
 	isStaffOnly?: boolean | string | null;
+	isWwKid?: boolean | string | null;
 	submittedAt?: string | null;
 }
 
 export interface PrayerBulkNormalizedRow {
 	firstName: string | null;
 	lastName: string | null;
-	email: string | null;
 	request: string;
 	isStaffOnly: boolean;
+	isWwKid: boolean;
 	submittedAt: Date;
 }
 
@@ -39,14 +39,12 @@ export interface PrayerBulkParseResult {
 	errors: PrayerBulkRowError[];
 }
 
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 function trimOrNull(value: string | null | undefined) {
 	const trimmed = value?.trim() ?? '';
 	return trimmed.length > 0 ? trimmed : null;
 }
 
-function parseStaffOnly(value: boolean | string | null | undefined) {
+function parseBooleanField(value: boolean | string | null | undefined) {
 	if (typeof value === 'boolean') return value;
 	if (value == null || String(value).trim() === '') return false;
 
@@ -80,14 +78,15 @@ function parseSubmittedAt(value: string | null | undefined, fallback: Date) {
 }
 
 function isBlankInputRow(row: PrayerBulkInputRow) {
-	const staffOnly = parseStaffOnly(row.isStaffOnly) === true;
+	const staffOnly = parseBooleanField(row.isStaffOnly) === true;
+	const wwKid = parseBooleanField(row.isWwKid) === true;
 
 	return (
 		!trimOrNull(row.firstName) &&
 		!trimOrNull(row.lastName) &&
-		!trimOrNull(row.email) &&
 		!trimOrNull(row.request) &&
-		!staffOnly
+		!staffOnly &&
+		!wwKid
 	);
 }
 
@@ -132,20 +131,20 @@ export function normalizePrayerBulkRows(
 			return;
 		}
 
-		const email = trimOrNull(input.email);
-		if (email && !emailRegex.test(email)) {
-			errors.push({
-				row: rowNumber,
-				message: 'Please enter a valid email address'
-			});
-			return;
-		}
-
-		const isStaffOnly = parseStaffOnly(input.isStaffOnly);
+		const isStaffOnly = parseBooleanField(input.isStaffOnly);
 		if (isStaffOnly === null) {
 			errors.push({
 				row: rowNumber,
 				message: 'isStaffOnly must be true/false, yes/no, or 1/0'
+			});
+			return;
+		}
+
+		const isWwKid = parseBooleanField(input.isWwKid);
+		if (isWwKid === null) {
+			errors.push({
+				row: rowNumber,
+				message: 'isWwKid must be true/false, yes/no, or 1/0'
 			});
 			return;
 		}
@@ -162,9 +161,9 @@ export function normalizePrayerBulkRows(
 		rows.push({
 			firstName: trimOrNull(input.firstName),
 			lastName: trimOrNull(input.lastName),
-			email,
 			request,
 			isStaffOnly,
+			isWwKid,
 			submittedAt: submitted.date
 		});
 	});
@@ -259,9 +258,9 @@ export function parsePrayerBulkCsv(csvText: string): PrayerBulkParseResult {
 		return {
 			firstName: cells[0] ?? '',
 			lastName: cells[1] ?? '',
-			email: cells[2] ?? '',
-			request: cells[3] ?? '',
-			isStaffOnly: cells[4] ?? '',
+			request: cells[2] ?? '',
+			isStaffOnly: cells[3] ?? '',
+			isWwKid: cells[4] ?? '',
 			submittedAt: cells[5] ?? ''
 		};
 	});
@@ -278,7 +277,7 @@ export function parsePrayerBulkCsv(csvText: string): PrayerBulkParseResult {
 
 export function getPrayerBulkCsvTemplate() {
 	return `${PRAYER_BULK_CSV_HEADERS.join(',')}
-Jane,Doe,jane@example.com,Please pray for healing,false,2026-07-19
-John,Smith,,Traveling mercies this week,true,
+Jane,Doe,Please pray for healing,false,false,2026-07-19
+John,Smith,Traveling mercies this week,true,true,
 `;
 }

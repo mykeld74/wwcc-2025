@@ -5,10 +5,16 @@ import {
 	informationRequests
 } from '$lib/server/db/schema';
 import { formatPersonName } from '$lib/personName';
+import {
+	getVolunteerVisibilityFilter,
+	withVolunteerVisibility
+} from '$lib/server/volunteerVisibility';
 import { and, desc, eq, count, gte, lt } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ locals }) => {
+	const userEmail = locals.user?.email ?? null;
+	const volunteerVisibility = getVolunteerVisibilityFilter(userEmail);
 	const now = new Date();
 	const twentyFourHoursAgo = new Date(now);
 	twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
@@ -43,11 +49,11 @@ export const load: PageServerLoad = async () => {
 		recentVolunteerRequests,
 		recentInfoRequests
 	] = await Promise.all([
-		db.select({ count: count() }).from(volunteerOpportunities),
+		db.select({ count: count() }).from(volunteerOpportunities).where(volunteerVisibility),
 		db
 			.select({ count: count() })
 			.from(volunteerOpportunities)
-			.where(eq(volunteerOpportunities.addressed, false)),
+			.where(withVolunteerVisibility(userEmail, eq(volunteerOpportunities.addressed, false))),
 		db.select({ count: count() }).from(prayerRequests),
 		db
 			.select({ count: count() })
@@ -61,7 +67,8 @@ export const load: PageServerLoad = async () => {
 			.select({ count: count() })
 			.from(volunteerOpportunities)
 			.where(
-				and(
+				withVolunteerVisibility(
+					userEmail,
 					eq(volunteerOpportunities.addressed, false),
 					lt(volunteerOpportunities.submittedAt, threeDaysAgo)
 				)
@@ -70,7 +77,8 @@ export const load: PageServerLoad = async () => {
 			.select({ count: count() })
 			.from(volunteerOpportunities)
 			.where(
-				and(
+				withVolunteerVisibility(
+					userEmail,
 					eq(volunteerOpportunities.addressed, false),
 					lt(volunteerOpportunities.submittedAt, sevenDaysPendingAgo)
 				)
@@ -91,12 +99,18 @@ export const load: PageServerLoad = async () => {
 		db
 			.select({ count: count() })
 			.from(volunteerOpportunities)
-			.where(gte(volunteerOpportunities.submittedAt, sevenDaysAgo)),
+			.where(
+				withVolunteerVisibility(
+					userEmail,
+					gte(volunteerOpportunities.submittedAt, sevenDaysAgo)
+				)
+			),
 		db
 			.select({ count: count() })
 			.from(volunteerOpportunities)
 			.where(
-				and(
+				withVolunteerVisibility(
+					userEmail,
 					gte(volunteerOpportunities.submittedAt, fourteenDaysAgo),
 					lt(volunteerOpportunities.submittedAt, sevenDaysAgo)
 				)
@@ -125,6 +139,7 @@ export const load: PageServerLoad = async () => {
 				submittedAt: volunteerOpportunities.submittedAt
 			})
 			.from(volunteerOpportunities)
+			.where(volunteerVisibility)
 			.orderBy(desc(volunteerOpportunities.submittedAt))
 			.limit(5),
 		db

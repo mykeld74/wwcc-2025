@@ -96,8 +96,8 @@ export const actions: Actions = {
 					lastName: row.lastName,
 					request: row.request,
 					isStaffOnly: row.isStaffOnly,
-					submittedAt: row.submittedAt,
-					email: row.email
+					isWwKid: row.isWwKid,
+					submittedAt: row.submittedAt
 				}))
 			);
 

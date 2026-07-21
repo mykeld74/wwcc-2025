@@ -9,9 +9,7 @@
 	let startDate = $state('');
 	let endDate = $state('');
 
-	const canBulkUpload = $derived(
-		data.user?.role === 'admin' || data.user?.role === 'staff'
-	);
+	const canBulkUpload = $derived(data.user?.role === 'admin' || data.user?.role === 'staff');
 
 	const filtered = $derived(
 		data.requests.filter((request) => {
@@ -80,6 +78,7 @@
 		<div class="titleBlock">
 			<h1>Prayer Requests</h1>
 			{#if canBulkUpload}
+				<a href="/admin/prayer-requests/prepare-email" class="bulkLink">Prepare for email</a>
 				<a href="/admin/prayer-requests/bulk" class="bulkLink">Bulk upload</a>
 			{/if}
 		</div>
@@ -160,14 +159,14 @@
 							<span class="requestName"
 								>{formatPersonName(request.firstName, request.lastName)}</span
 							>
-							{#if request.email}
-								<a href="mailto:{request.email}" class="requestEmail">{request.email}</a>
-							{/if}
 							<span class="requestDate">{formatDate(request.submittedAt)}</span>
 						</div>
 						<div class="requestBadges">
 							{#if request.isStaffOnly}
 								<span class="badge staffOnly">Staff Only</span>
+							{/if}
+							{#if request.isWwKid}
+								<span class="badge wwKid">WW Kid</span>
 							{/if}
 							{#if data.user?.role === 'admin'}
 								<form
@@ -212,6 +211,9 @@
 		--staffBadgeBg: #ede9fe;
 		--staffBadgeText: #5b21b6;
 		--staffBadgeBorder: #c4b5fd;
+		--wwKidBadgeBg: #dbeafe;
+		--wwKidBadgeText: #1d4ed8;
+		--wwKidBadgeBorder: #93c5fd;
 		--deleteBg: #fee2e2;
 		--deleteText: #991b1b;
 		--deleteBorder: #fca5a5;
@@ -239,6 +241,9 @@
 		--staffBadgeBg: rgba(139, 92, 246, 0.3);
 		--staffBadgeText: #ede9fe;
 		--staffBadgeBorder: rgba(196, 181, 253, 0.65);
+		--wwKidBadgeBg: rgba(59, 130, 246, 0.25);
+		--wwKidBadgeText: #dbeafe;
+		--wwKidBadgeBorder: rgba(147, 197, 253, 0.55);
 		--deleteBg: rgba(239, 68, 68, 0.2);
 		--deleteText: #fecaca;
 		--deleteBorder: rgba(252, 165, 165, 0.45);
@@ -452,16 +457,6 @@
 		color: var(--textPrimary);
 	}
 
-	.requestEmail {
-		color: var(--linkColor);
-		text-decoration: none;
-		font-size: 0.85rem;
-	}
-
-	.requestEmail:hover {
-		text-decoration: underline;
-	}
-
 	.requestDate {
 		color: var(--textMuted);
 		font-size: 0.85rem;
@@ -487,6 +482,12 @@
 		background: var(--staffBadgeBg);
 		color: var(--staffBadgeText);
 		border-color: var(--staffBadgeBorder);
+	}
+
+	.badge.wwKid {
+		background: var(--wwKidBadgeBg);
+		color: var(--wwKidBadgeText);
+		border-color: var(--wwKidBadgeBorder);
 	}
 
 	.requestBody {
