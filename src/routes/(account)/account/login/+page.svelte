@@ -1,73 +1,58 @@
 <script>
 	import { authClient } from '$lib/auth-client';
 
-	let name = $state('');
+	let { data } = $props();
 	let email = $state('');
 	let password = $state('');
-	let confirmPassword = $state('');
-	let error = $state('');
+	let loginError = $state('');
 	let loading = $state(false);
 
-	async function handleSignUp(e) {
+	async function handleLogin(e) {
 		e.preventDefault();
-		error = '';
-
-		if (password.length < 8) {
-			error = 'Password must be at least 8 characters.';
-			return;
-		}
-
-		if (password !== confirmPassword) {
-			error = 'Passwords do not match.';
-			return;
-		}
-
+		loginError = '';
 		loading = true;
-
 		try {
-			const { error: authError } = await authClient.signUp.email({
-				name,
+			const { error: authError } = await authClient.signIn.email({
 				email,
 				password
 			});
 
 			if (authError) {
-				error = authError.message || 'Unable to create account. Please try again.';
+				loginError =
+					authError.code === 'EMAIL_NOT_VERIFIED'
+						? 'Your email is not verified yet. We just sent a new verification link — check your inbox.'
+						: authError.message || 'Invalid email or password';
 				return;
 			}
 
-			await authClient.signOut();
-			window.location.assign('/admin/login?reason=created');
+			// Force a full reload so the freshly-set auth cookie is definitely included.
+			window.location.assign(data.redirectTo);
+			return;
 		} catch (err) {
-			console.error('Sign up failed:', err);
-			error = 'Unable to create account right now. Please try again.';
+			console.error('Admin login failed:', err);
+			loginError = 'Unable to sign in right now. Please try again.';
 		} finally {
 			loading = false;
 		}
 	}
 </script>
 
-<div class="authContainer">
-	<div class="authCard">
-		<h1>Create Account</h1>
-		<p class="subtitle">Set up your Westwoods Community Church account.</p>
+<div class="loginContainer">
+	<div class="loginCard">
+		<h1>Sign In</h1>
+		<p class="subtitle">Westwoods Community Church</p>
 
-		{#if error}
-			<div class="message error">{error}</div>
+		{#if data.successMessage}
+			<div class="successMessage">{data.successMessage}</div>
 		{/if}
 
-		<form onsubmit={handleSignUp}>
-			<div class="formGroup">
-				<label for="name">Full name</label>
-				<input
-					type="text"
-					id="name"
-					bind:value={name}
-					required
-					autocomplete="name"
-				/>
-			</div>
+		{#if loginError}
+			<div class="errorMessage">{loginError}</div>
+		{:else if data.reasonMessage}
+			<div class="errorMessage">{data.reasonMessage}</div>
+		{/if}
 
+		<form onsubmit={handleLogin}>
 			<div class="formGroup">
 				<label for="email">Email</label>
 				<input type="email" id="email" bind:value={email} required autocomplete="email" />
@@ -80,36 +65,27 @@
 					id="password"
 					bind:value={password}
 					required
-					minlength="8"
-					autocomplete="new-password"
+					autocomplete="current-password"
 				/>
 			</div>
 
-			<div class="formGroup">
-				<label for="confirmPassword">Confirm password</label>
-				<input
-					type="password"
-					id="confirmPassword"
-					bind:value={confirmPassword}
-					required
-					minlength="8"
-					autocomplete="new-password"
-				/>
-			</div>
-
-			<button type="submit" class="primaryButton" disabled={loading}>
-				{loading ? 'Creating account...' : 'Create Account'}
+			<button type="submit" class="loginButton" disabled={loading}>
+				{loading ? 'Signing in...' : 'Sign In'}
 			</button>
 		</form>
 
-		<p class="backLink">
-			Already have an account? <a href="/admin/login">Sign in</a>
+		<p class="forgotPassword">
+			<a href="/account/forgot-password">Forgot your password?</a>
+		</p>
+
+		<p class="signUpLink">
+			Don't have an account? <a href="/account/sign-up">Create an account</a>
 		</p>
 	</div>
 </div>
 
 <style>
-	.authContainer {
+	.loginContainer {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -118,13 +94,13 @@
 		font-family: 'Open Sans', sans-serif;
 	}
 
-	.authCard {
+	.loginCard {
 		background: #fff;
 		padding: 2.5rem;
 		border-radius: 0.75rem;
 		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
 		width: 100%;
-		max-width: 440px;
+		max-width: 400px;
 	}
 
 	h1 {
@@ -159,8 +135,7 @@
 		font-size: 1rem;
 		font-family: inherit;
 		box-sizing: border-box;
-		background: #fff;
-		color: #1a1a2e;
+		transition: border-color 0.2s;
 	}
 
 	input:focus {
@@ -168,7 +143,7 @@
 		border-color: #1a1a2e;
 	}
 
-	.primaryButton {
+	.loginButton {
 		width: 100%;
 		padding: 0.75rem;
 		background: #1a1a2e;
@@ -182,36 +157,53 @@
 		margin-top: 0.5rem;
 	}
 
-	.primaryButton:hover:not(:disabled) {
+	.loginButton:hover:not(:disabled) {
 		background: #2a2a4e;
 	}
 
-	.primaryButton:disabled {
+	.loginButton:disabled {
 		opacity: 0.7;
 		cursor: not-allowed;
 	}
 
-	.message {
+	.successMessage {
+		background: #f0fdf4;
+		color: #16a34a;
 		padding: 0.75rem;
 		border-radius: 0.375rem;
 		margin-bottom: 1rem;
 		font-size: 0.9rem;
+		border: 1px solid #bbf7d0;
 	}
 
-	.message.error {
+	.errorMessage {
 		background: #fef2f2;
 		color: #dc2626;
+		padding: 0.75rem;
+		border-radius: 0.375rem;
+		margin-bottom: 1rem;
+		font-size: 0.9rem;
 		border: 1px solid #fecaca;
 	}
 
-	.backLink {
-		margin: 1.5rem 0 0;
+	.forgotPassword {
+		margin: 1.25rem 0 0;
 		text-align: center;
 		font-size: 0.9rem;
+	}
+
+	.forgotPassword a {
+		color: #1a1a2e;
+	}
+
+	.signUpLink {
+		margin: 0.75rem 0 0;
+		text-align: center;
+		font-size: 0.85rem;
 		color: #666;
 	}
 
-	.backLink a {
+	.signUpLink a {
 		color: #1a1a2e;
 		font-weight: 600;
 	}

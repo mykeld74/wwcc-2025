@@ -7,6 +7,7 @@ import {
 	type PrayerBulkInputRow
 } from '$lib/server/prayerBulk';
 import { canManagePrayerRequests } from '$lib/adminRoles';
+import { getPreviousSundayDateInput } from '$lib/prayerDate';
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 
@@ -20,7 +21,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 	}
 
 	return {
-		csvTemplate: getPrayerBulkCsvTemplate()
+		csvTemplate: getPrayerBulkCsvTemplate(),
+		defaultBulkDate: getPreviousSundayDateInput()
 	};
 };
 

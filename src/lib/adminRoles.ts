@@ -1,7 +1,18 @@
+import { ACCOUNT_PATH, LOGIN_PATH } from './adminRedirect';
+
 export const ADMIN_DASHBOARD_ROLES = ['admin', 'staff'] as const;
 
 export const PRAYER_ADMIN_ROLE = 'prayer_admin';
 export const PRAYER_TEAM_ROLE = 'prayer_team';
+
+/**
+ * Role every new account starts in. Deliberately absent from ADMIN_AREA_ROLES:
+ * a pending account can sign in but reaches nothing until an admin promotes it.
+ */
+export const PENDING_ROLE = 'pending';
+
+/** Where the email-verification link drops the user once the token is accepted. */
+export const VERIFY_EMAIL_CALLBACK_PATH = `${LOGIN_PATH}?reason=verified`;
 
 export const ADMIN_AREA_ROLES = [
 	'admin',
@@ -12,9 +23,14 @@ export const ADMIN_AREA_ROLES = [
 
 export const USER_MANAGEMENT_ROLE = 'admin';
 
-export const DEFAULT_ASSIGNABLE_ROLE = PRAYER_TEAM_ROLE;
+export const DEFAULT_ASSIGNABLE_ROLE = PENDING_ROLE;
 
 export const ASSIGNABLE_ROLES = [
+	{
+		value: PENDING_ROLE,
+		label: 'Pending',
+		description: 'Awaiting approval — no access to anything'
+	},
 	{
 		value: PRAYER_TEAM_ROLE,
 		label: 'Prayer Team',
@@ -28,12 +44,12 @@ export const ASSIGNABLE_ROLES = [
 	{
 		value: 'volunteer',
 		label: 'Volunteer',
-		description: 'Volunteer-focused role (no admin access)'
+		description: 'Volunteer-focused role (no dashboard access)'
 	},
 	{
 		value: 'staff',
 		label: 'Staff',
-		description: 'Full admin dashboard access'
+		description: 'Full staff dashboard access'
 	},
 	{
 		value: 'admin',
@@ -48,6 +64,17 @@ const assignableRoleSet = new Set<string>(ASSIGNABLE_ROLES.map((role) => role.va
 
 export function isAssignableRole(role: string): role is AssignableRole {
 	return assignableRoleSet.has(role);
+}
+
+export function getRoleLabel(role: string | null | undefined): string {
+	return ASSIGNABLE_ROLES.find((entry) => entry.value === role)?.label ?? 'No role';
+}
+
+export function getRoleDescription(role: string | null | undefined): string {
+	return (
+		ASSIGNABLE_ROLES.find((entry) => entry.value === role)?.description ??
+		'No access has been granted to this account yet.'
+	);
 }
 
 export function canAccessAdminArea(role: string | null | undefined): boolean {
@@ -83,7 +110,8 @@ export function getAdminHomePath(role: string | null | undefined): string {
 		return '/admin/prayer-requests';
 	}
 
-	return '/admin/login';
+	// No access yet — the account page explains their status instead of a dead end.
+	return ACCOUNT_PATH;
 }
 
 export function canAccessAdminPath(role: string, pathname: string): boolean {

@@ -15,12 +15,13 @@
 		<h1>Create Account</h1>
 		<p class="subtitle">
 			Set up sign-in credentials for a new account. They can use these at
-			<a href="/admin/login">/admin/login</a>.
+			<a href="/account/login">/account/login</a>.
 		</p>
 
 		{#if form?.success}
 			<div class="message success">
-				Account created for <strong>{form.createdEmail}</strong>. They can sign in now.
+				Account created for <strong>{form.createdEmail}</strong>. They must verify their email
+				before they can sign in — a link is sent automatically the first time they try.
 			</div>
 			<p class="backLink">
 				<a href="/admin/users">Back to user list</a>
@@ -99,7 +100,7 @@
 			<p class="backLink">
 				<a href="/admin/users">Back to user list</a>
 				<span class="divider">·</span>
-				<a href="/admin/login">Sign in page</a>
+				<a href="/account/login">Sign in page</a>
 			</p>
 		{/if}
 	</div>

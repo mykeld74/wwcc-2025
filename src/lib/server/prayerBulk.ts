@@ -1,3 +1,5 @@
+import { getPreviousSunday } from '$lib/prayerDate';
+
 export const MAX_BULK_PRAYER_ROWS = 200;
 
 export const PRAYER_BULK_CSV_HEADERS = [
@@ -95,6 +97,7 @@ export function normalizePrayerBulkRows(
 	options?: { now?: Date }
 ): PrayerBulkParseResult {
 	const now = options?.now ?? new Date();
+	const defaultSubmittedAt = getPreviousSunday(now);
 	const rows: PrayerBulkNormalizedRow[] = [];
 	const errors: PrayerBulkRowError[] = [];
 
@@ -149,7 +152,7 @@ export function normalizePrayerBulkRows(
 			return;
 		}
 
-		const submitted = parseSubmittedAt(input.submittedAt, now);
+		const submitted = parseSubmittedAt(input.submittedAt, defaultSubmittedAt);
 		if (submitted.error || !submitted.date) {
 			errors.push({
 				row: rowNumber,

@@ -1,6 +1,6 @@
 import { auth } from '$lib/server/auth';
 import { ASSIGNABLE_ROLES, canManageUsers, DEFAULT_ASSIGNABLE_ROLE, isAssignableRole } from '$lib/adminRoles';
-import { CREATE_USER_PATH } from '$lib/adminRedirect';
+import { CREATE_USER_PATH, LOGIN_PATH } from '$lib/adminRedirect';
 import { fail, redirect } from '@sveltejs/kit';
 import { APIError } from 'better-auth/api';
 import type { Actions, PageServerLoad } from './$types';
@@ -19,7 +19,7 @@ function requireUserManager(locals: App.Locals) {
 			reason: 'admin_required',
 			redirect: CREATE_USER_PATH
 		});
-		throw redirect(302, `/admin/login?${params.toString()}`);
+		throw redirect(302, `${LOGIN_PATH}?${params.toString()}`);
 	}
 }
 

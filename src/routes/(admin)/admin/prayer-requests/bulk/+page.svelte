@@ -5,7 +5,7 @@
 
 	let bulkTab = $state('rows');
 	let bulkSubmitting = $state(false);
-	let bulkSubmittedAt = $state('');
+	let bulkSubmittedAt = $state(data.defaultBulkDate);
 	let nextRowId = $state(6);
 
 	function createEmptyRow(id) {
@@ -29,7 +29,7 @@
 
 	function resetBulkForm() {
 		nextRowId = 6;
-		bulkSubmittedAt = '';
+		bulkSubmittedAt = data.defaultBulkDate;
 		bulkRows = [
 			createEmptyRow(1),
 			createEmptyRow(2),
@@ -169,7 +169,7 @@
 				<label class="sharedDateField">
 					<span>Date for all requests</span>
 					<input type="date" bind:value={bulkSubmittedAt} />
-					<small>Leave blank to use today’s date. Empty rows are ignored.</small>
+					<small>Defaults to the previous Sunday. Empty rows are ignored.</small>
 				</label>
 
 				<div class="bulkRows">
@@ -248,7 +248,7 @@
 						<code>request</code> is required.
 						<code>isStaffOnly</code> and <code>isWwKid</code> accept true/false, yes/no, or 1/0.
 						<code>submittedAt</code> is optional
-						<code>YYYY-MM-DD</code>. Max 200 rows. Blank rows are ignored.
+						<code>YYYY-MM-DD</code> (defaults to the previous Sunday when blank). Max 200 rows. Blank rows are ignored.
 					</p>
 					<button class="templateLink" type="button" onclick={downloadCsvTemplate}>
 						Download CSV template

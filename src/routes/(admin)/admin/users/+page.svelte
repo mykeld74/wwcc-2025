@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
+	import { PENDING_ROLE } from '$lib/adminRoles';
 
 	let { data, form } = $props();
 
@@ -108,7 +109,7 @@
 								<td>{user.email}</td>
 								<td>
 									{#if user.id === data.currentUserId}
-										<span class="roleBadge">{roleLabel[user.role ?? 'prayer_team'] ?? user.role}</span>
+										<span class="roleBadge">{roleLabel[user.role ?? PENDING_ROLE] ?? user.role}</span>
 									{:else}
 										<form method="POST" action="?/setRole" class="roleForm" use:enhance>
 											<input type="hidden" name="userId" value={user.id} />
@@ -125,6 +126,8 @@
 								<td>
 									{#if user.banned}
 										<span class="statusBadge banned">Banned</span>
+									{:else if !user.emailVerified}
+										<span class="statusBadge unverified">Unverified</span>
 									{:else}
 										<span class="statusBadge active">Active</span>
 									{/if}
@@ -430,6 +433,11 @@
 	.statusBadge.banned {
 		background: var(--deleteBg);
 		color: var(--deleteText);
+	}
+
+	.statusBadge.unverified {
+		background: color-mix(in oklch, #f59e0b 20%, transparent);
+		color: #92400e;
 	}
 
 	.roleForm select {
