@@ -42,11 +42,6 @@ export const ASSIGNABLE_ROLES = [
 		description: 'Manage prayer requests, bulk upload, email, and printing'
 	},
 	{
-		value: 'volunteer',
-		label: 'Volunteer',
-		description: 'Volunteer-focused role (no dashboard access)'
-	},
-	{
 		value: 'staff',
 		label: 'Staff',
 		description: 'Full staff dashboard access'

@@ -1,5 +1,6 @@
 import { auth } from '$lib/server/auth';
 import { ASSIGNABLE_ROLES, canManageUsers, isAssignableRole } from '$lib/adminRoles';
+import { isProtectedAdminEmail } from '$lib/server/protectedAccounts';
 import { fail, redirect } from '@sveltejs/kit';
 import { APIError } from 'better-auth/api';
 import type { Actions, PageServerLoad } from './$types';
@@ -46,7 +47,11 @@ export const load: PageServerLoad = async ({ locals, url, request }) => {
 		});
 
 		return {
-			users: result.users,
+			// The rule itself lives in the better-auth guard; this only drives the UI.
+			users: result.users.map((user) => ({
+				...user,
+				isProtected: isProtectedAdminEmail(user.email)
+			})),
 			total: result.total,
 			page,
 			pageSize,
