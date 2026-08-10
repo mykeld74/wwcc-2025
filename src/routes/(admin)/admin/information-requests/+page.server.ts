@@ -159,5 +159,64 @@ export const actions: Actions = {
 			.where(eq(informationRequestTypes.id, neighbor.id));
 
 		return { typeSuccess: true };
+	},
+
+	alphabetizeTypes: async () => {
+		const types = await db
+			.select()
+			.from(informationRequestTypes)
+			.orderBy(asc(informationRequestTypes.sortOrder), asc(informationRequestTypes.label));
+
+		const sorted = [...types].sort((a, b) =>
+			a.label.localeCompare(b.label, undefined, { sensitivity: 'base' })
+		);
+
+		await Promise.all(
+			sorted.map((type, index) =>
+				db
+					.update(informationRequestTypes)
+					.set({ sortOrder: index, updatedAt: new Date() })
+					.where(eq(informationRequestTypes.id, type.id))
+			)
+		);
+
+		return { typeSuccess: true };
+	},
+
+	reorderTypes: async ({ request }) => {
+		const formData = await request.formData();
+		const orderRaw = formData.get('order');
+
+		let ids: number[];
+		try {
+			ids = JSON.parse(String(orderRaw));
+			if (!Array.isArray(ids) || ids.some((id) => typeof id !== 'number' || !Number.isInteger(id))) {
+				throw new Error('Invalid order');
+			}
+		} catch {
+			return fail(400, { typeError: 'Invalid order' });
+		}
+
+		const types = await db.select({ id: informationRequestTypes.id }).from(informationRequestTypes);
+		const validIds = new Set(types.map((type) => type.id));
+
+		if (ids.length !== types.length || ids.length !== new Set(ids).size) {
+			return fail(400, { typeError: 'Invalid order' });
+		}
+
+		if (!ids.every((id) => validIds.has(id))) {
+			return fail(400, { typeError: 'Invalid order' });
+		}
+
+		await Promise.all(
+			ids.map((id, index) =>
+				db
+					.update(informationRequestTypes)
+					.set({ sortOrder: index, updatedAt: new Date() })
+					.where(eq(informationRequestTypes.id, id))
+			)
+		);
+
+		return { typeSuccess: true };
 	}
 };

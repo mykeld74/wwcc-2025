@@ -4,6 +4,17 @@
 	let { data, form } = $props();
 	let statusFilter = $state('pending');
 	let typeFilter = $state('all');
+	let orderedTypes = $state([...data.types]);
+	let draggedTypeId = $state<number | null>(null);
+	let dragOverTypeId = $state<number | null>(null);
+	let isReordering = $state(false);
+	let reorderForm = $state<HTMLFormElement | null>(null);
+
+	$effect(() => {
+		if (!isReordering && draggedTypeId === null) {
+			orderedTypes = [...data.types];
+		}
+	});
 
 	const filtered = $derived(
 		data.requests.filter((request) => {
@@ -29,6 +40,44 @@
 			day: 'numeric',
 			year: 'numeric'
 		});
+	}
+
+	function reorderTypes(fromId: number, toId: number) {
+		const fromIndex = orderedTypes.findIndex((type) => type.id === fromId);
+		const toIndex = orderedTypes.findIndex((type) => type.id === toId);
+
+		if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) {
+			return;
+		}
+
+		const next = [...orderedTypes];
+		const [moved] = next.splice(fromIndex, 1);
+		next.splice(toIndex, 0, moved);
+		orderedTypes = next;
+	}
+
+	function handleDragStart(typeId: number) {
+		draggedTypeId = typeId;
+	}
+
+	function handleDragOver(event: DragEvent, typeId: number) {
+		event.preventDefault();
+		if (draggedTypeId === null || draggedTypeId === typeId) {
+			return;
+		}
+
+		dragOverTypeId = typeId;
+		reorderTypes(draggedTypeId, typeId);
+		draggedTypeId = typeId;
+	}
+
+	function handleDragEnd() {
+		draggedTypeId = null;
+		dragOverTypeId = null;
+
+		if (reorderForm) {
+			reorderForm.requestSubmit();
+		}
 	}
 </script>
 
@@ -71,8 +120,13 @@
 
 	<section class="typesPanel">
 		<div class="panelHeader">
-			<h2>Manage Types</h2>
-			<p>These options appear in the public information request combobox.</p>
+			<div>
+				<h2>Manage Types</h2>
+				<p>These options appear in the public information request combobox. Drag to reorder.</p>
+			</div>
+			<form method="POST" action="?/alphabetizeTypes" use:enhance>
+				<button type="submit" class="chipBtn">Alphabetize</button>
+			</form>
 		</div>
 
 		{#if form?.typeError}
@@ -84,25 +138,55 @@
 			<button type="submit" class="primaryBtn">Add Type</button>
 		</form>
 
+		<form
+			method="POST"
+			action="?/reorderTypes"
+			class="reorderForm"
+			bind:this={reorderForm}
+			use:enhance={() => {
+				isReordering = true;
+				return async ({ update }) => {
+					isReordering = false;
+					await update();
+				};
+			}}
+		>
+			<input type="hidden" name="order" value={JSON.stringify(orderedTypes.map((type) => type.id))} />
+		</form>
+
 		<ul class="typesList">
-			{#each data.types as type (type.id)}
-				<li class="typeRow" class:inactive={!type.isActive}>
+			{#each orderedTypes as type (type.id)}
+				<li
+					class="typeRow"
+					class:inactive={!type.isActive}
+					class:dragging={draggedTypeId === type.id}
+					class:dragOver={dragOverTypeId === type.id}
+					ondragover={(event) => handleDragOver(event, type.id)}
+					ondrop={(event) => event.preventDefault()}
+				>
+					<button
+						type="button"
+						class="dragHandle"
+						draggable="true"
+						aria-label="Drag to reorder {type.label}"
+						ondragstart={() => handleDragStart(type.id)}
+						ondragend={handleDragEnd}
+					>
+						<svg viewBox="0 0 24 24" aria-hidden="true">
+							<circle cx="9" cy="7" r="1.5"></circle>
+							<circle cx="15" cy="7" r="1.5"></circle>
+							<circle cx="9" cy="12" r="1.5"></circle>
+							<circle cx="15" cy="12" r="1.5"></circle>
+							<circle cx="9" cy="17" r="1.5"></circle>
+							<circle cx="15" cy="17" r="1.5"></circle>
+						</svg>
+					</button>
 					<form method="POST" action="?/updateType" class="typeEditForm" use:enhance>
 						<input type="hidden" name="id" value={type.id} />
 						<input type="text" name="label" value={type.label} required />
 						<button type="submit" class="chipBtn">Save</button>
 					</form>
 					<div class="typeActions">
-						<form method="POST" action="?/moveType" use:enhance>
-							<input type="hidden" name="id" value={type.id} />
-							<input type="hidden" name="direction" value="up" />
-							<button type="submit" class="chipBtn" aria-label="Move up">↑</button>
-						</form>
-						<form method="POST" action="?/moveType" use:enhance>
-							<input type="hidden" name="id" value={type.id} />
-							<input type="hidden" name="direction" value="down" />
-							<button type="submit" class="chipBtn" aria-label="Move down">↓</button>
-						</form>
 						<form method="POST" action="?/toggleTypeActive" use:enhance>
 							<input type="hidden" name="id" value={type.id} />
 							<input type="hidden" name="isActive" value={String(!type.isActive)} />
@@ -320,6 +404,15 @@
 		box-shadow: var(--cardShadow);
 	}
 
+	.panelHeader {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: 1rem;
+		margin-bottom: 1rem;
+		flex-wrap: wrap;
+	}
+
 	.panelHeader h2 {
 		margin: 0 0 0.25rem;
 		color: var(--textPrimary);
@@ -327,9 +420,13 @@
 	}
 
 	.panelHeader p {
-		margin: 0 0 1rem;
+		margin: 0;
 		color: var(--textMuted);
 		font-size: 0.9rem;
+	}
+
+	.reorderForm {
+		display: none;
 	}
 
 	.inlineError {
@@ -354,13 +451,47 @@
 
 	.typeRow {
 		display: grid;
-		grid-template-columns: 1fr auto;
+		grid-template-columns: auto 1fr auto;
 		gap: 0.75rem;
 		align-items: center;
 		padding: 0.75rem;
 		border-radius: 0.75rem;
 		background: var(--panelAltBg);
 		border: 1px solid var(--panelBorder);
+		transition: border-color 0.15s ease, opacity 0.15s ease;
+	}
+
+	.typeRow.dragging {
+		opacity: 0.55;
+	}
+
+	.typeRow.dragOver {
+		border-color: var(--chipActiveBg);
+	}
+
+	.dragHandle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		padding: 0;
+		border: 1px solid var(--chipBorder);
+		border-radius: 0.5rem;
+		background: var(--chipBg);
+		color: var(--textMuted);
+		cursor: grab;
+		flex-shrink: 0;
+	}
+
+	.dragHandle:active {
+		cursor: grabbing;
+	}
+
+	.dragHandle svg {
+		width: 1rem;
+		height: 1rem;
+		fill: currentColor;
 	}
 
 	.typeRow.inactive {
@@ -472,7 +603,10 @@
 
 	@media (max-width: 720px) {
 		.addTypeForm,
-		.typeRow,
+		.typeRow {
+			grid-template-columns: 1fr;
+		}
+
 		.typeEditForm {
 			grid-template-columns: 1fr;
 		}

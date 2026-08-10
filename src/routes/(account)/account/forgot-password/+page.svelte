@@ -14,7 +14,7 @@
 		try {
 			const { error: authError } = await authClient.requestPasswordReset({
 				email,
-				redirectTo: '/admin/reset-password'
+				redirectTo: '/account/reset-password'
 			});
 
 			if (authError) {
@@ -59,7 +59,7 @@
 		{/if}
 
 		<p class="backLink">
-			<a href="/admin/login">Back to sign in</a>
+			<a href="/account/login">Back to sign in</a>
 		</p>
 	</div>
 </div>

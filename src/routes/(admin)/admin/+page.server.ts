@@ -1,9 +1,11 @@
 import { db } from '$lib/server/db';
 import {
 	prayerRequests,
+	users,
 	volunteerOpportunities,
 	informationRequests
 } from '$lib/server/db/schema';
+import { canManageUsers } from '$lib/adminRoles';
 import { formatPersonName } from '$lib/personName';
 import {
 	getVolunteerVisibilityFilter,
@@ -14,6 +16,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const userEmail = locals.user?.email ?? null;
+	const manageUsers = canManageUsers(locals.user?.role);
 	const volunteerVisibility = getVolunteerVisibilityFilter(userEmail);
 	const now = new Date();
 	const twentyFourHoursAgo = new Date(now);
@@ -184,7 +187,12 @@ export const load: PageServerLoad = async ({ locals }) => {
 		.sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime())
 		.slice(0, 8);
 
+	const [userTotal] = manageUsers
+		? await db.select({ count: count() }).from(users)
+		: [{ count: 0 }];
+
 	return {
+		canManageUsers: manageUsers,
 		stats: {
 			volunteerTotal: volunteerTotal.count,
 			volunteerPending: volunteerPending.count,
@@ -198,7 +206,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 			volunteerCurrentWeek: volunteerCurrentWeek.count,
 			volunteerPreviousWeek: volunteerPreviousWeek.count,
 			infoTotal: infoTotal.count,
-			infoPending: infoPending.count
+			infoPending: infoPending.count,
+			userTotal: userTotal.count
 		},
 		recentActivity
 	};

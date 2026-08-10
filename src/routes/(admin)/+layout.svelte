@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { authClient } from '$lib/auth-client';
+	import { getAdminNavItems } from '$lib/adminRoles';
+	import { ACCOUNT_PATH, LOGIN_PATH } from '$lib/adminRedirect';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
@@ -8,36 +10,11 @@
 	let adminTheme = $state(data.adminTheme ?? 'light');
 	let isSidebarCollapsed = $state(false);
 
-	const navItems = [
-		{
-			label: 'Dashboard',
-			href: '/admin',
-			icon: 'dashboard'
-		},
-		{
-			label: 'Volunteers',
-			href: '/admin/volunteer-opportunities',
-			icon: 'volunteers'
-		},
-		{
-			label: 'Prayer Requests',
-			href: '/admin/prayer-requests',
-			icon: 'prayer'
-		},
-		{
-			label: 'Info Requests',
-			href: '/admin/information-requests',
-			icon: 'info'
-		}
-	];
-
-	const isLoginPage = $derived(
-		typeof window !== 'undefined' && window.location.pathname === '/admin/login'
-	);
+	const navItems = $derived(getAdminNavItems(data.user?.role));
 
 	async function handleLogout() {
 		await authClient.signOut();
-		goto('/admin/login');
+		goto(LOGIN_PATH);
 	}
 
 	function toggleTheme() {
@@ -80,7 +57,7 @@
 		href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap"
 		rel="stylesheet"
 	/>
-	<title>Admin | Westwoods Community Church</title>
+	<title>Account | Westwoods Community Church</title>
 </svelte:head>
 
 {#snippet navIcon(iconName)}
@@ -104,6 +81,13 @@
 			<path d="M12 10.5v6"></path>
 			<circle cx="12" cy="7.5" r="1"></circle>
 		</svg>
+	{:else if iconName === 'users'}
+		<svg viewBox="0 0 24 24" aria-hidden="true">
+			<circle cx="9" cy="8" r="3"></circle>
+			<circle cx="17" cy="9.5" r="2.5"></circle>
+			<path d="M4.5 18.5C4.8 15.9 6.9 14 9.5 14H10.4C13 14 15.1 15.9 15.4 18.5"></path>
+			<path d="M14 18.5C14.2 16.9 15.6 15.7 17.2 15.7H17.8C19.4 15.7 20.8 16.9 21 18.5"></path>
+		</svg>
 	{:else}
 		<svg viewBox="0 0 24 24" aria-hidden="true">
 			<path d="M9.5 4.5 8 10.2c-.2.8 0 1.6.6 2.2l2.1 2.1c.7.7 1.9.7 2.6 0l2.1-2.1c.6-.6.8-1.5.6-2.2l-1.5-5.7"></path>
@@ -121,7 +105,7 @@
 	<div class="adminLayout" data-theme={adminTheme} data-collapsed={isSidebarCollapsed}>
 		<aside class="sidebar">
 			<div class="sidebarHeader">
-				<h2>Admin</h2>
+				<h2>Account</h2>
 				<button
 					class="collapseButton"
 					type="button"
@@ -150,10 +134,15 @@
 				{/each}
 			</nav>
 			<div class="sidebarFooter">
-				<div class="userMeta">
+				<a
+					class="userMeta"
+					href={ACCOUNT_PATH}
+					aria-label="Your account"
+					title={isSidebarCollapsed ? 'Your account' : undefined}
+				>
 					<p class="userInfo">{data.user.name}</p>
 					<p class="userRole">{data.user.role}</p>
-				</div>
+				</a>
 				<button
 					class="themeButton"
 					type="button"
@@ -372,7 +361,17 @@
 	}
 
 	.userMeta {
+		display: block;
 		margin-bottom: 0.75rem;
+		padding: 0.4rem 0.5rem;
+		border-radius: 0.375rem;
+		color: inherit;
+		text-decoration: none;
+		transition: background 0.2s;
+	}
+
+	.userMeta:hover {
+		background: var(--adminSidebarHoverBg);
 	}
 
 	.userInfo {

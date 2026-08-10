@@ -59,12 +59,12 @@
 				This reset link is invalid or has expired. Please request a new one.
 			</div>
 			<p class="backLink">
-				<a href="/admin/forgot-password">Request a new reset link</a>
+				<a href="/account/forgot-password">Request a new reset link</a>
 			</p>
 		{:else if success}
 			<div class="message success">{message}</div>
 			<p class="backLink">
-				<a href="/admin/login">Go to sign in</a>
+				<a href="/account/login">Go to sign in</a>
 			</p>
 		{:else}
 			<p class="subtitle">Choose a new password for your account.</p>
@@ -104,7 +104,7 @@
 			</form>
 
 			<p class="backLink">
-				<a href="/admin/login">Back to sign in</a>
+				<a href="/account/login">Back to sign in</a>
 			</p>
 		{/if}
 	</div>

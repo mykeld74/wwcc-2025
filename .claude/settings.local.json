@@ -21,7 +21,13 @@
       "Bash(npx vite:*)",
       "Bash(npx prettier *)",
       "Bash(npx eslint *)",
-      "Bash(pnpm build *)"
+      "Bash(pnpm build *)",
+      "Bash(npx svelte-check *)",
+      "Bash(npx svelte-kit *)",
+      "Bash(npx tsc *)",
+      "Bash(curl -s http://localhost:5199/account/sign-up)",
+      "Bash(pkill -f \"vite dev --port 5199\")",
+      "Bash(perl -pi -e 's/auth\\\\.api\\\\.changePassword/auth.api.changePasswordTYPO/' \"src/routes/\\(account\\)/account/+page.server.ts\")"
     ]
   }
 }

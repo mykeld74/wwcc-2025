@@ -1,10 +1,10 @@
 import { redirect } from '@sveltejs/kit';
+import { getAdminHomePath } from '$lib/adminRoles';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
-	const allowedRoles = ['admin', 'staff'];
-	if (locals.user && allowedRoles.includes(locals.user.role ?? '')) {
-		throw redirect(302, '/admin');
+	if (locals.user) {
+		throw redirect(302, getAdminHomePath(locals.user.role));
 	}
 
 	const token = url.searchParams.get('token');

@@ -4,12 +4,12 @@
 	let { data } = $props();
 	let email = $state('');
 	let password = $state('');
-	let error = $state(data.reasonMessage ?? '');
+	let loginError = $state('');
 	let loading = $state(false);
 
 	async function handleLogin(e) {
 		e.preventDefault();
-		error = '';
+		loginError = '';
 		loading = true;
 		try {
 			const { error: authError } = await authClient.signIn.email({
@@ -18,16 +18,19 @@
 			});
 
 			if (authError) {
-				error = authError.message || 'Invalid email or password';
+				loginError =
+					authError.code === 'EMAIL_NOT_VERIFIED'
+						? 'Your email is not verified yet. We just sent a new verification link — check your inbox.'
+						: authError.message || 'Invalid email or password';
 				return;
 			}
 
 			// Force a full reload so the freshly-set auth cookie is definitely included.
-			window.location.assign('/admin');
+			window.location.assign(data.redirectTo);
 			return;
 		} catch (err) {
 			console.error('Admin login failed:', err);
-			error = 'Unable to sign in right now. Please try again.';
+			loginError = 'Unable to sign in right now. Please try again.';
 		} finally {
 			loading = false;
 		}
@@ -36,11 +39,17 @@
 
 <div class="loginContainer">
 	<div class="loginCard">
-		<h1>Staff Login</h1>
+		<h1>Sign In</h1>
 		<p class="subtitle">Westwoods Community Church</p>
 
-		{#if error}
-			<div class="errorMessage">{error}</div>
+		{#if data.successMessage}
+			<div class="successMessage">{data.successMessage}</div>
+		{/if}
+
+		{#if loginError}
+			<div class="errorMessage">{loginError}</div>
+		{:else if data.reasonMessage}
+			<div class="errorMessage">{data.reasonMessage}</div>
 		{/if}
 
 		<form onsubmit={handleLogin}>
@@ -66,7 +75,11 @@
 		</form>
 
 		<p class="forgotPassword">
-			<a href="/admin/forgot-password">Forgot your password?</a>
+			<a href="/account/forgot-password">Forgot your password?</a>
+		</p>
+
+		<p class="signUpLink">
+			Don't have an account? <a href="/account/sign-up">Create an account</a>
 		</p>
 	</div>
 </div>
@@ -153,6 +166,16 @@
 		cursor: not-allowed;
 	}
 
+	.successMessage {
+		background: #f0fdf4;
+		color: #16a34a;
+		padding: 0.75rem;
+		border-radius: 0.375rem;
+		margin-bottom: 1rem;
+		font-size: 0.9rem;
+		border: 1px solid #bbf7d0;
+	}
+
 	.errorMessage {
 		background: #fef2f2;
 		color: #dc2626;
@@ -171,5 +194,17 @@
 
 	.forgotPassword a {
 		color: #1a1a2e;
+	}
+
+	.signUpLink {
+		margin: 0.75rem 0 0;
+		text-align: center;
+		font-size: 0.85rem;
+		color: #666;
+	}
+
+	.signUpLink a {
+		color: #1a1a2e;
+		font-weight: 600;
 	}
 </style>

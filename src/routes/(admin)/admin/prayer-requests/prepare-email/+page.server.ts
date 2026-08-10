@@ -1,13 +1,12 @@
 import { db } from '$lib/server/db';
 import { prayerRequests } from '$lib/server/db/schema';
+import { canManagePrayerRequests } from '$lib/adminRoles';
 import { desc, sql } from 'drizzle-orm';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-const allowedRoles = new Set(['admin', 'staff']);
-
 export const load: PageServerLoad = async ({ locals }) => {
-	if (!allowedRoles.has(locals.user?.role ?? '')) {
+	if (!canManagePrayerRequests(locals.user?.role)) {
 		throw redirect(302, '/admin/prayer-requests');
 	}
 
