@@ -1,5 +1,6 @@
 export const PUBLIC_ADMIN_PATHS = [
 	'/admin/login',
+	'/admin/sign-up',
 	'/admin/forgot-password',
 	'/admin/reset-password'
 ] as const;

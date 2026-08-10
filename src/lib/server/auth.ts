@@ -2,6 +2,7 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin } from 'better-auth/plugins';
 import { createAccessControl } from 'better-auth/plugins/access';
+import { adminAc, defaultStatements } from 'better-auth/plugins/admin/access';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 import { getRequestEvent } from '$app/server';
 import { env } from '$env/dynamic/private';
@@ -10,6 +11,7 @@ import { escapeHtml } from './escapeHtml';
 import { sendMail } from './mail';
 
 const statement = {
+	...defaultStatements,
 	prayerRequest: ['create', 'read', 'update', 'delete', 'list'],
 	volunteerOpportunity: ['create', 'read', 'update', 'delete', 'list'],
 	informationRequest: ['create', 'read', 'update', 'delete', 'list']
@@ -26,10 +28,7 @@ export const auth = betterAuth({
 	}),
 	emailAndPassword: {
 		enabled: true,
-		// No public sign-up UI exists; accounts are created by admins
-		// (seed script / admin plugin). Without this flag, anyone could
-		// self-register via POST /api/auth/sign-up/email.
-		disableSignUp: true,
+		disableSignUp: false,
 		revokeSessionsOnPasswordReset: true,
 		sendResetPassword: async ({ user, url }) => {
 			await sendMail({
@@ -60,6 +59,7 @@ export const auth = betterAuth({
 			ac,
 			roles: {
 				admin: ac.newRole({
+					...adminAc.statements,
 					prayerRequest: ['create', 'read', 'update', 'delete', 'list'],
 					volunteerOpportunity: ['create', 'read', 'update', 'delete', 'list'],
 					informationRequest: ['create', 'read', 'update', 'delete', 'list']
@@ -74,6 +74,9 @@ export const auth = betterAuth({
 				}),
 				prayer_team: ac.newRole({
 					prayerRequest: ['read', 'list']
+				}),
+				prayer_admin: ac.newRole({
+					prayerRequest: ['create', 'read', 'update', 'delete', 'list']
 				})
 			},
 			defaultRole: 'prayer_team'

@@ -4,12 +4,12 @@
 	import { formatPersonName } from '$lib/personName';
 
 	let { data } = $props();
-	let filter = $state('all');
+	let filter = $state(data.canViewStaffOnly ? 'all' : 'public');
 	let datePreset = $state('showAll');
 	let startDate = $state('');
 	let endDate = $state('');
 
-	const canBulkUpload = $derived(data.user?.role === 'admin' || data.user?.role === 'staff');
+	const canBulkUpload = $derived(data.canManagePrayer);
 
 	const filtered = $derived(
 		data.requests.filter((request) => {
@@ -83,9 +83,11 @@
 			{/if}
 		</div>
 		<div class="filters">
-			<button class="filterBtn" class:active={filter === 'all'} onclick={() => (filter = 'all')}>
-				All ({data.requests.length})
-			</button>
+			{#if data.canViewStaffOnly}
+				<button class="filterBtn" class:active={filter === 'all'} onclick={() => (filter = 'all')}>
+					All ({data.requests.length})
+				</button>
+			{/if}
 			<button
 				class="filterBtn"
 				class:active={filter === 'public'}
@@ -93,13 +95,15 @@
 			>
 				Public ({data.requests.filter((r) => !r.isStaffOnly).length})
 			</button>
-			<button
-				class="filterBtn"
-				class:active={filter === 'staff'}
-				onclick={() => (filter = 'staff')}
-			>
-				Staff Only ({data.requests.filter((r) => r.isStaffOnly).length})
-			</button>
+			{#if data.canViewStaffOnly}
+				<button
+					class="filterBtn"
+					class:active={filter === 'staff'}
+					onclick={() => (filter = 'staff')}
+				>
+					Staff Only ({data.requests.filter((r) => r.isStaffOnly).length})
+				</button>
+			{/if}
 			<div class="dateRange">
 				<label class="presetField">
 					<span>Date Range</span>

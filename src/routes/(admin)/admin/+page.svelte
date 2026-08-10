@@ -61,6 +61,17 @@
 			<p class="statNumber">{data.stats.infoTotal}</p>
 			<p class="statDetail">{data.stats.infoPending} pending</p>
 		</a>
+
+		{#if data.canManageUsers}
+			<a href="/admin/users/new" class="statCard">
+				<div class="cardTop">
+					<h3>Users</h3>
+					<span class="cardBadge">Admin</span>
+				</div>
+				<p class="statNumber">{data.stats.userTotal}</p>
+				<p class="statDetail">Manage roles and access</p>
+			</a>
+		{/if}
 	</div>
 
 	<div class="contentGrid">

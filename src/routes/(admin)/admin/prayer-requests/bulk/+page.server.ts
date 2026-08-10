@@ -6,13 +6,12 @@ import {
 	parsePrayerBulkCsv,
 	type PrayerBulkInputRow
 } from '$lib/server/prayerBulk';
+import { canManagePrayerRequests } from '$lib/adminRoles';
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 
-const bulkRoles = new Set(['admin', 'staff']);
-
 function canBulkCreate(role: string | null | undefined) {
-	return !!role && bulkRoles.has(role);
+	return canManagePrayerRequests(role);
 }
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -29,7 +28,7 @@ export const actions: Actions = {
 	bulkCreate: async ({ request, locals }) => {
 		if (!canBulkCreate(locals.user?.role)) {
 			return fail(403, {
-				bulkMessage: 'Only admins and staff can bulk upload prayer requests'
+				bulkMessage: 'You do not have permission to bulk upload prayer requests'
 			});
 		}
 
