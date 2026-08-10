@@ -27,7 +27,10 @@
       "Bash(npx tsc *)",
       "Bash(curl -s http://localhost:5199/account/sign-up)",
       "Bash(pkill -f \"vite dev --port 5199\")",
-      "Bash(perl -pi -e 's/auth\\\\.api\\\\.changePassword/auth.api.changePasswordTYPO/' \"src/routes/\\(account\\)/account/+page.server.ts\")"
+      "Bash(perl -pi -e 's/auth\\\\.api\\\\.changePassword/auth.api.changePasswordTYPO/' \"src/routes/\\(account\\)/account/+page.server.ts\")",
+      "Bash(node /private/tmp/claude-503/-Users-MichaelD-Developer-wwcc-2025/74fc4bd4-a502-479d-b2de-a1eefc0ec66e/scratchpad/lookup.mjs)",
+      "Bash(node ./lookup-tmp.mjs)",
+      "Bash(pkill -f \"vite dev --port 5173\")"
     ]
   }
 }

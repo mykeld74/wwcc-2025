@@ -105,10 +105,13 @@
 									{#if user.id === data.currentUserId}
 										<span class="youBadge">You</span>
 									{/if}
+									{#if user.isProtected}
+										<span class="protectedBadge" title="Permanent administrator">Protected</span>
+									{/if}
 								</td>
 								<td>{user.email}</td>
 								<td>
-									{#if user.id === data.currentUserId}
+									{#if user.id === data.currentUserId || user.isProtected}
 										<span class="roleBadge">{roleLabel[user.role ?? PENDING_ROLE] ?? user.role}</span>
 									{:else}
 										<form method="POST" action="?/setRole" class="roleForm" use:enhance>
@@ -134,7 +137,9 @@
 								</td>
 								<td>{formatDate(user.createdAt)}</td>
 								<td>
-									{#if user.id !== data.currentUserId}
+									{#if user.isProtected}
+										<span class="protectedNote">Permanent admin</span>
+									{:else if user.id !== data.currentUserId}
 										<div class="actionGroup">
 											{#if user.banned}
 												<form method="POST" action="?/unbanUser" use:enhance>
@@ -408,6 +413,7 @@
 	}
 
 	.youBadge,
+	.protectedBadge,
 	.roleBadge,
 	.statusBadge {
 		display: inline-flex;
@@ -433,6 +439,16 @@
 	.statusBadge.banned {
 		background: var(--deleteBg);
 		color: var(--deleteText);
+	}
+
+	.protectedBadge {
+		background: color-mix(in oklch, #8b5cf6 18%, transparent);
+		color: #6d28d9;
+	}
+
+	.protectedNote {
+		font-size: 0.8rem;
+		color: var(--textSecondary);
 	}
 
 	.statusBadge.unverified {
