@@ -24,7 +24,7 @@
 
 	let {
 		form = null,
-		action = '/new-prayer-request',
+		action = '/prayer-request',
 		idPrefix = 'prayer',
 		compact = false,
 		onsuccess
