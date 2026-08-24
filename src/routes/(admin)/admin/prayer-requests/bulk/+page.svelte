@@ -7,6 +7,11 @@
 	let bulkSubmitting = $state(false);
 	let bulkSubmittedAt = $state(data.defaultBulkDate);
 	let nextRowId = $state(6);
+	let confirmDialog = $state(null);
+	let confirmKind = $state(null);
+	let rowsForm = $state(null);
+	let csvForm = $state(null);
+	let csvFileInput = $state(null);
 
 	function createEmptyRow(id) {
 		return {
@@ -27,6 +32,29 @@
 		createEmptyRow(5)
 	]);
 
+	const filledRows = $derived(
+		bulkRows.filter(
+			(row) =>
+				row.firstName.trim() ||
+				row.lastName.trim() ||
+				row.request.trim() ||
+				row.isStaffOnly ||
+				row.isWwKid
+		)
+	);
+
+	const confirmTitle = $derived(
+		confirmKind === 'csv' ? 'Upload CSV?' : 'Save prayer requests?'
+	);
+
+	const confirmMessage = $derived(
+		confirmKind === 'csv'
+			? 'Upload this CSV and add the prayer requests to the database?'
+			: filledRows.length === 1
+				? 'Save 1 prayer request to the database?'
+				: `Save ${filledRows.length} prayer requests to the database?`
+	);
+
 	function resetBulkForm() {
 		nextRowId = 6;
 		bulkSubmittedAt = data.defaultBulkDate;
@@ -38,20 +66,12 @@
 			createEmptyRow(5)
 		];
 		bulkTab = 'rows';
+		if (csvFileInput) csvFileInput.value = '';
 	}
 
 	function addBulkRow() {
 		bulkRows = [...bulkRows, createEmptyRow(nextRowId)];
 		nextRowId += 1;
-	}
-
-	function removeBulkRow(id) {
-		if (bulkRows.length === 1) {
-			bulkRows = [createEmptyRow(nextRowId)];
-			nextRowId += 1;
-			return;
-		}
-		bulkRows = bulkRows.filter((row) => row.id !== id);
 	}
 
 	function downloadCsvTemplate() {
@@ -62,6 +82,59 @@
 		link.download = 'prayer-requests-template.csv';
 		link.click();
 		URL.revokeObjectURL(url);
+	}
+
+	/** Enter in inputs must not submit — only the Save / Upload buttons. */
+	function preventEnterSubmit(event) {
+		if (event.key !== 'Enter') return;
+
+		const target = event.target;
+		if (!(target instanceof HTMLElement)) return;
+		if (target.tagName === 'TEXTAREA') return;
+		if (target.matches('button[type="submit"]')) return;
+
+		event.preventDefault();
+	}
+
+	function openRowsConfirm() {
+		if (filledRows.length === 0 || bulkSubmitting) return;
+		confirmKind = 'rows';
+		confirmDialog?.showModal();
+	}
+
+	function openCsvConfirm() {
+		if (bulkSubmitting) return;
+		if (!csvFileInput?.files?.length) {
+			csvFileInput?.reportValidity();
+			return;
+		}
+		confirmKind = 'csv';
+		confirmDialog?.showModal();
+	}
+
+	function cancelConfirm() {
+		confirmDialog?.close();
+		confirmKind = null;
+	}
+
+	function confirmSubmit() {
+		const kind = confirmKind;
+		confirmDialog?.close();
+		confirmKind = null;
+
+		if (kind === 'rows') rowsForm?.requestSubmit();
+		if (kind === 'csv') csvForm?.requestSubmit();
+	}
+
+	function handleBulkEnhance() {
+		bulkSubmitting = true;
+		return async ({ result, update }) => {
+			bulkSubmitting = false;
+			if (result.type === 'success') {
+				resetBulkForm();
+			}
+			await update({ reset: false });
+		};
 	}
 </script>
 
@@ -127,42 +200,26 @@
 
 		{#if bulkTab === 'rows'}
 			<form
+				bind:this={rowsForm}
 				method="POST"
 				action="?/bulkCreate"
 				class="bulkForm"
-				use:enhance={() => {
-					bulkSubmitting = true;
-					return async ({ result, update }) => {
-						bulkSubmitting = false;
-						if (result.type === 'success') {
-							resetBulkForm();
-						}
-						await update({ reset: false });
-					};
-				}}
+				onkeydown={preventEnterSubmit}
+				use:enhance={handleBulkEnhance}
 			>
 				<input type="hidden" name="source" value="rows" />
 				<input
 					type="hidden"
 					name="rows"
 					value={JSON.stringify(
-						bulkRows
-							.filter(
-								(row) =>
-									row.firstName.trim() ||
-									row.lastName.trim() ||
-									row.request.trim() ||
-									row.isStaffOnly ||
-									row.isWwKid
-							)
-							.map(({ firstName, lastName, request, isStaffOnly, isWwKid }) => ({
-								firstName,
-								lastName,
-								request,
-								isStaffOnly,
-								isWwKid,
-								submittedAt: bulkSubmittedAt
-							}))
+						filledRows.map(({ firstName, lastName, request, isStaffOnly, isWwKid }) => ({
+							firstName,
+							lastName,
+							request,
+							isStaffOnly,
+							isWwKid,
+							submittedAt: bulkSubmittedAt
+						}))
 					)}
 				/>
 
@@ -175,16 +232,7 @@
 				<div class="bulkRows">
 					{#each bulkRows as row, index (row.id)}
 						<article class="bulkRow">
-							<div class="bulkRowTop">
-								<span class="bulkRowLabel">Row {index + 1}</span>
-								<button
-									class="removeRowBtn"
-									type="button"
-									onclick={() => removeBulkRow(row.id)}
-								>
-									Remove
-								</button>
-							</div>
+							<span class="bulkRowLabel">Row {index + 1}</span>
 							<div class="bulkFields">
 								<label>
 									<span>First name</span>
@@ -215,27 +263,25 @@
 
 				<div class="bulkActions">
 					<button class="secondaryBtn" type="button" onclick={addBulkRow}>Add row</button>
-					<button class="bulkSubmitBtn" type="submit" disabled={bulkSubmitting}>
+					<button
+						class="bulkSubmitBtn"
+						type="button"
+						disabled={bulkSubmitting || filledRows.length === 0}
+						onclick={openRowsConfirm}
+					>
 						{bulkSubmitting ? 'Saving…' : 'Save requests'}
 					</button>
 				</div>
 			</form>
 		{:else}
 			<form
+				bind:this={csvForm}
 				method="POST"
 				action="?/bulkCreate"
 				enctype="multipart/form-data"
 				class="bulkForm"
-				use:enhance={() => {
-					bulkSubmitting = true;
-					return async ({ result, update }) => {
-						bulkSubmitting = false;
-						if (result.type === 'success') {
-							resetBulkForm();
-						}
-						await update({ reset: false });
-					};
-				}}
+				onkeydown={preventEnterSubmit}
+				use:enhance={handleBulkEnhance}
 			>
 				<input type="hidden" name="source" value="csv" />
 
@@ -260,17 +306,47 @@
 
 				<label class="fileField">
 					<span>CSV file</span>
-					<input type="file" name="file" accept=".csv,text/csv" required />
+					<input
+						bind:this={csvFileInput}
+						type="file"
+						name="file"
+						accept=".csv,text/csv"
+						required
+					/>
 				</label>
 
 				<div class="bulkActions">
-					<button class="bulkSubmitBtn" type="submit" disabled={bulkSubmitting}>
+					<button
+						class="bulkSubmitBtn"
+						type="button"
+						disabled={bulkSubmitting}
+						onclick={openCsvConfirm}
+					>
 						{bulkSubmitting ? 'Uploading…' : 'Upload CSV'}
 					</button>
 				</div>
 			</form>
 		{/if}
 	</section>
+
+	<dialog
+		bind:this={confirmDialog}
+		class="confirmDialog"
+		aria-labelledby="bulkConfirmTitle"
+		aria-describedby="bulkConfirmMessage"
+		onclose={() => (confirmKind = null)}
+	>
+		<div class="confirmContent">
+			<h2 id="bulkConfirmTitle">{confirmTitle}</h2>
+			<p id="bulkConfirmMessage">{confirmMessage}</p>
+			<div class="confirmActions">
+				<button class="secondaryBtn" type="button" onclick={cancelConfirm}>Cancel</button>
+				<button class="bulkSubmitBtn" type="button" onclick={confirmSubmit}>
+					{confirmKind === 'csv' ? 'Upload CSV' : 'Save requests'}
+				</button>
+			</div>
+		</div>
+	</dialog>
 </div>
 
 <style>
@@ -473,13 +549,8 @@
 		border-radius: 0.7rem;
 		padding: 0.75rem;
 		background: color-mix(in oklch, var(--panelBg), var(--panelAltBg) 35%);
-	}
-
-	.bulkRowTop {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 0.65rem;
+		display: grid;
+		gap: 0.65rem;
 	}
 
 	.bulkRowLabel {
@@ -488,16 +559,6 @@
 		color: var(--textMuted);
 		text-transform: uppercase;
 		letter-spacing: 0.03em;
-	}
-
-	.removeRowBtn {
-		border: none;
-		background: transparent;
-		color: var(--deleteText);
-		font-size: 0.78rem;
-		font-weight: 600;
-		cursor: pointer;
-		padding: 0;
 	}
 
 	.bulkFields {
@@ -642,6 +703,49 @@
 		color: var(--textMuted);
 	}
 
+	.confirmDialog {
+		margin: auto;
+		padding: 0;
+		border: 1px solid var(--panelBorder);
+		border-radius: 0.9rem;
+		background: var(--panelBg);
+		color: var(--textPrimary);
+		box-shadow: var(--cardShadow);
+		max-width: min(26rem, calc(100vw - 2rem));
+		width: 100%;
+	}
+
+	.confirmDialog::backdrop {
+		background: rgba(15, 23, 42, 0.55);
+	}
+
+	.confirmContent {
+		display: grid;
+		gap: 0.75rem;
+		padding: 1.25rem;
+	}
+
+	.confirmContent h2 {
+		margin: 0;
+		font-size: 1.15rem;
+		color: var(--textPrimary);
+	}
+
+	.confirmContent p {
+		margin: 0;
+		font-size: 0.92rem;
+		line-height: 1.45;
+		color: var(--textSecondary);
+	}
+
+	.confirmActions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 0.6rem;
+		flex-wrap: wrap;
+		margin-top: 0.35rem;
+	}
+
 	@media (max-width: 760px) {
 		.bulkFields {
 			grid-template-columns: 1fr;
@@ -652,6 +756,10 @@
 		}
 
 		.bulkActions > * {
+			flex: 1;
+		}
+
+		.confirmActions > * {
 			flex: 1;
 		}
 	}

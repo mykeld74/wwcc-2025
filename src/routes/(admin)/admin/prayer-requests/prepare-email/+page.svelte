@@ -81,15 +81,15 @@
 		}
 
 		@page {
-			margin: 0.85in 0.75in 0.75in 0.75in;
+			margin: 0.5in;
 
 			@top-left {
 				content: "Westwoods Prayer Requests";
-				font: 700 14px Arial, Helvetica, sans-serif;
+				font: 700 12px Arial, Helvetica, sans-serif;
 				color: #000000;
 				vertical-align: bottom;
-				padding-top: 2rem;
-				margin-bottom: .5rem;
+				padding-top: 0.5rem;
+				margin-bottom: 0.25rem;
 			}
 
 			@top-center {
@@ -97,8 +97,8 @@
 				font: 12px Arial, Helvetica, sans-serif;
 				color: #000000;
 				vertical-align: bottom;
-				padding-top: 2rem;
-				margin-bottom: .5rem;
+				padding-top: 0.5rem;
+				margin-bottom: 0.25rem;
 			}
 
 			@top-right {
@@ -106,12 +106,19 @@
 				font: 12px Arial, Helvetica, sans-serif;
 				color: #000000;
 				vertical-align: bottom;
-				padding-top: 2rem;
-				margin-bottom: .5rem;
+				padding-top: 0.5rem;
+				margin-bottom: 0.25rem;
 			}
 		}
 
 		@media print {
+			body,
+			.prayer-email-document {
+				font-size: 12px !important;
+				line-height: 1.35 !important;
+				padding: 0 !important;
+			}
+
 			.print-layout {
 				width: 100%;
 				border-collapse: collapse;
@@ -140,7 +147,7 @@
 			}
 
 			.print-header-spacer {
-				height: 1rem;
+				height: 0.4rem;
 				margin: 0;
 				padding: 0;
 				line-height: 0;
@@ -155,14 +162,31 @@
 				padding-top: 0 !important;
 			}
 
+			.prayer-section-heading {
+				margin: 10px 0 4px !important;
+				font-size: 12px !important;
+				letter-spacing: 0.03em !important;
+				break-after: avoid-page;
+				page-break-after: avoid;
+			}
+
 			.prayer-request-block {
+				margin: 0 0 6px !important;
 				break-inside: avoid-page;
 				page-break-inside: avoid;
 			}
 
-			.prayer-section-heading {
-				break-after: avoid-page;
-				page-break-after: avoid;
+			.prayer-request-block p {
+				font-size: 12px !important;
+				line-height: 1.35 !important;
+			}
+
+			.prayer-request-block p:first-child {
+				margin: 0 0 2px !important;
+			}
+
+			.prayer-request-block p:nth-child(2) {
+				margin: 0 0 4px !important;
 			}
 		}
 	</style>
@@ -210,8 +234,8 @@
 			<h1>Prepare for email</h1>
 			<p class="pageIntro">
 				Choose a date range, then copy or print a formatted list for your weekly prayer email. WW
-				Kids requests appear first. Staff-only requests are excluded unless you check Staff Only
-				Email below.
+				Kids requests appear first. Check Staff Only Email to prepare a list of staff-only requests
+				instead of the public list.
 			</p>
 		</div>
 	</header>

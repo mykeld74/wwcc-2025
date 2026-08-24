@@ -50,7 +50,9 @@ export function filterPrayerRequestsForEmail(
 	const rangeEnd = parseRangeDate(range.endDate, true);
 
 	return requests
-		.filter((request) => range.includeStaffOnly || !isStaffOnlyRequest(request))
+		.filter((request) =>
+			range.includeStaffOnly ? isStaffOnlyRequest(request) : !isStaffOnlyRequest(request)
+		)
 		.filter((request) => {
 			const submittedAt = new Date(request.submittedAt);
 			return submittedAt >= rangeStart && submittedAt <= rangeEnd;
