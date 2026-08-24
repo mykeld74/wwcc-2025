@@ -9,7 +9,7 @@
  * Deliberately hardcoded rather than read from the environment: a missing env
  * var would silently switch the protection off.
  */
-export const PROTECTED_ADMIN_EMAILS = ['mike@msdweb.pro'];
+export const PROTECTED_ADMIN_EMAILS = ['mike@msdweb.pro', 'joe@westwoodscc.org'];
 
 export const PROTECTED_ACCOUNT_MESSAGE =
 	'This account is protected and cannot be demoted, banned, or removed.';
