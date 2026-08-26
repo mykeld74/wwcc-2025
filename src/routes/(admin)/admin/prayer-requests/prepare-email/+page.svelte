@@ -85,7 +85,7 @@
 
 			@top-left {
 				content: "Westwoods Prayer Requests";
-				font: 700 12px Arial, Helvetica, sans-serif;
+				font: 700 14px Arial, Helvetica, sans-serif;
 				color: #000000;
 				vertical-align: bottom;
 				padding-top: 0.5rem;
@@ -94,7 +94,7 @@
 
 			@top-center {
 				content: "${printRangeLabel}";
-				font: 12px Arial, Helvetica, sans-serif;
+				font: 14px Arial, Helvetica, sans-serif;
 				color: #000000;
 				vertical-align: bottom;
 				padding-top: 0.5rem;
@@ -103,7 +103,7 @@
 
 			@top-right {
 				content: "Page " counter(page);
-				font: 12px Arial, Helvetica, sans-serif;
+				font: 14px Arial, Helvetica, sans-serif;
 				color: #000000;
 				vertical-align: bottom;
 				padding-top: 0.5rem;
@@ -114,7 +114,7 @@
 		@media print {
 			body,
 			.prayer-email-document {
-				font-size: 12px !important;
+				font-size: 14px !important;
 				line-height: 1.35 !important;
 				padding: 0 !important;
 			}
@@ -164,7 +164,7 @@
 
 			.prayer-section-heading {
 				margin: 10px 0 4px !important;
-				font-size: 12px !important;
+				font-size: 14px !important;
 				letter-spacing: 0.03em !important;
 				break-after: avoid-page;
 				page-break-after: avoid;
@@ -177,7 +177,7 @@
 			}
 
 			.prayer-request-block p {
-				font-size: 12px !important;
+				font-size: 14px !important;
 				line-height: 1.35 !important;
 			}
 
