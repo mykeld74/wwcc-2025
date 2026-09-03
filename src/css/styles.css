@@ -236,7 +236,8 @@ a {
 	margin: 0;
 	translate: 0 calc(clamp(2.75rem, 5vw, 3.75rem) * -1);
 	.mission &,
-	.planVisit & {
+	.planVisit &,
+	.inviteAFriend & {
 		font-size: clamp(2rem, 5vw, 3rem);
 		translate: 0 calc(clamp(2rem, 5vw, 3.25rem) * -1);
 		@media (max-width: 1020px) {
@@ -255,7 +256,8 @@ a {
 	.mission &,
 	.vision &,
 	.planVisit &,
-	.whatWeBelieve & {
+	.whatWeBelieve &,
+	.inviteAFriend & {
 		grid-template-columns: 1fr;
 		padding: 0 3vw;
 	}
