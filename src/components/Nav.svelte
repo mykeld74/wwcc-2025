@@ -69,7 +69,8 @@
 					icon: 'icon'
 				},
 				{ label: 'Leadership', href: '/about-us/leadership', icon: 'icon' },
-				{ label: 'Plan a Visit', href: '/about-us/plan-a-visit', icon: 'icon' }
+				{ label: 'Plan a Visit', href: '/about-us/plan-a-visit', icon: 'icon' },
+				{ label: 'Invite a Friend', href: '/invite-a-friend', icon: 'icon' }
 
 				// { label: 'Current Events', href: '#', icon: 'icon', isModal: true }
 			]

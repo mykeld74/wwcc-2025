@@ -3,7 +3,7 @@
 	import { blur } from 'svelte/transition';
 	let { data } = $props();
 
-	import { Image, HomePageCard, Logo } from '$components';
+	import { Image, HomePageCard, InviteSection, Logo } from '$components';
 
 	const currentSeriesImg = data.currentSeriesImg[0].seriesImage;
 
@@ -110,6 +110,8 @@
 		</div>
 	</div>
 </section>
+<InviteSection />
+
 <div class="planAVisitWrapper">
 	<a href="/about-us/plan-a-visit">
 		<p class="planAVisitTitle">Plan a Visit</p>
