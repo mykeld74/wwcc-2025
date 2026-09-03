@@ -16,7 +16,7 @@
 <h1 class="pageTitle">Plan a Visit</h1>
 
 <div class="contentWrapper planVisit">
-	<div class="cardWrapper wrapper1">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">Welcome</h2>
 			<div class="cardContentWrapper">
@@ -31,7 +31,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper2">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">Service Times & Location</h2>
 			<div class="cardContentWrapper">
@@ -49,7 +49,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper3">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">What to Wear</h2>
 			<div class="cardContentWrapper">
@@ -63,7 +63,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper4">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">What to Expect</h2>
 			<div class="cardContentWrapper">
@@ -81,7 +81,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper1">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">What About My Kids?</h2>
 			<div class="cardContentWrapper">
@@ -100,7 +100,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper2">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">What About My Teens?</h2>
 			<div class="cardContentWrapper">
@@ -116,7 +116,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper3">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">Tell us your coming</h2>
 			<div class="cardContentWrapper">

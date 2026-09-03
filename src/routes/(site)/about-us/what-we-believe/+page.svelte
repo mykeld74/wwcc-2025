@@ -117,7 +117,7 @@
 <h1 class="pageTitle">What We Believe</h1>
 
 <div class="contentWrapper whatWeBelieve">
-	<div class="cardWrapper wrapper1">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">The Gospel</h2>
 			<div class="cardContentWrapper">
@@ -171,7 +171,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper2">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">The Holy Bible</h2>
 			<div class="cardContentWrapper">
@@ -195,7 +195,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper3">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">God</h2>
 			<div class="cardContentWrapper">
@@ -271,7 +271,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper4">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">Salvation</h2>
 			<div class="cardContentWrapper">
@@ -321,7 +321,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper5">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">The Church</h2>
 			<div class="cardContentWrapper">

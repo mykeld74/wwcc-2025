@@ -34,7 +34,11 @@
 		rel="stylesheet"
 	/>
 	<link rel="preconnect" href="https://challenges.cloudflare.com" />
-	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+	<script
+		src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+		async
+		defer
+	></script>
 	<script src="https://js.churchcenter.com/modal/v1"></script>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -161,7 +165,14 @@
 	}
 	.contentWrapper {
 		width: 100%;
-		overflow-x: hidden;
+		/*
+			`clip` rather than `hidden`: hidden forces overflow-y to `auto`, which
+			makes this a scroll container. The scroll-driven reveals below resolve
+			`view()` against the nearest scroll container, so they would measure
+			against this never-scrolling box and never fire. `clip` still hides the
+			horizontal overflow but creates no scroll container.
+		*/
+		overflow-x: clip;
 		display: grid;
 		grid-template-columns:
 			[full-start left-start] auto [left-end wide-start] auto [content-start]

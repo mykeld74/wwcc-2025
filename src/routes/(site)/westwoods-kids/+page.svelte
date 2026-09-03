@@ -1,5 +1,4 @@
 <script>
-	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
 	let isReady = $state(false);
@@ -53,7 +52,7 @@
 	<div class="wwKidsCoreValues">
 		<h2 class="coreValuesTitle">Westwoods Kids core values are:</h2>
 
-		<div class="wwKidsCoreValue cv1" transition:fade={{ duration: 500 }}>
+		<div class="wwKidsCoreValue cv1 revealUp">
 			<p class="valueTitle">We will know and love your child well.</p>
 			<p class="valueDescription">
 				Our amazing volunteers will provide a safe and exciting place for kids to learn and have
@@ -61,21 +60,21 @@
 			</p>
 		</div>
 
-		<div class="wwKidsCoreValue cv2" transition:fade={{ duration: 500, delay: 250 }}>
+		<div class="wwKidsCoreValue cv2 revealUp">
 			<p class="valueTitle">We will teach your child about the love of Jesus.</p>
 			<p class="valueDescription">
 				We want kids to leave each Sunday learning something new about Jesus’ amazing love for them.
 			</p>
 		</div>
 
-		<div class="wwKidsCoreValue cv3" transition:fade={{ duration: 500, delay: 500 }}>
+		<div class="wwKidsCoreValue cv3 revealUp">
 			<p class="valueTitle">We will value your child’s safety.</p>
 			<p class="valueDescription">
 				When you check in, you’ll receive a security tag to bring with you to pick up your child. If
 				we need to contact you during service, we’ll text you at the number you provide.
 			</p>
 		</div>
-		<div class="wwKidsCoreValue cv4" transition:fade={{ duration: 500, delay: 500 }}>
+		<div class="wwKidsCoreValue cv4 revealUp">
 			<p class="valueTitle">We Believe</p>
 			<p class="valueDescription">
 				We believe real life change happens in relationships and our classes are set up to foster
@@ -145,16 +144,6 @@
 {/if}
 
 <style>
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-			scale: 0.7;
-		}
-		to {
-			opacity: 1;
-			scale: 1;
-		}
-	}
 	.wwKidsCoreValues {
 		margin: 0 auto;
 		max-width: 1200px;
@@ -169,31 +158,16 @@
 	}
 	.cv1 {
 		background: #40619d;
-		will-change: transform, opacity, scale;
-		animation: fadeIn 1s ease-in-out forwards;
-		opacity: 0;
 	}
 	.cv2 {
 		background: #4d1434;
-		will-change: transform, opacity, scale;
-		animation: fadeIn 1s ease-in-out forwards;
-		animation-delay: 0.25s;
-		opacity: 0;
 	}
 	.cv3 {
 		background: #b2324b;
-		will-change: transform, opacity, scale;
-		animation: fadeIn 1s ease-in-out forwards;
-		animation-delay: 0.5s;
-		opacity: 0;
 		grid-column: 1 / -1;
 	}
 	.cv4 {
 		background: #66b1ce;
-		will-change: transform, opacity, scale;
-		animation: fadeIn 1s ease-in-out forwards;
-		animation-delay: 0.75s;
-		opacity: 0;
 		grid-column: 1 / -1;
 	}
 

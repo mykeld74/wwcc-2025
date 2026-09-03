@@ -55,7 +55,7 @@
 <h1 class="pageTitle">Invite a Friend</h1>
 
 <div class="contentWrapper inviteAFriend">
-	<div class="cardWrapper wrapper1">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">Start Here</h2>
 			<div class="cardContentWrapper">
@@ -76,7 +76,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper2">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">What They'll Walk Into</h2>
 			<div class="cardContentWrapper">
@@ -104,7 +104,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper3">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">Words You Can Steal</h2>
 			<div class="cardContentWrapper">
@@ -123,7 +123,7 @@
 		</div>
 	</div>
 
-	<div class="cardWrapper wrapper4">
+	<div class="cardWrapper reveal">
 		<div class="contentCard">
 			<h2 class="contentCardTitle">One More Thing</h2>
 			<div class="cardContentWrapper">
