@@ -15,7 +15,7 @@
 	<div class="mcLogoWrapper">
 		<Image source="mcLogo" altTag="Missional Communities Logo" />
 	</div>
-	<div class="mcsWrapper">
+	<div class="mcsWrapper revealChildren">
 		<h1 class="pageTitle">Join a Missional Community!</h1>
 		<p class="pageDescription">
 			We think that the best learning and life change occurs in small groups of people doing life

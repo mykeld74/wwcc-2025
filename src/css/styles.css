@@ -135,11 +135,22 @@
 		--backgroundCenterY: 0%;
 	}
 }
-@keyframes cardsIn {
-	100% {
-		opacity: 1;
-		scale: 1;
-		translate: 0 0;
+/*
+	Reveal keyframes for scroll-driven blocks. Only `from` is declared, so the
+	end state is whatever the element already computes to - nothing here has to
+	know a block's real opacity, scale, or position.
+
+	The block rises from below and grows to full size. `transform-origin` is left
+	at its default centre so it grows evenly rather than anchoring to an edge,
+	and the rise is a fixed distance rather than a percentage - a percentage
+	would scale with the element, so a tall card would travel much further than
+	a short one.
+*/
+@keyframes revealIn {
+	from {
+		opacity: 0;
+		scale: 0.7;
+		translate: 0 2rem;
 	}
 }
 body {
@@ -280,79 +291,97 @@ a {
 	font-weight: 700;
 	text-decoration: underline;
 }
-.wrapper1 {
-	animation: cardsIn 0.75s ease-in-out forwards;
-	opacity: 0;
-	scale: 0.7;
-	translate: -10% 0;
-	transform-origin: left;
-}
-.wrapper2 {
-	animation: cardsIn 0.75s ease-in-out forwards;
-	animation-delay: 0.25s;
-	opacity: 0;
-	scale: 0.7;
-	translate: 10% 0;
-	transform-origin: right;
-}
-.wrapper3 {
-	animation: cardsIn 0.75s ease-in-out forwards;
-	animation-delay: 0.5s;
-	opacity: 0;
-	scale: 0.7;
-	translate: -10% 0;
-	transform-origin: left;
-}
-.wrapper4 {
-	animation: cardsIn 0.75s ease-in-out forwards;
-	animation-delay: 0.75s;
-	opacity: 0;
-	scale: 0.7;
-	translate: 10% 0;
-	transform-origin: right;
-}
+/*
+	Blocks reveal as they scroll into view.
 
-.serviceTimesModal,
-.contactModal,
-.currentEventsModal,
-.announcementModal,
-.alcoholPolicyModal {
-	opacity: 0;
-	scale: 0.5;
-	background: var(--backgroundColor);
-	color: var(--textColor);
-	width: calc(100vw - 2rem);
-	height: fit-content;
-	max-height: 80svh;
-	max-width: 800px;
-	border-radius: 1rem;
-	padding: 2rem;
-	transition: all 0.5s ease-in-out;
-	transition-behavior: allow-discrete;
-	&::backdrop {
-		opacity: 0;
-		transition: opacity 0.25s ease-in-out;
-		transition-behavior: allow-discrete;
-	}
-	&:popover-open {
-		opacity: 1;
-		scale: 1;
-		transition: all 0.5s ease-in-out;
+	These used to be four numbered classes that fired on page load with staggered
+	delays, which meant everything below the fold had already finished playing
+	before you scrolled to it - by the time you arrived, the animation was over.
+	Tying them to `view()` instead means each block animates when it actually
+	reaches the viewport, and rolls back if you scroll away.
 
-		@starting-style {
-			opacity: 0;
-			scale: 0.5;
+	Two guards, and both matter:
+
+	 - `@supports`: a browser without scroll-driven animations skips the whole
+	   block, so it never sees the hidden `from` state and simply renders the
+	   content. The starting state lives only in the keyframes, never in a static
+	   rule, so there is no way to strand a block at opacity 0.
+	 - `prefers-reduced-motion`: no movement at all for anyone who asked for less.
+
+*/
+@media (prefers-reduced-motion: no-preference) {
+	@supports (animation-timeline: view()) {
+		/*
+			Each block gets TWO animations off the same keyframes, and the order
+			matters.
+
+			 1. The scroll-driven one is tied to `view()` and governs the block for
+			    the life of the page. With `both` fill it holds the hidden starting
+			    state, which is what keeps everything below the fold from showing
+			    until you reach it.
+			 2. The load one runs once on an ordinary clock. A later animation in
+			    the list wins over an earlier one *while it is contributing*, and
+			    this one has no fill mode - so it takes over for its first 700ms,
+			    then stops contributing and hands back to the scroll animation.
+
+			The result is what you actually want on landing: whatever is already on
+			screen animates in immediately, while everything further down stays
+			hidden until scrolled to. Both animations end on the same resting state,
+			so the handoff itself is invisible.
+
+			`animation-timeline` and `animation-range` are declared AFTER the
+			`animation` shorthand on purpose - the shorthand resets both, so
+			declaring them first would silently throw the timeline away.
+		*/
+		.reveal {
+			animation:
+				revealIn linear both,
+				revealIn 700ms ease-out;
+			animation-timeline: view(), auto;
+			animation-range:
+				entry 0% cover 25%,
+				normal;
 		}
-		&::backdrop {
-			opacity: 1;
-			background: oklch(0 0 0 / 0.5);
-			transition: opacity 0.25s ease-in-out;
-			transition-behavior: allow-discrete;
-			pointer-events: auto;
-			backdrop-filter: blur(5px);
-			@starting-style {
-				opacity: 0;
-			}
+
+		/*
+			A light stagger for the blocks most likely to share the first screen, so
+			landing on a page still reads as a sequence rather than everything
+			arriving at once. Only the load animation is delayed; the scroll-driven
+			one is positional and takes no delay.
+		*/
+		.reveal:nth-of-type(2) {
+			animation-delay: 0s, 120ms;
+		}
+		.reveal:nth-of-type(3) {
+			animation-delay: 0s, 240ms;
+		}
+		.reveal:nth-of-type(4) {
+			animation-delay: 0s, 360ms;
+		}
+
+		/*
+			Grids and lists of small cards: same motion, but quicker and completing
+			sooner, so a row of them doesn't feel laboured.
+		*/
+		.revealUp,
+		.revealChildren > * {
+			animation:
+				revealIn linear both,
+				revealIn 600ms ease-out;
+			animation-timeline: view(), auto;
+			animation-range:
+				entry 0% cover 20%,
+				normal;
+		}
+
+		.revealChildren > *:nth-of-type(2) {
+			animation-delay: 0s, 90ms;
+		}
+		.revealChildren > *:nth-of-type(3) {
+			animation-delay: 0s, 180ms;
+		}
+		.revealChildren > *:nth-of-type(4) {
+			animation-delay: 0s, 270ms;
 		}
 	}
 }

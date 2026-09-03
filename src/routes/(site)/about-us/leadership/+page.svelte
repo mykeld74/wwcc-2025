@@ -62,7 +62,7 @@
 <div class="contentWrapper leadership">
 	<div class="pastorsWrapper">
 		<h2 class="pageTitle">Our Staff</h2>
-		<div class="pastors staffCardWrapper">
+		<div class="pastors staffCardWrapper revealChildren">
 			{#each staff as leader}
 				<LeaderCard name={leader.name} title={leader.title} image={leader.image} />
 			{/each}
@@ -70,7 +70,7 @@
 	</div>
 	<div class="eldersWrapper">
 		<h2 class="pageTitle">Our Elders</h2>
-		<div class="elders staffCardWrapper">
+		<div class="elders staffCardWrapper revealChildren">
 			{#each elders as leader}
 				<LeaderCard name={leader.name} title={leader.title} image={leader.image} />
 			{/each}

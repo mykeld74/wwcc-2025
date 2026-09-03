@@ -11,7 +11,7 @@
 
 <h1 class="pageTitle">Our Values</h1>
 <div class="cardWrapper">
-	<div class="contentCard wrapper1">
+	<div class="contentCard reveal">
 		<h2 class="contentCardTitle">Worship</h2>
 		<div class="cardContentWrapper">
 			<div class="cardContent">
@@ -37,7 +37,7 @@
 		</div>
 	</div>
 
-	<div class="contentCard wrapper2">
+	<div class="contentCard reveal">
 		<h2 class="contentCardTitle">Community</h2>
 		<div class="cardContentWrapper">
 			<div class="cardContent">
@@ -63,7 +63,7 @@
 		</div>
 	</div>
 
-	<div class="contentCard wrapper3">
+	<div class="contentCard reveal">
 		<h2 class="contentCardTitle">Outreach</h2>
 		<div class="cardContentWrapper">
 			<div class="cardContent">

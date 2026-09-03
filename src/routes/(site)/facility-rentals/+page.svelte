@@ -39,7 +39,7 @@
 <div class="contentWrapper">
 	<h1 class="pageTitle">Facility Rentals</h1>
 	<div class="facilityRentalsContainer">
-		<div class="facilityRentalsWrapper">
+		<div class="facilityRentalsWrapper revealChildren">
 			{#each rooms as room}
 				<Card cardContent={room} />
 			{/each}

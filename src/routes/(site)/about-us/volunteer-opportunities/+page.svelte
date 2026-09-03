@@ -113,7 +113,7 @@
 <div class="contentWrapper" class:blurred={isPopoverOpen}>
 	<h1 class="pageTitle">Volunteer Opportunities</h1>
 	<div class="volunteerOpportunitiesContainer">
-		<div class="volunteerOpportunitiesWrapper">
+		<div class="volunteerOpportunitiesWrapper revealChildren">
 			{#each Opportunities as opportunity (opportunity.id)}
 				<Card cardContent={opportunity} />
 			{/each}

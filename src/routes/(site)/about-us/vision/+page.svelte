@@ -8,7 +8,7 @@
 <h1 class="pageTitle">Our Vision</h1>
 
 <div class="cardWrapper vision">
-	<div class="contentCard wrapper1">
+	<div class="contentCard reveal">
 		<h2 class="contentCardTitle">Loving and Following Christ</h2>
 		<div class="cardContentWrapper">
 			<div class="cardContent">
@@ -29,7 +29,7 @@
 		</div>
 	</div>
 
-	<div class="contentCard wrapper2">
+	<div class="contentCard reveal">
 		<h2 class="contentCardTitle">Loving and Serving Each Other</h2>
 		<div class="cardContentWrapper">
 			<div class="cardContent">
@@ -48,7 +48,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="contentCard wrapper3">
+	<div class="contentCard reveal">
 		<h2 class="contentCardTitle">The Need for Balance</h2>
 		<div class="cardContentWrapper">
 			<div class="cardContent">

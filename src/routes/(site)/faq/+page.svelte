@@ -15,7 +15,7 @@
 					"acceptedAnswer": {
 						"@type": "Answer",
 						"text": "Our Sunday services start at 9:00 & 10:30am. We recommend arriving a few minutes early to grab a cup of coffee or water and get settled."
-					 in}
+					}
 				},
 				{
 					"@type": "Question",
@@ -63,7 +63,7 @@
 </svelte:head>
 
 <h1 class="pageTitle">Frequently Asked Questions</h1>
-<div class="faqContainer">
+<div class="faqContainer revealChildren">
 	<div class="faqItem">
 		<h2>What time are your Sunday services?</h2>
 		<p>
