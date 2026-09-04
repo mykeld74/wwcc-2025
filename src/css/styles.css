@@ -291,6 +291,57 @@ a {
 	font-weight: 700;
 	text-decoration: underline;
 }
+
+.serviceTimesModal,
+.contactModal,
+.currentEventsModal,
+.announcementModal,
+.alcoholPolicyModal {
+	opacity: 0;
+	scale: 0.5;
+	background: var(--backgroundColor);
+	color: var(--textColor);
+	width: calc(100vw - 2rem);
+	height: fit-content;
+	max-height: 80svh;
+	max-width: 800px;
+	border: none;
+	border-radius: 1rem;
+	padding: 2rem;
+	transition: all 0.5s ease-in-out;
+	transition-behavior: allow-discrete;
+
+	&::backdrop {
+		opacity: 0;
+		transition: opacity 0.25s ease-in-out;
+		transition-behavior: allow-discrete;
+	}
+
+	&:popover-open {
+		opacity: 1;
+		scale: 1;
+		transition: all 0.5s ease-in-out;
+
+		@starting-style {
+			opacity: 0;
+			scale: 0.5;
+		}
+
+		&::backdrop {
+			opacity: 1;
+			background: oklch(0 0 0 / 0.5);
+			transition: opacity 0.25s ease-in-out;
+			transition-behavior: allow-discrete;
+			pointer-events: auto;
+			backdrop-filter: blur(5px);
+
+			@starting-style {
+				opacity: 0;
+			}
+		}
+	}
+}
+
 /*
 	Blocks reveal as they scroll into view.
 
