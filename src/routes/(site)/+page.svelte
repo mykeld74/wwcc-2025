@@ -40,7 +40,7 @@
 
 	onMount(() => {
 		isReady = true;
-		const announcementEnd = new Date('2026-07-06');
+		const announcementEnd = new Date('2026-09-21');
 		showAnnouncement = new Date() < announcementEnd;
 		if (showAnnouncement) {
 			const dialog = document.getElementById('announcementModal');
@@ -134,11 +134,17 @@
 
 <dialog id="announcementModal" class="announcementModal" popover>
 	<div class="modalContent">
-		<h1 class="underline">Service Update</h1>
-		<h2>There will be only one service on Sunday, July 5th, at 10:30am.</h2>
+		<h1 class="underline">Important Announcement!</h1>
+		<h2>
+			Sunday, September 20th we will be combining with 5 other churches for Love Lakewood Sunday!
+			Please join us at 10:00am at Bear Creek High School. There will be no service at Westwoods
+			that day.
+		</h2>
 		<p>
-			We look forward to worshiping with you. Our regular two-service schedule will resume the
-			following Sunday.
+			We are very excited to join with the broader Church in the Lakewood area. For more
+			information, please visit <a href="https://www.lovelakewoodsunday.org/" target="_blank"
+				>LoveLakewoodSunday.org</a
+			>.
 		</p>
 
 		<div class="modalActions">
