@@ -1,5 +1,12 @@
-<script>
+<script lang="ts">
 	import { ScrollingHero } from '$components';
+	import { CalendarEvents } from '$components/calendar-events';
+	import { studentsEventHref } from '$lib/studentsEventPaths';
+
+	let { data } = $props();
+
+	const studentsEmptyMonthMessage = (monthYear: string) =>
+		`No student events in ${monthYear}. Try another month.`;
 </script>
 
 <svelte:head>
@@ -35,13 +42,15 @@
 		<a href="tel:303-279-1616" class="phoneNumber">303-279-1616 ext. 2</a>
 	</p>
 
-	<iframe
-		src="https://calendar.google.com/calendar/embed?src=studentswwcc%40gmail.com&amp;ctz=America%2FDenver"
-		frameBorder="0"
-		scrolling="no"
-		class="studentCalendar"
-		title="Student Calendar"
-	></iframe>
+	<div class="calendarSlot">
+		<CalendarEvents
+			events={data.events}
+			eventHref={studentsEventHref}
+			emptyMonthMessage={studentsEmptyMonthMessage}
+			calendarSelectHint="Select a highlighted date to see student events."
+			defaultView="calendar"
+		/>
+	</div>
 </div>
 
 <style>
@@ -54,8 +63,10 @@
 		margin: 0 auto;
 		grid-area: content;
 	}
-	.studentCalendar {
+	.calendarSlot {
 		width: 100%;
-		aspect-ratio: 16 / 9;
+		min-width: 0;
+		padding: clamp(0.5rem, 1.5vw, 1rem) 0 clamp(2rem, 4vw, 3rem);
+		box-sizing: border-box;
 	}
 </style>

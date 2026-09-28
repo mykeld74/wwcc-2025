@@ -12,6 +12,8 @@ const DEFAULT_WOW_TAG_PHRASES = ['wow', 'women of westwoods'];
 /** Match Planning Center *calendar* names (the colored calendar on the event) */
 const DEFAULT_WOW_CALENDAR_PHRASES = ['women of westwoods'];
 
+const DEFAULT_STUDENTS_CALENDAR_PHRASES = ['westwoods students'];
+
 type JsonApiResource = {
 	type: string;
 	id: string;
@@ -177,6 +179,14 @@ function wowTagPhrases(): string[] {
 
 function wowCalendarPhrases(): string[] {
 	return splitEnvList(env.PLANNING_CENTER_WOW_CALENDAR_NAMES) ?? [...DEFAULT_WOW_CALENDAR_PHRASES];
+}
+
+function studentsCalendarPhrases(): string[] {
+	return (
+		splitEnvList(env.PLANNING_CENTER_STUDENTS_CALENDAR_NAMES) ?? [
+			...DEFAULT_STUDENTS_CALENDAR_PHRASES
+		]
+	);
 }
 
 function lettersOnlyLower(s: string): string {
@@ -435,6 +445,39 @@ async function loadWowScopeIds(
 	return { calendarIds, tagIds };
 }
 
+async function loadStudentsCalendarIds(applicationId: string, secret: string): Promise<string[]> {
+	const explicitCalendarId = env.PLANNING_CENTER_STUDENTS_CALENDAR_ID?.trim();
+	if (explicitCalendarId) {
+		return [explicitCalendarId];
+	}
+	return fetchMatchingCalendarIds(applicationId, secret, studentsCalendarPhrases());
+}
+
+async function eventOnCalendars(
+	eventId: string,
+	applicationId: string,
+	secret: string,
+	calendarIds: string[]
+): Promise<boolean> {
+	if (calendarIds.length === 0) {
+		return false;
+	}
+
+	const doc = await fetchJson(
+		`${PC_BASE}/events/${encodeURIComponent(eventId)}`,
+		applicationId,
+		secret
+	);
+	const ev = dataRows(doc)[0];
+	if (!ev || ev.type !== 'Event') {
+		return false;
+	}
+
+	const calSet = new Set(calendarIds);
+	const cal = ev.relationships?.calendar?.data;
+	return Boolean(cal && !Array.isArray(cal) && calSet.has(cal.id));
+}
+
 async function fetchEventTagIdsForEvent(
 	eventId: string,
 	applicationId: string,
@@ -541,6 +584,37 @@ export async function fetchWowConnectUiEvents(): Promise<CalendarUiEvent[]> {
 	}
 
 	return mapUiEventsForEventIds([...eventIdSet], applicationId, secret);
+}
+
+/**
+ * Westwoods Students: Planning Center events on the Students calendar.
+ *
+ * Env:
+ * - `PLANNING_CENTER_STUDENTS_CALENDAR_NAMES` — comma-separated substrings (default:
+ *   westwoods students).
+ * - `PLANNING_CENTER_STUDENTS_CALENDAR_ID` — optional; restrict to this calendar id only.
+ */
+export async function fetchStudentsUiEvents(): Promise<CalendarUiEvent[]> {
+	const applicationId = env.PLANNING_CENTER_APPLICATION_ID;
+	const secret = env.PLANNING_CENTER_SECRET;
+
+	if (!applicationId || !secret) {
+		console.warn('Planning Center: PLANNING_CENTER_APPLICATION_ID or PLANNING_CENTER_SECRET missing');
+		return [];
+	}
+
+	const calendarIds = await loadStudentsCalendarIds(applicationId, secret);
+	const eventIds = await fetchEventIdsOnCalendars(calendarIds, applicationId, secret);
+
+	if (eventIds.length === 0) {
+		console.warn(
+			'Planning Center Students: no events found. Use a calendar whose name includes "Westwoods Students" ' +
+				'or set PLANNING_CENTER_STUDENTS_CALENDAR_ID.'
+		);
+		return [];
+	}
+
+	return mapUiEventsForEventIds(eventIds, applicationId, secret);
 }
 
 const INSTANCE_LIST_FIELDS =
@@ -772,6 +846,26 @@ export async function fetchWowEventDetailForPage(eventId: string): Promise<Calen
 
 	const { calendarIds, tagIds } = await loadWowScopeIds(applicationId, secret);
 	const inScope = await assertWowEventInScope(eventId, applicationId, secret, calendarIds, tagIds);
+	if (!inScope) {
+		return null;
+	}
+
+	return fetchCalendarEventDetailForPage(eventId);
+}
+
+/** Full event + next upcoming instance. Returns null if not on the Students calendar. */
+export async function fetchStudentsEventDetailForPage(
+	eventId: string
+): Promise<CalendarEventDetailPayload | null> {
+	const applicationId = env.PLANNING_CENTER_APPLICATION_ID;
+	const secret = env.PLANNING_CENTER_SECRET;
+
+	if (!applicationId || !secret) {
+		return null;
+	}
+
+	const calendarIds = await loadStudentsCalendarIds(applicationId, secret);
+	const inScope = await eventOnCalendars(eventId, applicationId, secret, calendarIds);
 	if (!inScope) {
 		return null;
 	}
