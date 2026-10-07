@@ -13,11 +13,6 @@
 			image: 'Brooks'
 		},
 		{
-			name: 'Drew and Shelby Cole',
-			title: 'Student Pastor',
-			image: 'Cole'
-		},
-		{
 			name: 'Chris and Alyssa Sanchez',
 			title: 'Worship/Creative Arts Pastor',
 			image: 'Sanchez'
@@ -31,11 +26,6 @@
 			name: 'Sara and Justin Phelps',
 			title: 'Church Administrator',
 			image: 'Phelps'
-		},
-		{
-			name: 'Emma and Chase Sprinkle',
-			title: 'Youth Intern',
-			image: 'Sprinkle'
 		}
 	];
 
@@ -55,6 +45,26 @@
 		{
 			name: 'Matt and Molly Lilly',
 			image: 'Lilly'
+		},
+		{
+			name: 'Rick and Shanna Schmitz',
+
+			image: 'Schmitz'
+		},
+		{
+			name: 'Joe and Sarah Brooks',
+
+			image: 'Brooks'
+		},
+		{
+			name: 'Chris and Alyssa Sanchez',
+
+			image: 'Sanchez'
+		},
+		{
+			name: 'Kayla and Josh Brake',
+
+			image: 'Brake'
 		}
 	];
 </script>

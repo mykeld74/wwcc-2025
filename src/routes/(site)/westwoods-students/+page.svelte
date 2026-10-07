@@ -38,8 +38,10 @@
 	</p>
 
 	<p class="pageDescription">
-		<a href="mailto:drew@westwoodscc.org">drew@westwoodscc.org</a><br />
-		<a href="tel:303-279-1616" class="phoneNumber">303-279-1616 ext. 2</a>
+		Malachi Yeager - Interim Director of Students<br /><a href="mailto:myeager@westwoodscc.org"
+			>myeager@westwoodscc.org</a
+		><br />
+		<a href="tel:303-279-1616" class="phoneNumber">303-279-1616 ext. 4</a>
 	</p>
 
 	<div class="calendarSlot">
