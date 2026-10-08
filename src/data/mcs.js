@@ -6,12 +6,7 @@ const mcs = [
 		contact: [ '303.519.0501' ],
 		time: '2:00pm'
 	},
-	{
-		title: 'Seasoned Ladies',
-		day: '4th Sunday',
-		contact: [ '303.250.4738' ],
-		time: 'After 2nd Service'
-	},
+
 	// Monday
 	{
 		title: 'Westwoods Students',
@@ -52,6 +47,12 @@ const mcs = [
 		time: '7:00pm'
 	},
 	// Thursday
+	{
+		title: 'Seasoned Ladies',
+		day: '1st and 3rd Thursdays',
+		contact: [ '303.250.4738' ],
+		time: '12:00pm'
+	},
 	{
 		title: 'Adoptive Moms Group',
 		day: '1st Thursday',
