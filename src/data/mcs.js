@@ -72,6 +72,12 @@ const mcs = [
 		day: 'Saturday',
 		contact: [ '740.624.7669' ],
 		time: '7:00am'
+	},
+	{
+		title: "Young Ladies' Group",
+		day: 'Saturday',
+		contact: [ '720.660.2278', '720.539.4215' ],
+		time: '9:00am'
 	}
 ];
 
