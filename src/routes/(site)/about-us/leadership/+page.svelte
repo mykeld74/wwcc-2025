@@ -48,23 +48,15 @@
 		},
 		{
 			name: 'Rick and Shanna Schmitz',
-
 			image: 'Schmitz'
 		},
 		{
 			name: 'Joe and Sarah Brooks',
-
 			image: 'Brooks'
 		},
 		{
 			name: 'Chris and Alyssa Sanchez',
-
 			image: 'Sanchez'
-		},
-		{
-			name: 'Kayla and Josh Brake',
-
-			image: 'Brake'
 		}
 	];
 </script>
