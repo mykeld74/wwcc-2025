@@ -23,6 +23,11 @@
 			image: 'Brake'
 		},
 		{
+			name: 'Malachi and Angela Yeager',
+			title: 'Interim Director of Student Ministries',
+			image: 'Yeager'
+		},
+		{
 			name: 'Sara and Justin Phelps',
 			title: 'Church Administrator',
 			image: 'Phelps'
