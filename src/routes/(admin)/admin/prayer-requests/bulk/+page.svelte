@@ -6,7 +6,10 @@
 	let bulkTab = $state('rows');
 	let bulkSubmitting = $state(false);
 	let bulkSubmittedAt = $state(data.defaultBulkDate);
-	let nextRowId = $state(6);
+	const initialRowCount = 10;
+	const rowsPerAdd = 10;
+
+	let nextRowId = $state(initialRowCount + 1);
 	let confirmDialog = $state(null);
 	let confirmKind = $state(null);
 	let rowsForm = $state(null);
@@ -24,13 +27,11 @@
 		};
 	}
 
-	let bulkRows = $state([
-		createEmptyRow(1),
-		createEmptyRow(2),
-		createEmptyRow(3),
-		createEmptyRow(4),
-		createEmptyRow(5)
-	]);
+	function createEmptyRows(count, startId = 1) {
+		return Array.from({ length: count }, (_, index) => createEmptyRow(startId + index));
+	}
+
+	let bulkRows = $state(createEmptyRows(initialRowCount));
 
 	const filledRows = $derived(
 		bulkRows.filter(
@@ -56,22 +57,16 @@
 	);
 
 	function resetBulkForm() {
-		nextRowId = 6;
+		nextRowId = initialRowCount + 1;
 		bulkSubmittedAt = data.defaultBulkDate;
-		bulkRows = [
-			createEmptyRow(1),
-			createEmptyRow(2),
-			createEmptyRow(3),
-			createEmptyRow(4),
-			createEmptyRow(5)
-		];
+		bulkRows = createEmptyRows(initialRowCount);
 		bulkTab = 'rows';
 		if (csvFileInput) csvFileInput.value = '';
 	}
 
-	function addBulkRow() {
-		bulkRows = [...bulkRows, createEmptyRow(nextRowId)];
-		nextRowId += 1;
+	function addBulkRows() {
+		bulkRows = [...bulkRows, ...createEmptyRows(rowsPerAdd, nextRowId)];
+		nextRowId += rowsPerAdd;
 	}
 
 	function downloadCsvTemplate() {
@@ -262,7 +257,7 @@
 				</div>
 
 				<div class="bulkActions">
-					<button class="secondaryBtn" type="button" onclick={addBulkRow}>Add row</button>
+					<button class="secondaryBtn" type="button" onclick={addBulkRows}>Add 10 more rows</button>
 					<button
 						class="bulkSubmitBtn"
 						type="button"
