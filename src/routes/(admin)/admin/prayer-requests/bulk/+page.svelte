@@ -224,6 +224,27 @@
 					<small>Defaults to the previous Sunday. Empty rows are ignored.</small>
 				</label>
 
+				<div class="bulkActions stickyActions">
+					<p class="filledCount" aria-live="polite">
+						{filledRows.length === 0
+							? 'No requests entered yet'
+							: filledRows.length === 1
+								? '1 request ready'
+								: `${filledRows.length} requests ready`}
+					</p>
+					<div class="bulkActionButtons">
+						<button class="secondaryBtn" type="button" onclick={addBulkRows}>Add 10 more rows</button>
+						<button
+							class="bulkSubmitBtn"
+							type="button"
+							disabled={bulkSubmitting || filledRows.length === 0}
+							onclick={openRowsConfirm}
+						>
+							{bulkSubmitting ? 'Saving…' : 'Save requests'}
+						</button>
+					</div>
+				</div>
+
 				<div class="bulkRows">
 					{#each bulkRows as row, index (row.id)}
 						<article class="bulkRow">
@@ -254,18 +275,6 @@
 							</div>
 						</article>
 					{/each}
-				</div>
-
-				<div class="bulkActions">
-					<button class="secondaryBtn" type="button" onclick={addBulkRows}>Add 10 more rows</button>
-					<button
-						class="bulkSubmitBtn"
-						type="button"
-						disabled={bulkSubmitting || filledRows.length === 0}
-						onclick={openRowsConfirm}
-					>
-						{bulkSubmitting ? 'Saving…' : 'Save requests'}
-					</button>
 				</div>
 			</form>
 		{:else}
@@ -620,8 +629,37 @@
 	.bulkActions {
 		display: flex;
 		justify-content: flex-end;
+		align-items: center;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.stickyActions {
+		position: sticky;
+		top: 0;
+		z-index: 5;
+		justify-content: space-between;
+		margin: 0 -0.35rem;
+		padding: 0.65rem 0.35rem;
+		background: color-mix(in oklch, var(--panelBg) 92%, transparent);
+		border-bottom: 1px solid var(--panelBorder);
+		backdrop-filter: blur(8px);
+		box-shadow: 0 8px 18px color-mix(in oklch, var(--textPrimary) 6%, transparent);
+	}
+
+	.filledCount {
+		margin: 0;
+		font-size: 0.82rem;
+		font-weight: 600;
+		color: var(--textMuted);
+	}
+
+	.bulkActionButtons {
+		display: flex;
+		justify-content: flex-end;
 		gap: 0.6rem;
 		flex-wrap: wrap;
+		margin-left: auto;
 	}
 
 	.secondaryBtn,
@@ -746,11 +784,19 @@
 			grid-template-columns: 1fr;
 		}
 
-		.bulkActions {
-			justify-content: stretch;
+		.stickyActions {
+			align-items: stretch;
 		}
 
-		.bulkActions > * {
+		.filledCount {
+			width: 100%;
+		}
+
+		.bulkActionButtons {
+			width: 100%;
+		}
+
+		.bulkActionButtons > * {
 			flex: 1;
 		}
 
