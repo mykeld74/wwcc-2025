@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { CalendarEvents } from '$components/calendar-events';
+	import type { CalendarUiEvent } from '$lib/calendarEventTypes';
 	import { wowConnectEventHref } from '$lib/wowConnectPaths';
 
 	let { data } = $props();
@@ -7,22 +8,46 @@
 	const wowEmptyMonthMessage = (monthYear: string) =>
 		`No WOW events in ${monthYear}. Try another month.`;
 
-	const featuredRegistrations = [
-		{
-			label: 'Bible Study',
-			title: 'More Than Enough',
-			description: 'A study of 2 Corinthians for the women of Westwoods.',
-			href: 'https://westwoods.churchcenter.com/people/forms/1298525',
-			buttonText: 'Register'
-		},
-		{
-			label: 'Moms Group',
-			title: 'Mom2Mom',
-			description: 'Moms supporting moms — faith, family, and friendship.',
-			href: 'https://westwoods.churchcenter.com/registrations/events/3807258',
-			buttonText: 'Register'
+	function stripHtml(html: string) {
+		return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+	}
+
+	function truncateText(text: string, maxLength = 160) {
+		if (text.length <= maxLength) return text;
+		return `${text.slice(0, maxLength - 1).trimEnd()}…`;
+	}
+
+	function featuredRegistrationFromEvent(event: CalendarUiEvent) {
+		const href = event.registrationUrl || event.publicUrl || wowConnectEventHref(event);
+		const isExternal = Boolean(event.registrationUrl || event.publicUrl);
+		const description = truncateText(stripHtml(event.descriptionHtml));
+
+		return {
+			eventId: event.eventId,
+			label: event.kind.trim(),
+			title: event.title,
+			description,
+			href,
+			buttonText: event.registrationUrl ? 'Register' : 'View details',
+			isExternal
+		};
+	}
+
+	/** Unique featured WOW events with a registration or Church Center link. */
+	const featuredRegistrations = $derived.by(() => {
+		const seen = new Set<string>();
+		const featured = [];
+
+		for (const event of data.events) {
+			if (event.featured !== true) continue;
+			if (!event.registrationUrl && !event.publicUrl) continue;
+			if (seen.has(event.eventId)) continue;
+			seen.add(event.eventId);
+			featured.push(featuredRegistrationFromEvent(event));
 		}
-	] as const;
+
+		return featured;
+	});
 </script>
 
 <svelte:head>
@@ -43,26 +68,37 @@
 		</p>
 	</div>
 
-	<section class="featuredRegistrations" aria-labelledby="featuredRegistrationsHeading">
-		<div class="featuredHeader">
-			<h2 id="featuredRegistrationsHeading">Open registrations</h2>
-			<p>Sign up for these upcoming gatherings.</p>
-		</div>
+	{#if featuredRegistrations.length > 0}
+		<section class="featuredRegistrations" aria-labelledby="featuredRegistrationsHeading">
+			<div class="featuredHeader">
+				<h2 id="featuredRegistrationsHeading">Open registrations</h2>
+				<p>Sign up for these upcoming gatherings.</p>
+			</div>
 
-		<div class="registrationGrid">
-			{#each featuredRegistrations as event (event.href)}
-				<article class="registrationCard">
-					<p class="cardLabel">{event.label}</p>
-					<h3>{event.title}</h3>
-					<p class="cardDescription">{event.description}</p>
-					<a class="registerBtn" href={event.href} target="_blank" rel="noopener noreferrer">
-						{event.buttonText}
-						<span aria-hidden="true">→</span>
-					</a>
-				</article>
-			{/each}
-		</div>
-	</section>
+			<div class="registrationGrid">
+				{#each featuredRegistrations as event (event.eventId)}
+					<article class="registrationCard">
+						{#if event.label}
+							<p class="cardLabel">{event.label}</p>
+						{/if}
+						<h3>{event.title}</h3>
+						{#if event.description}
+							<p class="cardDescription">{event.description}</p>
+						{/if}
+						<a
+							class="registerBtn"
+							href={event.href}
+							target={event.isExternal ? '_blank' : undefined}
+							rel={event.isExternal ? 'noopener noreferrer' : undefined}
+						>
+							{event.buttonText}
+							<span aria-hidden="true">→</span>
+						</a>
+					</article>
+				{/each}
+			</div>
+		</section>
+	{/if}
 
 	<div class="calendarSlot">
 		<CalendarEvents
